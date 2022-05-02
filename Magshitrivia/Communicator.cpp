@@ -12,10 +12,10 @@ void Communicator::startHandleRequest()
 			throw std::exception(__FUNCTION__);
 
 		std::cout << "Client accepted. Server and client can speak" << std::endl;
+		this->m_clients[client_socket] = new LoginRequestHandler();
 		// the function that handle the conversation with the client
 		std::thread clientThread(&Communicator::handleNewClient, this, client_socket); // thread for each client
 		clientThread.detach(); // no need to wait for client thread to end, it can run until the client logs out 
-		this->m_clients[client_socket] = LoginRequestHandler();
 	}
 }
 
@@ -52,7 +52,7 @@ void Communicator::handleNewClient(SOCKET socket)
 	{
 		std::cout << "Error while sending message to client" << std::endl;
 	}
-	char recivedData[6] = {'\0'};
+	char recivedData[6] = { '\0' };
 	recv(socket, recivedData, 6, 0);
 	std::cout << recivedData << std::endl;
 }

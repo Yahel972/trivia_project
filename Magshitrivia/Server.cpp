@@ -9,5 +9,5 @@ void Server::run()
 	{
 		std::cin >> userInput;
 	}
-	
+
 }
