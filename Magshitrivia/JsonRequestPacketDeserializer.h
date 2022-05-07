@@ -7,14 +7,14 @@ typedef struct LoginRequest
 {
 	std::string username;
 	std::string password;
-} LoginResponse;
+} LoginRequest;
 
 typedef struct SignupRequest
 {
 	std::string username;
 	std::string password;
 	std::string email;
-} SignupResponse;
+} SignupRequest;
 
 
 class JsonRequestPacketDeserializer

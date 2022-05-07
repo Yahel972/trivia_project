@@ -7,5 +7,16 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo request)
 
 RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 {
-	return RequestResult();
+	if (request.id == 100)
+	{
+		SignupResponse signupResonse = { 1 };
+		RequestResult requstResult;
+		requstResult.response = JsonResponsePacketSerializer::serializeSignupResponse(signupResonse);
+		return requstResult;
+	}
+	if (request.id == 200)
+	{
+		JsonRequestPacketDeserializer::deserializeLoginRequest(request.buffer);
+	}
+
 }
