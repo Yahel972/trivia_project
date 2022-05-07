@@ -37,7 +37,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeSignupResponse
 	lengthAsBytes[1] = (lengthAsInt >> 16) & 0xFF;
 	lengthAsBytes[2] = (lengthAsInt >> 8) & 0xFF;
 	lengthAsBytes[3] = lengthAsInt & 0xFF;
-	serializedResponse.push_back(((unsigned char)LOGIN_CODE));
+	serializedResponse.push_back(((unsigned char)SIGNUP_CODE));
 	for (int i = 0; i < sizeof(lengthAsBytes); i++)
 	{
 		serializedResponse.push_back(lengthAsBytes[i]);
@@ -60,7 +60,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeErrorResponse(
 	lengthAsBytes[1] = (lengthAsInt >> 16) & 0xFF;
 	lengthAsBytes[2] = (lengthAsInt >> 8) & 0xFF;
 	lengthAsBytes[3] = lengthAsInt & 0xFF;
-	serializedResponse.push_back(((unsigned char)LOGIN_CODE));
+	serializedResponse.push_back(((unsigned char)ERROR_CODE));
 	for (int i = 0; i < sizeof(lengthAsBytes); i++)
 	{
 		serializedResponse.push_back(lengthAsBytes[i]);

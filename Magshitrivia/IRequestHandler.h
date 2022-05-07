@@ -20,6 +20,7 @@ typedef struct RequestInfo
 class IRequestHandler
 {
 public:
-	bool isRequest();
+	virtual bool isRequestRelevant(RequestInfo request) = 0;
+	virtual RequestResult handleRequest(RequestInfo request) = 0;
 
 };
