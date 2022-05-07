@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 
 typedef struct LoginRequest
 {
@@ -18,5 +19,6 @@ typedef struct SignupRequest
 class JsonRequestPacketDeserializer
 {
 public:
-	
+	LoginRequest deserializeLoginRequest(std::vector<unsigned char> Buffer);
+	SignupRequest deserializeSignUpRequest(std::vector<unsigned char> Buffer);
 };
