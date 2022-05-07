@@ -4,9 +4,13 @@
 #include "WSAInitializer.h"
 #include <iostream>
 #include <exception>
+#include "JsonResponsePacketSerializer.h"
+#include "LoginRequestHandler.h"
 
 int main()
 {
+	LoginResponse response = { 1 };
+	JsonResponsePacketSerializer::serializeLoginResponse(response);
 	try
 	{
 		WSAInitializer wsaInit;
