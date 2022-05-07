@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "single_include/nlohmann/json.hpp"
 
 typedef struct LoginRequest
 {
@@ -19,6 +20,6 @@ typedef struct SignupRequest
 class JsonRequestPacketDeserializer
 {
 public:
-	LoginRequest deserializeLoginRequest(std::vector<unsigned char> Buffer);
-	SignupRequest deserializeSignUpRequest(std::vector<unsigned char> Buffer);
+	static LoginRequest deserializeLoginRequest(std::vector<unsigned char> Buffer);
+	static SignupRequest deserializeSignUpRequest(std::vector<unsigned char> Buffer);
 };
