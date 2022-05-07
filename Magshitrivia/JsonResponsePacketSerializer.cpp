@@ -23,11 +23,10 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeLoginResponse(
 	{
 		serializedResponse.push_back(jsonAsBits[i]);
 	}
-
 	return serializedResponse;
 }
 
-std::vector<unsigned char> JsonResponsePacketSerializer::serializeLoginResponse(SignupResponse response)
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeSignupResponse(SignupResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
 	nlohmann::json j = nlohmann::json{ {"status",response.status} };

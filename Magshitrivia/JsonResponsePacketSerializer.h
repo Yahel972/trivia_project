@@ -24,6 +24,6 @@ class JsonResponsePacketSerializer
 {
 public:
 	static std::vector<unsigned char> serializeLoginResponse(LoginResponse response);
-	std::vector<unsigned char> serializeLoginResponse(SignupResponse response);
+	std::vector<unsigned char> serializeSignupResponse(SignupResponse response);
 	std::vector<unsigned char> serializeErrorResponse(ErrorResponse response);
 };
