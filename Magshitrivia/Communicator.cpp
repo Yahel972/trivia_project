@@ -46,6 +46,9 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET socket)
 {
+	// reciving message and parsing into the struct "RequsetInfo"
+	// checking if the new RequestInfo is relevent 
+	// if the RequestInfo IS relevent, 
 	std::string message = "Hello";
 	const char* data = message.c_str();
 	if (send(socket, data, message.size(), 0) == INVALID_SOCKET)

@@ -16,7 +16,9 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 	}
 	if (request.id == 200)
 	{
-		JsonRequestPacketDeserializer::deserializeLoginRequest(request.buffer);
+		LoginResponse loginResonse = { 1 };
+		RequestResult requstResult;
+		requstResult.response = JsonResponsePacketSerializer::serializeLoginResponse(loginResonse);
+		return requstResult;
 	}
-
 }
