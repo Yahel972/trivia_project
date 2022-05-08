@@ -63,12 +63,16 @@ void Communicator::handleNewClient(SOCKET socket)
 		requestInfo.buffer.push_back(recivedData[i]);
 	}
 
-	std::string message = "Hello";
-	const char* data = message.c_str();
-	if (send(socket, data, message.size(), 0) == INVALID_SOCKET)
+	if (this->m_clients[socket]->isRequestRelevant(requestInfo))
 	{
-		std::cout << "Error while sending message to client" << std::endl;
+		RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);
+		delete this->m_clients[socket];
+		this->m_clients[socket] = result.newHandle;
 	}
-	
-	std::cout << recivedData << std::endl;
+	else
+	{
+		ErrorResponse errorResponse;
+		errorResponse.message = "ERROR wrong code";
+		JsonResponsePacketSerializer::serializeErrorResponse(errorResponse);
+	}
 }

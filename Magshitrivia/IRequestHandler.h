@@ -4,18 +4,20 @@
 #include <iostream>
 #include <time.h>
 
-typedef struct RequestResult
-{
-	std::vector<unsigned char> response;
-	//IRequestHandler* newHandle;
-} RequestResult;
-
 typedef struct RequestInfo
 {
 	unsigned char id;
 	time_t receivalTime;
 	std::vector<unsigned char> buffer;
 } RequestInfo;
+
+
+class RequestResult
+{
+public:
+	std::vector<unsigned char> response;
+	IRequestHandler* newHandle;
+};
 
 class IRequestHandler
 {

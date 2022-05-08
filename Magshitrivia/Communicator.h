@@ -7,6 +7,7 @@
 #include <thread>
 #include "IRequestHandler.h"
 #include "LoginRequestHandler.h"
+#include "JsonResponsePacketSerializer.h"
 
 class Communicator
 {
