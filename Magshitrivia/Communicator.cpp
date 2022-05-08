@@ -48,14 +48,28 @@ void Communicator::handleNewClient(SOCKET socket)
 {
 	// reciving message and parsing into the struct "RequsetInfo"
 	// checking if the new RequestInfo is relevent 
-	// if the RequestInfo IS relevent, 
+	// if the RequestInfo IS relevent, handle it
+
+	// receving data 
+	char recivedData[1000] = { '\0' };
+	recv(socket, recivedData, 1000, 0);
+
+	// getting the data to request info struct
+	RequestInfo requestInfo;
+	requestInfo.id = (int)(recivedData[0] << 16) | (recivedData[1] << 8) | recivedData[2];
+	requestInfo.receivalTime = time(NULL);
+	int length = (int)(recivedData[1] << 24 | recivedData[2] << 16 | recivedData[3] << 8 | recivedData[4]) * 8;
+	for (int i = 3; i < length; i++)
+	{
+		requestInfo.buffer.push_back(recivedData[i]);
+	}
+
 	std::string message = "Hello";
 	const char* data = message.c_str();
 	if (send(socket, data, message.size(), 0) == INVALID_SOCKET)
 	{
 		std::cout << "Error while sending message to client" << std::endl;
 	}
-	char recivedData[6] = { '\0' };
-	recv(socket, recivedData, 6, 0);
+	
 	std::cout << recivedData << std::endl;
 }
