@@ -53,13 +53,12 @@ void Communicator::handleNewClient(SOCKET socket)
 	// receving data 
 	char recivedData[1000] = { '\0' };
 	recv(socket, recivedData, 1000, 0);
-
-	// getting the data to request info struct
+	
 	RequestInfo requestInfo;
-	requestInfo.id = (int)(recivedData[0] << 16) | (recivedData[1] << 8) | recivedData[2];
+	requestInfo.id = (int)(recivedData[0]);
+	int dataLength = recivedData[1] << 24 | recivedData[2] << 16 | recivedData[3] << 8 | recivedData[4];
 	requestInfo.receivalTime = time(NULL);
-	int length = (int)(recivedData[1] << 24 | recivedData[2] << 16 | recivedData[3] << 8 | recivedData[4]) * 8;
-	for (int i = 3; i < length; i++)
+	for (int i = 5; i < dataLength + 5; i++)
 	{
 		requestInfo.buffer.push_back(recivedData[i]);
 	}

@@ -7,7 +7,7 @@
 typedef struct RequestResult
 {
 	std::vector<unsigned char> response;
-	IRequestHandler* newHandle;
+	//IRequestHandler* newHandle;
 } RequestResult;
 
 typedef struct RequestInfo
