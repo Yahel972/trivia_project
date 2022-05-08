@@ -1,5 +1,4 @@
 #pragma once
-
 #include <vector>
 #include <iostream>
 #include <time.h>
@@ -11,13 +10,7 @@ typedef struct RequestInfo
 	std::vector<unsigned char> buffer;
 } RequestInfo;
 
-
-class RequestResult
-{
-public:
-	std::vector<unsigned char> response;
-	IRequestHandler* newHandle;
-};
+struct RequestResult;
 
 class IRequestHandler
 {
@@ -25,3 +18,9 @@ public:
 	virtual bool isRequestRelevant(RequestInfo request) = 0;
 	virtual RequestResult handleRequest(RequestInfo request) = 0;
 };
+
+typedef struct RequestResult
+{
+	std::vector<unsigned char> response;
+	IRequestHandler* newHandler;
+} RequestResult;

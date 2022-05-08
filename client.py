@@ -7,7 +7,7 @@ SERVER_PORT = 6969  # The port used by the server
 
 def main():
     code = 2
-    json = b'{"username" : "dindos500", "password" : "dindos200"}'
+    json = b'{username: "user1", password: "1234"}'
     msg = code.to_bytes(1, byteorder='big') + (len(json)).to_bytes(4, byteorder='big') + json
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

@@ -67,7 +67,7 @@ void Communicator::handleNewClient(SOCKET socket)
 	{
 		RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);
 		delete this->m_clients[socket];
-		this->m_clients[socket] = result.newHandle;
+		this->m_clients[socket] = result.newHandler;
 	}
 	else
 	{
