@@ -9,6 +9,10 @@
 #include "LoginRequestHandler.h"
 #include "JsonResponsePacketSerializer.h"
 
+#define SERVER_PORT 6969
+#define MAX_SIZE 1024
+#define DATA_STARTING_BYTE 5
+
 class Communicator
 {
 public:

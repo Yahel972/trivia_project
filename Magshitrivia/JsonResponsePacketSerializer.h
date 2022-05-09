@@ -3,9 +3,10 @@
 #include <vector>
 #include "single_include/nlohmann/json.hpp"
 
-#define ERROR_CODE 300
-#define LOGIN_CODE 200
-#define SIGNUP_CODE 100
+#define ERROR_CODE 3
+#define LOGIN_CODE 2
+#define SIGNUP_CODE 1
+#define OK 1
 
 typedef struct LoginResponse
 {

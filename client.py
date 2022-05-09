@@ -9,7 +9,6 @@ def main():
     code = 2
     json = {"username": "user1", "password": "1234"}
     data = bson.dumps(json)
-    print(data)
     msg = code.to_bytes(1, byteorder='big') + (len(data)).to_bytes(4, byteorder='big') + data
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

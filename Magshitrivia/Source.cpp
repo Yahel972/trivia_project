@@ -9,7 +9,7 @@
 
 int main()
 {
-
+	// creating a server and running it:
 	try
 	{
 		WSAInitializer wsaInit;

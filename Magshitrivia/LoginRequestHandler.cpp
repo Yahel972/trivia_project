@@ -1,23 +1,25 @@
 #include "LoginRequestHandler.h"
 
-bool LoginRequestHandler::isRequestRelevant(RequestInfo request)
+// function checks if a given request is relevant
+bool LoginRequestHandler::isRequestRelevant(RequestInfo request) const
 {
-	return (request.id == 1 || request.id == 2);
+	return (request.id == SIGNUP_CODE || request.id == LOGIN_CODE);
 }
 
-RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
+// function handles a request by its given code
+RequestResult LoginRequestHandler::handleRequest(RequestInfo request) const
 {
-	if (request.id == 1)
+	if (request.id == SIGNUP_CODE)
 	{
-		SignupResponse signupResonse = { 1 };
+		SignupResponse signupResonse = { OK };
 		RequestResult result;
 		result.newHandler = new LoginRequestHandler;
 		result.response = JsonResponsePacketSerializer::serializeSignupResponse(signupResonse);
 		return result;
 	}
-	if (request.id == 2)
+	if (request.id == LOGIN_CODE)
 	{
-		LoginResponse loginResonse = { 1 };
+		LoginResponse loginResonse = { OK };
 		RequestResult result;
 		result.newHandler = new LoginRequestHandler;
 		result.response = JsonResponsePacketSerializer::serializeLoginResponse(loginResonse);
