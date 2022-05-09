@@ -1,5 +1,6 @@
 #include "JsonResponsePacketSerializer.h"
 
+// function serializes a login response - converts the LoginResponse struct to bytes (unsigned char vector)
 std::vector<unsigned char> JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
@@ -27,6 +28,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeLoginResponse(
 	return serializedResponse;
 }
 
+// function serializes a signup response - converts the SignupResponse struct to bytes (unsigned char vector)
 std::vector<unsigned char> JsonResponsePacketSerializer::serializeSignupResponse(SignupResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
@@ -53,6 +55,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeSignupResponse
 	return serializedResponse;
 }
 
+// function serializes an error response - converts the ErrorResponse struct to bytes (unsigned char vector)
 std::vector<unsigned char> JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
