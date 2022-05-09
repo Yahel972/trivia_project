@@ -3,7 +3,9 @@
 #include <vector>
 #include "single_include/nlohmann/json.hpp"
 
+#define ERROR_CODE 300
 #define LOGIN_CODE 200
+#define SIGNUP_CODE 100
 
 typedef struct LoginResponse
 {
@@ -24,6 +26,6 @@ class JsonResponsePacketSerializer
 {
 public:
 	static std::vector<unsigned char> serializeLoginResponse(LoginResponse response);
-	std::vector<unsigned char> serializeSignupResponse(SignupResponse response);
-	std::vector<unsigned char> serializeErrorResponse(ErrorResponse response);
+	static std::vector<unsigned char> serializeSignupResponse(SignupResponse response);
+	static std::vector<unsigned char> serializeErrorResponse(ErrorResponse response);
 };

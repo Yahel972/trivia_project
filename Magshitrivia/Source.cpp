@@ -9,8 +9,7 @@
 
 int main()
 {
-	LoginResponse response = { 1 };
-	JsonResponsePacketSerializer::serializeLoginResponse(response);
+
 	try
 	{
 		WSAInitializer wsaInit;

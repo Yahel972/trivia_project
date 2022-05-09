@@ -46,13 +46,35 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET socket)
 {
-	std::string message = "Hello";
-	const char* data = message.c_str();
-	if (send(socket, data, message.size(), 0) == INVALID_SOCKET)
+
+	// reciving message and parsing into the struct "RequsetInfo"
+	// checking if the new RequestInfo is relevent 
+	// if the RequestInfo IS relevent, handle it
+
+	// receving data 
+	char recivedData[1000] = { '\0' };
+	recv(socket, recivedData, 1000, 0);
+	
+	RequestInfo requestInfo;
+	requestInfo.id = (int)(recivedData[0]);
+	int dataLength = recivedData[1] << 24 | recivedData[2] << 16 | recivedData[3] << 8 | recivedData[4];
+	requestInfo.receivalTime = time(NULL);
+	for (int i = 5; i < dataLength + 5; i++)
 	{
-		std::cout << "Error while sending message to client" << std::endl;
+		requestInfo.buffer.push_back(((unsigned char)recivedData[i]));
 	}
-	char recivedData[6] = { '\0' };
-	recv(socket, recivedData, 6, 0);
-	std::cout << recivedData << std::endl;
+	LoginRequest request = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
+	std::cout << request.password << std::endl;
+	if (this->m_clients[socket]->isRequestRelevant(requestInfo))
+	{
+		RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);
+		delete this->m_clients[socket];
+		this->m_clients[socket] = result.newHandler;
+	}
+	else
+	{
+		ErrorResponse errorResponse;
+		errorResponse.message = "ERROR wrong code";
+		JsonResponsePacketSerializer::serializeErrorResponse(errorResponse);
+	}
 }
