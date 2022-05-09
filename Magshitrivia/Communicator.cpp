@@ -46,6 +46,7 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET socket)
 {
+
 	// reciving message and parsing into the struct "RequsetInfo"
 	// checking if the new RequestInfo is relevent 
 	// if the RequestInfo IS relevent, handle it
@@ -60,9 +61,10 @@ void Communicator::handleNewClient(SOCKET socket)
 	requestInfo.receivalTime = time(NULL);
 	for (int i = 5; i < dataLength + 5; i++)
 	{
-		requestInfo.buffer.push_back(recivedData[i]);
+		requestInfo.buffer.push_back(((unsigned char)recivedData[i]));
 	}
-
+	LoginRequest request = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
+	std::cout << request.password << std::endl;
 	if (this->m_clients[socket]->isRequestRelevant(requestInfo))
 	{
 		RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);

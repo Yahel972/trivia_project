@@ -23,6 +23,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeLoginResponse(
 	{
 		serializedResponse.push_back(jsonAsBytes[i]);
 	}
+
 	return serializedResponse;
 }
 
