@@ -51,32 +51,46 @@ void Communicator::handleNewClient(SOCKET socket)
 	// if the RequestInfo IS relevent, handle it
 
 	// receving data 
-	char recivedData[MAX_SIZE] = { 0 };
-	recv(socket, recivedData, MAX_SIZE, 0);
-	
-	RequestInfo requestInfo;
-	requestInfo.id = (int)(recivedData[0]);
-	int dataLength = recivedData[1] << 24 | recivedData[2] << 16 | recivedData[3] << 8 | recivedData[4];
-	requestInfo.receivalTime = time(NULL);
+	while (true)
+	{
+		char recivedData[MAX_SIZE] = { 0 };
+		recv(socket, recivedData, MAX_SIZE, 0);
 
-	// pushing data to vector
-	for (int i = DATA_STARTING_BYTE; i < dataLength + DATA_STARTING_BYTE; i++)
-	{
-		requestInfo.buffer.push_back(((unsigned char)recivedData[i]));
-	}
+		RequestInfo requestInfo;
+		requestInfo.id = (int)(recivedData[0]);
+		int dataLength = recivedData[1] << 24 | recivedData[2] << 16 | recivedData[3] << 8 | recivedData[4];
+		requestInfo.receivalTime = time(NULL);
 
-	// checking if the request given is valid
-	LoginRequest request = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
-	if (this->m_clients[socket]->isRequestRelevant(requestInfo))
-	{
-		RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);
-		delete this->m_clients[socket];
-		this->m_clients[socket] = result.newHandler;
-	}
-	else  // invalid request given
-	{
-		ErrorResponse errorResponse;
-		errorResponse.message = "ERROR wrong code";
-		JsonResponsePacketSerializer::serializeErrorResponse(errorResponse);
+		// pushing data to vector
+		for (int i = DATA_STARTING_BYTE; i < dataLength + DATA_STARTING_BYTE; i++)
+		{
+			requestInfo.buffer.push_back(((unsigned char)recivedData[i]));
+		}
+
+		// checking if the request given is valid
+		if (this->m_clients[socket]->isRequestRelevant(requestInfo))
+		{
+			RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);
+			delete this->m_clients[socket];
+			this->m_clients[socket] = result.newHandler;
+			std::stringstream responseStream;
+			for (int i = 0; i < result.response.size(); i++)
+			{
+				responseStream << result.response[i];
+			}
+			send(socket, responseStream.str().c_str(), responseStream.str().size(), 0);
+		}
+		else  // invalid request given
+		{
+			ErrorResponse errorResponse;
+			errorResponse.message = "ERROR wrong code";
+			std::vector<unsigned char> serializedResponse = JsonResponsePacketSerializer::serializeErrorResponse(errorResponse);
+			std::stringstream responseStream;
+			for (int i = 0; i < serializedResponse.size(); i++)
+			{
+				responseStream << serializedResponse[i];
+			}
+			send(socket, responseStream.str().c_str(), responseStream.str().size(), 0);
+		}
 	}
 }
