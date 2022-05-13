@@ -6,6 +6,8 @@
 #include <exception>
 #include "JsonResponsePacketSerializer.h"
 #include "LoginRequestHandler.h"
+#include "SqliteDataBase.h"
+
 
 int main()
 {

@@ -1,5 +1,6 @@
 #include "SqliteDataBase.h"
 #include <io.h>
+#include <string>
 
 
 bool SqliteDataBase::open()
@@ -26,7 +27,7 @@ bool SqliteDataBase::open()
 	}
 	else
 	{
-		
+		std::cout << "already exists" << std::endl;
 	}
 	return true;
 }
@@ -43,5 +44,7 @@ bool SqliteDataBase::doesPasswordMatch(std::string enterdPassword, std::string p
 
 void SqliteDataBase::addNewUser(std::string name, std::string password, std::string email)
 {
-
+	char** errMessage = nullptr;
+	std::string sqlStatement = "INSERT INTO USERS(USERNAME,PASSWORD,EMAIL) VALUES('" + name + "','" + password + "','" + email + "');";
+	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
 }
