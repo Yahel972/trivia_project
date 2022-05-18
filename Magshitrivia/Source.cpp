@@ -7,16 +7,11 @@
 #include "JsonResponsePacketSerializer.h"
 #include "LoginRequestHandler.h"
 #include "SqliteDataBase.h"
+#include "LoginManager.h"
 
 
 int main()
 {
-	SqliteDataBase db;
-	db.open();
-	if (db.doesPasswordMatch("or", "or1235"))
-	{
-		std::cout << "Fun";
-	}
 	// creating a server and running it:
 	try
 	{

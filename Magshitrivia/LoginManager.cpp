@@ -2,6 +2,7 @@
 
 LoginManager::LoginManager()
 {
+	this->m_database = new SqliteDataBase();
 	this->m_database->open();
 }
 
