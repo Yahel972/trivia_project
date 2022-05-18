@@ -6,9 +6,14 @@
 #include <exception>
 #include "JsonResponsePacketSerializer.h"
 #include "LoginRequestHandler.h"
+#include "SqliteDataBase.h"
+
 
 int main()
 {
+	SqliteDataBase db;
+	db.open();
+	db.doesUserExist("dean");
 	// creating a server and running it:
 	try
 	{
