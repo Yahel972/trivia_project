@@ -34,7 +34,11 @@ bool SqliteDataBase::open()
 
 bool SqliteDataBase::doesUserExist(std::string user)
 {
-	return false;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT USERNAME FROM USERS where USERNAME='" + user + "';";
+	std::string existingUser = "";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_user, &existingUser, errMessage);
+	return (user == existingUser);
 }
 
 bool SqliteDataBase::doesPasswordMatch(std::string enterdPassword, std::string passwordToMatch)
@@ -47,4 +51,11 @@ void SqliteDataBase::addNewUser(std::string name, std::string password, std::str
 	char** errMessage = nullptr;
 	std::string sqlStatement = "INSERT INTO USERS(USERNAME,PASSWORD,EMAIL) VALUES('" + name + "','" + password + "','" + email + "');";
 	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
+}
+
+int SqliteDataBase::callback_user(void* data, int argc, char** argv, char** azColName)
+{
+	std::string* user = static_cast<std::string*>(data);
+	*user = (std::string)((argv[0]));
+	return 0;
 }

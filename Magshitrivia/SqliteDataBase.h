@@ -11,4 +11,6 @@ public:
 	void addNewUser(std::string name, std::string password, std::string email) override;
 private:
 	sqlite3* db;
+	static int callback_user(void* data, int argc, char** argv, char** azColName);
+	static int callback_password(void* data, int argc, char** argv, char** azColName);
 };
