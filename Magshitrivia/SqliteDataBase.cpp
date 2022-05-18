@@ -23,11 +23,10 @@ bool SqliteDataBase::open()
 			EMAIL TEXT NOT NULL);";
 		res = sqlite3_exec(this->db, sqlStatement, nullptr, nullptr, errorMessage);
 		if (res != SQLITE_OK)
-			std::cout << "USERS wasn't created (maybe it already exists)" << std::endl;
-	}
-	else
-	{
-		std::cout << "already exists" << std::endl;
+		{
+			std::cout << "ERROR: USERS wasn't created" << std::endl;
+			return false;
+		}
 	}
 	return true;
 }
@@ -41,9 +40,13 @@ bool SqliteDataBase::doesUserExist(std::string user)
 	return (user == existingUser);
 }
 
-bool SqliteDataBase::doesPasswordMatch(std::string enterdPassword, std::string passwordToMatch)
+bool SqliteDataBase::doesPasswordMatch(std::string username, std::string passwordToMatch)
 {
-	return (enterdPassword == passwordToMatch);
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT PASSWORD FROM USERS where USERNAME='" + username + "';";
+	std::string existingPassword = "";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_string, &existingPassword, errMessage);
+	return (existingPassword == passwordToMatch);
 }
 
 void SqliteDataBase::addNewUser(std::string name, std::string password, std::string email)

@@ -13,7 +13,10 @@ int main()
 {
 	SqliteDataBase db;
 	db.open();
-	db.doesUserExist("dean");
+	if (db.doesPasswordMatch("or", "or1235"))
+	{
+		std::cout << "Fun";
+	}
 	// creating a server and running it:
 	try
 	{
