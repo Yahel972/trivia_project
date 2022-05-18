@@ -1,9 +1,8 @@
 #include "LoginRequestHandler.h"
 
-LoginRequestHandler::LoginRequestHandler()
+LoginRequestHandler::LoginRequestHandler():m_loginManager(* new LoginManager), m_handlerFactory(* new RequestHandlerFactory)
 {
-	this->m_loginManager = LoginManager();
-	this->m_handlerFactory = RequestHandlerFactory();
+
 }
 
 // function checks if a given request is relevant
@@ -25,7 +24,8 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request) const
 		result.newHandler = new LoginRequestHandler;
 		result.response = JsonResponsePacketSerializer::serializeSignupResponse(signupResonse);
 		// else
-
+		// signup resonse not ok
+		// request.newHandler = null
 		return result;
 	}
 	if (request.id == LOGIN_CODE)

@@ -3,6 +3,8 @@
 #include "SqliteDataBase.h"
 #include "LoginRequestHandler.h"
 
+class LoginRequestHandler;
+
 class RequestHandlerFactory
 {
 public:
