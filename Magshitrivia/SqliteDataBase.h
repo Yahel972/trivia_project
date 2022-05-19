@@ -12,4 +12,6 @@ public:
 private:
 	sqlite3* db;
 	static int callback_single_string(void* data, int argc, char** argv, char** azColName);
+	void insertQuestions();
+	std::string getQuestion(std::string question, std::string correctAnswer, std::string incorrectAnswer1, std::string incorrectAnswer2, std::string incorrectAnswer3);
 };
