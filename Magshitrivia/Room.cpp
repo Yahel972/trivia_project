@@ -1,5 +1,11 @@
 #include "Room.h"
 
+Room::Room(LoggedUser creator, RoomData data)
+{
+	this->m_metadata = data;
+	this->m_users.push_back(creator);
+}
+
 void Room::addUser(LoggedUser userToAdd)
 {
 	this->m_users.push_back(userToAdd);
@@ -23,4 +29,9 @@ std::vector<std::string> Room::getAllUsers()
 		usernamesInRoom.push_back(user.getUsername());
 	}
 	return usernamesInRoom;
+}
+
+RoomData Room::getData()
+{
+	return this->m_metadata;
 }
