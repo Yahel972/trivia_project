@@ -1,6 +1,6 @@
 #include "LoginRequestHandler.h"
 
-LoginRequestHandler::LoginRequestHandler():m_loginManager(* new LoginManager), m_handlerFactory(* new RequestHandlerFactory)
+LoginRequestHandler::LoginRequestHandler(LoginManager& loginManager, RequestHandlerFactory& handlerFactory):m_loginManager(loginManager), m_handlerFactory(handlerFactory)
 {
 
 }
@@ -21,19 +21,18 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 	if (request.id == LOGIN_CODE)
 	{
 
-		return result;
+		return (this->login(request));;
 	}
 }
 
 RequestResult LoginRequestHandler::login(RequestInfo request)
 {
-	SignupRequest loginRequest = JsonRequestPacketDeserializer::deserializeSignUpRequest(request.buffer); // the request
-	this->m_loginManager.login(loginRequest.username, loginRequest.password); // signing up
+	LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(request.buffer); // the request
 	RequestResult result;
-	if (1 == 1)
+	if(this->m_loginManager.login(loginRequest.username, loginRequest.password))
 	{
 		LoginResponse loginResonse = { OK };
-		result.newHandler = new LoginRequestHandler;
+		result.newHandler = this->m_handlerFactory.createLoginRequest();
 		result.response = JsonResponsePacketSerializer::serializeLoginResponse(loginResonse);
 	}
 	else
@@ -48,13 +47,12 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 RequestResult LoginRequestHandler::signup(RequestInfo request)
 {
 	SignupRequest signupRequest = JsonRequestPacketDeserializer::deserializeSignUpRequest(request.buffer); // the request
-	this->m_loginManager.signup(signupRequest.username, signupRequest.password, signupRequest.email); // signing up
 	RequestResult result;
 	// if signup was succesfull
-	if (1 == 1)
+	if (this->m_loginManager.signup(signupRequest.username, signupRequest.password, signupRequest.email))
 	{
 		SignupResponse signupResonse = { OK };
-		result.newHandler = new LoginRequestHandler; // DONT FORGET CHANGE TO MenuRequestHandler
+		result.newHandler = this->m_handlerFactory.createLoginRequest(); // DONT FORGET CHANGE TO MenuRequestHandler
 		result.response = JsonResponsePacketSerializer::serializeSignupResponse(signupResonse);
 	}
 	else
@@ -63,9 +61,5 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 		result.newHandler = nullptr;
 		result.response = JsonResponsePacketSerializer::serializeSignupResponse(signupResonse);
 	}
-
-	// else
-	// signup resonse not ok
-	// request.newHandler = null
 	return result;
 }

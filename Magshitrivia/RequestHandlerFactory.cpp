@@ -1,8 +1,14 @@
 #include "RequestHandlerFactory.h"
 
+RequestHandlerFactory::RequestHandlerFactory()
+{
+	this->m_loginManager = LoginManager();
+}
+
 LoginRequestHandler* RequestHandlerFactory::createLoginRequest()
 {
-	return nullptr;
+	LoginRequestHandler* loginRequest = new LoginRequestHandler((this->getLoginManager()), *this);
+	return loginRequest;
 }
 
 LoginManager& RequestHandlerFactory::getLoginManager()

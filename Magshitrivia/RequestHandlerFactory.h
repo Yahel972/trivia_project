@@ -8,6 +8,7 @@ class LoginRequestHandler;
 class RequestHandlerFactory
 {
 public:
+	RequestHandlerFactory();
 	LoginRequestHandler* createLoginRequest();
 	LoginManager& getLoginManager();
 private:

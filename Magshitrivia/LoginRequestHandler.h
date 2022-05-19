@@ -10,7 +10,7 @@ class RequestHandlerFactory;
 class LoginRequestHandler : public IRequestHandler
 {
 public:
-	LoginRequestHandler();
+	LoginRequestHandler(LoginManager& m_loginManager, RequestHandlerFactory& handlerFactory);
 	bool isRequestRelevant(RequestInfo request);
 	RequestResult handleRequest(RequestInfo request);
 	RequestResult login(RequestInfo request);
