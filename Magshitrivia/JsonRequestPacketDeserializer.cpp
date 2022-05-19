@@ -14,6 +14,6 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(std::vecto
 {
 	std::vector<unsigned char> jsonAsBytes;
 	nlohmann::json j = nlohmann::json::from_bson(Buffer);
-	SignupRequest request = { j["username"].get<std::string>(),  j["password"].get<std::string>(), j["email"].get<std::string>() };
+	SignupRequest request = { j["username"].get<std::string>(), j["password"].get<std::string>(), j["email"].get<std::string>() };
 	return request;
 }

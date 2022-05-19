@@ -2,6 +2,7 @@
 
 void Communicator::startHandleRequest()
 {
+	this->m_handlerFactory = RequestHandlerFactory();
 	while (true)
 	{
 		// the main thread is only accepting clients 
@@ -12,7 +13,7 @@ void Communicator::startHandleRequest()
 			throw std::exception(__FUNCTION__);
 
 		std::cout << "Client accepted. Server and client can speak" << std::endl;
-		this->m_clients[client_socket] = new LoginRequestHandler();
+		this->m_clients[client_socket] = this->m_handlerFactory.createLoginRequest();
 		// the function that handle the conversation with the client
 		std::thread clientThread(&Communicator::handleNewClient, this, client_socket); // thread for each client
 		clientThread.detach(); // no need to wait for client thread to end, it can run until the client logs out 
@@ -44,6 +45,7 @@ void Communicator::bindAndListen()
 	startHandleRequest();
 }
 
+
 void Communicator::handleNewClient(SOCKET socket)
 {
 	// reciving message and parsing into the struct "RequsetInfo"
@@ -71,8 +73,11 @@ void Communicator::handleNewClient(SOCKET socket)
 		if (this->m_clients[socket]->isRequestRelevant(requestInfo))
 		{
 			RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);
-			delete this->m_clients[socket];
-			this->m_clients[socket] = result.newHandler;
+			if (result.newHandler != nullptr)
+			{
+				delete this->m_clients[socket];
+				this->m_clients[socket] = result.newHandler;
+			}
 			std::stringstream responseStream;
 			for (int i = 0; i < result.response.size(); i++)
 			{
@@ -83,7 +88,7 @@ void Communicator::handleNewClient(SOCKET socket)
 		else  // invalid request given
 		{
 			ErrorResponse errorResponse;
-			errorResponse.message = "ERROR wrong code";
+			errorResponse.message = "ERROR wrong code (" + std::to_string(requestInfo.id) + ") for current state";
 			std::vector<unsigned char> serializedResponse = JsonResponsePacketSerializer::serializeErrorResponse(errorResponse);
 			std::stringstream responseStream;
 			for (int i = 0; i < serializedResponse.size(); i++)

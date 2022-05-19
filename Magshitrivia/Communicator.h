@@ -8,6 +8,7 @@
 #include "IRequestHandler.h"
 #include "LoginRequestHandler.h"
 #include "JsonResponsePacketSerializer.h"
+#include "RequestHandlerFactory.h"
 
 #define SERVER_PORT 6969
 #define MAX_SIZE 1024
@@ -22,4 +23,5 @@ private:
 	void handleNewClient(SOCKET socket);
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
+	RequestHandlerFactory m_handlerFactory;
 };
