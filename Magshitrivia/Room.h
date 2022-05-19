@@ -17,7 +17,7 @@ class Room
 {
 public:
 	void addUser(LoggedUser userToAdd);
-	void removeUser(LoggedUser userToAdd);
+	void removeUser(LoggedUser userToRemove);
 	std::vector<std::string> getAllUsers();
 private:
 	RoomData m_metadata;
