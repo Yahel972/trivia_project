@@ -32,7 +32,7 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 	if(this->m_loginManager.login(loginRequest.username, loginRequest.password))
 	{
 		LoginResponse loginResonse = { OK };
-		result.newHandler = this->m_handlerFactory.createLoginRequest();
+		result.newHandler = new MenuRequestHandler();
 		result.response = JsonResponsePacketSerializer::serializeLoginResponse(loginResonse);
 	}
 	else
@@ -52,7 +52,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 	if (this->m_loginManager.signup(signupRequest.username, signupRequest.password, signupRequest.email))
 	{
 		SignupResponse signupResonse = { OK };
-		result.newHandler = this->m_handlerFactory.createLoginRequest(); // DONT FORGET CHANGE TO MenuRequestHandler
+		result.newHandler = new MenuRequestHandler();
 		result.response = JsonResponsePacketSerializer::serializeSignupResponse(signupResonse);
 	}
 	else

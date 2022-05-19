@@ -14,7 +14,7 @@ bool LoginManager::signup(std::string username, std::string password, std::strin
 		return false;
 	}
 	this->m_database->addNewUser(username, password, email);
-	return this->m_database->doesUserExist(username);
+	return (this->login(username, password));
 }
 
 bool LoginManager::login(std::string username, std::string password)

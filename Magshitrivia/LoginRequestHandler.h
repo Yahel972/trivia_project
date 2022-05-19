@@ -4,6 +4,7 @@
 #include "JsonResponsePacketSerializer.h"
 #include "LoginManager.h"
 #include "RequestHandlerFactory.h"
+#include "MenuRequestHandler.h"
 
 class RequestHandlerFactory;
 
