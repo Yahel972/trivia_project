@@ -19,11 +19,24 @@ bool SqliteDataBase::open()
 		const char* sqlStatement = "CREATE TABLE USERS ( \
 			USERNAME TEXT NOT NULL, \
 			PASSWORD TEXT NOT NULL, \
-			EMAIL TEXT NOT NULL);";
+			EMAIL TEXT NOT NULL, \
+			PRIMARY KEY(USERNAME));";
 		res = sqlite3_exec(this->db, sqlStatement, nullptr, nullptr, errorMessage);
 		if (res != SQLITE_OK)
 		{
 			std::cout << "ERROR: USERS wasn't created" << std::endl;
+			return false;
+		}
+		sqlStatement = "CREATE TABLE QUESTIONS ( \
+			QUESTION TEXT NOT NULL, \
+			CORRECT_ANSWER TEXT NOT NULL, \
+			INCORRECT_ANSWER_1 TEXT NOT NULL, \
+			INCORRECT_ANSWER_2 TEXT NOT NULL, \
+			INCORRECT_ANSWER_3 TEXT NOT NULL);";
+		res = sqlite3_exec(this->db, sqlStatement, nullptr, nullptr, errorMessage);
+		if (res != SQLITE_OK)
+		{
+			std::cout << "ERROR: QUESTIONS wasn't created" << std::endl;
 			return false;
 		}
 	}
