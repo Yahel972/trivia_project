@@ -16,6 +16,7 @@ typedef struct RoomData
 class Room
 {
 public:
+	Room() = default;
 	Room(LoggedUser creator, RoomData data);
 	void addUser(LoggedUser userToAdd);
 	void removeUser(LoggedUser userToRemove);

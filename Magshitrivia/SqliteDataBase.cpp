@@ -2,7 +2,6 @@
 #include <io.h>
 #include <string>
 
-
 bool SqliteDataBase::open()
 {
 	std::string dbFileName = "galleryDB.sqlite";
