@@ -8,7 +8,7 @@
 #include "LoginRequestHandler.h"
 #include "SqliteDataBase.h"
 #include "LoginManager.h"
-
+#include "StatisticsManager.h"
 
 int main()
 {
