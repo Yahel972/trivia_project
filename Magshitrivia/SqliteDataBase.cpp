@@ -5,7 +5,7 @@
 
 bool SqliteDataBase::open()
 {
-	std::string dbFileName = "galleryDB.sqlite";
+	std::string dbFileName = "triviaDB.sqlite";
 	char** errorMessage = 0;
 	int file_exist = _access(dbFileName.c_str(), 0);
 	int res = sqlite3_open(dbFileName.c_str(), &(this->db));
@@ -28,12 +28,24 @@ bool SqliteDataBase::open()
 			std::cout << "ERROR: USERS wasn't created" << std::endl;
 			return false;
 		}
+		sqlStatement = "CREATE TABLE GAMES ( \
+			GAME_ID INTEGER NOT NULL, \
+			PRIMARY KEY(GAME_ID AUTOINCREMENT));";
+		res = sqlite3_exec(this->db, sqlStatement, nullptr, nullptr, errorMessage);
+		if (res != SQLITE_OK)
+		{
+			std::cout << "ERROR: GAMES wasn't created" << std::endl;
+			return false;
+		}
+		// creating the questions table
 		sqlStatement = "CREATE TABLE QUESTIONS ( \
+			QUESTION_ID INTEGER NOT NULL, \
 			QUESTION TEXT NOT NULL, \
 			CORRECT_ANSWER TEXT NOT NULL, \
 			INCORRECT_ANSWER_1 TEXT NOT NULL, \
 			INCORRECT_ANSWER_2 TEXT NOT NULL, \
-			INCORRECT_ANSWER_3 TEXT NOT NULL);";
+			INCORRECT_ANSWER_3 TEXT NOT NULL, \
+			PRIMARY KEY(QUESTION_ID AUTOINCREMENT));";
 		res = sqlite3_exec(this->db, sqlStatement, nullptr, nullptr, errorMessage);
 		if (res != SQLITE_OK)
 		{
@@ -41,6 +53,21 @@ bool SqliteDataBase::open()
 			return false;
 		}
 		this->insertQuestions();
+			sqlStatement = "CREATE TABLE STATISTICS ( \
+			GAME_ID INTEGER NOT NULL, \
+			QUESTION_ID INTEGER NOT NULL, \
+			USERNAME TEXT NOT NULL, \
+			IS_CORRECT INTEGER NOT NULL, \
+			TIME_TO_ANSWER INTEGER NOT NULL, \
+			FOREIGN KEY(GAME_ID) REFERENCES GAMES(GAME_ID), \
+			FOREIGN KEY(QUESTION_ID) REFERENCES QUESTIONS(QUESTION_ID), \
+			FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME));";
+		res = sqlite3_exec(this->db, sqlStatement, nullptr, nullptr, errorMessage);
+		if (res != SQLITE_OK)
+		{
+			std::cout << "ERROR: STATISTICS wasn't created" << std::endl;
+			return false;
+		}
 	}
 	return true;
 }
