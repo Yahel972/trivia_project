@@ -114,17 +114,29 @@ float SqliteDataBase::getPlayerAverageAnswerTime(std::string username)
 
 int SqliteDataBase::getNumOfCorrectAnswers(std::string username)
 {
-	return 0;
+	int numOfCorrectAnswers = 0;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT COUNT() FROM STATISTICS where USERNAME='" + username + "' AND IS_CORRECT=1;";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_int, &numOfCorrectAnswers, errMessage);
+	return numOfCorrectAnswers;
 }
 
-int SqliteDataBase::getNumOfTotalAnswers(std::string answers)
+int SqliteDataBase::getNumOfTotalAnswers(std::string username)
 {
-	return 0;
+	int numOfCorrectAnswers = 0;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT COUNT(QUESTION_ID) FROM STATISTICS where USERNAME='" + username + "';";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_int, &numOfCorrectAnswers, errMessage);
+	return numOfCorrectAnswers;
 }
 
-int SqliteDataBase::getNumOfPlayerGames(std::string)
+int SqliteDataBase::getNumOfPlayerGames(std::string username)
 {
-	return 0;
+	int numOfGames = 0;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT COUNT(DISTINCT GAME_ID) FROM STATISTICS where USERNAME='" + username + "';";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_int, &numOfGames, errMessage);
+	return numOfGames;
 }
 
 int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, char** azColName)
@@ -138,8 +150,15 @@ int SqliteDataBase::callback_times(void* data, int argc, char** argv, char** azC
 {
 	std::vector<int>* times = static_cast<std::vector<int>*>(data);
 	for (int i = 0; i < argc; i++) {
-		times->push_back((*argv[i]));
+		times->push_back(atoi(argv[i]));
 	}
+	return 0;
+}
+
+int SqliteDataBase::callback_single_int(void* data, int argc, char** argv, char** azColName)
+{
+	int* num = static_cast<int*>(data);
+	*num = atoi(argv[0]);
 	return 0;
 }
 

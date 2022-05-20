@@ -10,6 +10,6 @@ public:
 	virtual void insertQuestions() = 0;
 	virtual float getPlayerAverageAnswerTime(std::string username) = 0;
 	virtual int getNumOfCorrectAnswers(std::string username) = 0;
-	virtual int getNumOfTotalAnswers(std::string answers) = 0;
+	virtual int getNumOfTotalAnswers(std::string username) = 0;
 	virtual int getNumOfPlayerGames(std::string) = 0;
 };
