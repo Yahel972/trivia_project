@@ -60,6 +60,7 @@ bool SqliteDataBase::open()
 			USERNAME TEXT NOT NULL, \
 			IS_CORRECT INTEGER NOT NULL, \
 			TIME_TO_ANSWER INTEGER NOT NULL, \
+			TIME_FOR_QUESTION INTEGER NOT NULL, \
 			FOREIGN KEY(GAME_ID) REFERENCES GAMES(GAME_ID), \
 			FOREIGN KEY(QUESTION_ID) REFERENCES QUESTIONS(QUESTION_ID), \
 			FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME));";
@@ -112,6 +113,20 @@ float SqliteDataBase::getPlayerAverageAnswerTime(std::string username)
 	return (sum / times.size());
 }
 
+float SqliteDataBase::getPlayerAverageThinkingTime(std::string username)
+{
+	float sum = 0;
+	std::vector<int> times;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT TIME_FOR_QUESTION FROM STATISTICS where USERNAME='" + username + "';";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_times, &times, errMessage);
+	for (int i = 0; i < times.size(); i++)
+	{
+		sum += times[i];
+	}
+	return (sum / times.size());
+}
+
 int SqliteDataBase::getNumOfCorrectAnswers(std::string username)
 {
 	int numOfCorrectAnswers = 0;
@@ -139,6 +154,15 @@ int SqliteDataBase::getNumOfPlayerGames(std::string username)
 	return numOfGames;
 }
 
+std::vector<std::string> SqliteDataBase::getUsers()
+{
+	std::vector<std::string> users;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT USERNAME FROM USERS";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_int, &users, errMessage);
+	return users;
+}
+
 int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, char** azColName)
 {
 	std::string* user = static_cast<std::string*>(data);
@@ -159,6 +183,15 @@ int SqliteDataBase::callback_single_int(void* data, int argc, char** argv, char*
 {
 	int* num = static_cast<int*>(data);
 	*num = atoi(argv[0]);
+	return 0;
+}
+
+int SqliteDataBase::callback_users(void* data, int argc, char** argv, char** azColName)
+{
+	std::vector<std::string>* users = static_cast<std::vector<std::string>*>(data);
+	for (int i = 0; i < argc; i++) {
+		users->push_back(argv[i]);
+	}
 	return 0;
 }
 
