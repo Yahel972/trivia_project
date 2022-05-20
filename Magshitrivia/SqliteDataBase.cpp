@@ -1,6 +1,7 @@
 #include "SqliteDataBase.h"
 #include <io.h>
 #include <string>
+#include <vector>
 
 
 bool SqliteDataBase::open()
@@ -97,10 +98,48 @@ void SqliteDataBase::addNewUser(std::string name, std::string password, std::str
 	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
 }
 
+float SqliteDataBase::getPlayerAverageAnswerTime(std::string username)
+{
+	float sum = 0;
+	std::vector<int> times;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT TIME_TO_ANSWER FROM STATISTICS where USERNAME='" + username + "';";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_times, &times, errMessage);
+	for (int i = 0; i < times.size(); i++)
+	{
+		sum += times[i];
+	}
+	return (sum / times.size());
+}
+
+int SqliteDataBase::getNumOfCorrectAnswers(std::string username)
+{
+	return 0;
+}
+
+int SqliteDataBase::getNumOfTotalAnswers(std::string answers)
+{
+	return 0;
+}
+
+int SqliteDataBase::getNumOfPlayerGames(std::string)
+{
+	return 0;
+}
+
 int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, char** azColName)
 {
 	std::string* user = static_cast<std::string*>(data);
 	*user = (std::string)((argv[0]));
+	return 0;
+}
+
+int SqliteDataBase::callback_times(void* data, int argc, char** argv, char** azColName)
+{
+	std::vector<int>* times = static_cast<std::vector<int>*>(data);
+	for (int i = 0; i < argc; i++) {
+		times->push_back((*argv[i]));
+	}
 	return 0;
 }
 
