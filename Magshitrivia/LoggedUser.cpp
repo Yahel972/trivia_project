@@ -1,5 +1,10 @@
 #include "LoggedUser.h"
 
+LoggedUser::LoggedUser()
+{
+	this->m_username = "";
+}
+
 LoggedUser::LoggedUser(std::string username)
 {
 	this->m_username = username;

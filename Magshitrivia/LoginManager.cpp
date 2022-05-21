@@ -56,3 +56,8 @@ void LoginManager::logout(std::string username)
 		}
 	}
 }
+
+IDatabase* LoginManager::getDataBase()
+{
+	return this->m_database;
+}

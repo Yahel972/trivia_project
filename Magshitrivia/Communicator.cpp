@@ -51,7 +51,6 @@ void Communicator::handleNewClient(SOCKET socket)
 	// reciving message and parsing into the struct "RequsetInfo"
 	// checking if the new RequestInfo is relevent 
 	// if the RequestInfo IS relevent, handle it
-
 	// receving data 
 	while (true)
 	{

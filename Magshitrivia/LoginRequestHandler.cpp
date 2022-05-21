@@ -2,7 +2,7 @@
 
 LoginRequestHandler::LoginRequestHandler(LoginManager& loginManager, RequestHandlerFactory& handlerFactory):m_loginManager(loginManager), m_handlerFactory(handlerFactory)
 {
-
+	
 }
 
 // function checks if a given request is relevant
@@ -32,7 +32,7 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 	if(this->m_loginManager.login(loginRequest.username, loginRequest.password))
 	{
 		LoginResponse loginResonse = { OK };
-		result.newHandler = new MenuRequestHandler();
+		result.newHandler = this->m_handlerFactory.createMenuRequestHandler(loginRequest.username);
 		result.response = JsonResponsePacketSerializer::serializeResponse(loginResonse);
 	}
 	else
@@ -52,7 +52,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 	if (this->m_loginManager.signup(signupRequest.username, signupRequest.password, signupRequest.email))
 	{
 		SignupResponse signupResonse = { OK };
-		result.newHandler = new MenuRequestHandler();
+		result.newHandler = this->m_handlerFactory.createMenuRequestHandler(signupRequest.username);
 		result.response = JsonResponsePacketSerializer::serializeResponse(signupResonse);
 	}
 	else

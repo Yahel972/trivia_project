@@ -1,5 +1,10 @@
 #include "RoomManager.h"
 
+RoomManager::RoomManager()
+{
+
+}
+
 void RoomManager::createRoom(LoggedUser creator, RoomData data)
 {
 	Room newRoom(creator, data);
