@@ -1,7 +1,7 @@
 #include "JsonResponsePacketSerializer.h"
 
 // function serializes a login response - converts the LoginResponse struct to bytes (unsigned char vector)
-std::vector<unsigned char> JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse response)
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
 	nlohmann::json j = nlohmann::json{ {"status",response.status} };
@@ -29,7 +29,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeLoginResponse(
 }
 
 // function serializes a signup response - converts the SignupResponse struct to bytes (unsigned char vector)
-std::vector<unsigned char> JsonResponsePacketSerializer::serializeSignupResponse(SignupResponse response)
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SignupResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
 	nlohmann::json j = nlohmann::json{ {"status",response.status} };
@@ -56,7 +56,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeSignupResponse
 }
 
 // function serializes an error response - converts the ErrorResponse struct to bytes (unsigned char vector)
-std::vector<unsigned char> JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse response)
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
 	nlohmann::json j = nlohmann::json{ {"message",response.message} };

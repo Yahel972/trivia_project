@@ -33,13 +33,13 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 	{
 		LoginResponse loginResonse = { OK };
 		result.newHandler = new MenuRequestHandler();
-		result.response = JsonResponsePacketSerializer::serializeLoginResponse(loginResonse);
+		result.response = JsonResponsePacketSerializer::serializeResponse(loginResonse);
 	}
 	else
 	{
 		LoginResponse loginResponse = { 0 };
 		result.newHandler = nullptr;
-		result.response = JsonResponsePacketSerializer::serializeLoginResponse(loginResponse);
+		result.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
 	}
 	return result;
 }
@@ -53,13 +53,13 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 	{
 		SignupResponse signupResonse = { OK };
 		result.newHandler = new MenuRequestHandler();
-		result.response = JsonResponsePacketSerializer::serializeSignupResponse(signupResonse);
+		result.response = JsonResponsePacketSerializer::serializeResponse(signupResonse);
 	}
 	else
 	{
 		SignupResponse signupResonse = { 0 };
 		result.newHandler = nullptr;
-		result.response = JsonResponsePacketSerializer::serializeSignupResponse(signupResonse);
+		result.response = JsonResponsePacketSerializer::serializeResponse(signupResonse);
 	}
 	return result;
 }

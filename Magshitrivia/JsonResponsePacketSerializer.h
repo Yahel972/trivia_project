@@ -53,23 +53,23 @@ typedef struct GetPlayersInRoomResponse
 	std::vector<std::string> players;
 } GetPlayersInRoomResponse;
 
-typedef struct getHighScoreResponse
+typedef struct GetStatisticsResponse
 {
 	unsigned int status;
 	std::vector<std::string> statistics;
-} GetRoomsResponse;
-
-typedef struct getPersonalStatsResponse
-{
-	unsigned int status;
-	std::vector<std::string> statistics;
-} GetRoomsResponse;
+} GetStatisticsResponse;
 
 
 class JsonResponsePacketSerializer
 {
 public:
-	static std::vector<unsigned char> serializeLoginResponse(LoginResponse response);
-	static std::vector<unsigned char> serializeSignupResponse(SignupResponse response);
-	static std::vector<unsigned char> serializeErrorResponse(ErrorResponse response);
+	static std::vector<unsigned char> serializeResponse(LoginResponse response);
+	static std::vector<unsigned char> serializeResponse(SignupResponse response);
+	static std::vector<unsigned char> serializeResponse(ErrorResponse response);
+	static std::vector<unsigned char> serializeResponse(LogoutResponse response);
+	static std::vector<unsigned char> serializeResponse(GetRoomsResponse response);
+	static std::vector<unsigned char> serializerResponse(GetPlayersInRoomResponse response);
+	static std::vector<unsigned char> serializeResponse(JoinRoomResponse response);
+	static std::vector<unsigned char> serializeResponse(CreateRoomResponse response);
+	static std::vector<unsigned char> serializeResponse(GetStatisticsResponse response);
 };
