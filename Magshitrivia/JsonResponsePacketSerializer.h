@@ -2,11 +2,15 @@
 #include <iostream>
 #include <vector>
 #include "single_include/nlohmann/json.hpp"
+#include "Room.h"
 
-#define ERROR_CODE 3
-#define LOGIN_CODE 2
-#define SIGNUP_CODE 1
 #define OK 1
+
+#define ERROR_CODE 200
+
+#define SIGNUP_CODE 1
+#define LOGIN_CODE 2
+
 
 typedef struct LoginResponse
 {
@@ -22,6 +26,45 @@ typedef struct ErrorResponse
 {
 	std::string message;
 } ErrorResponse;
+
+typedef struct JoinRoomResponse
+{
+	unsigned int status;
+} JoinRoomResponse;
+
+typedef struct CreateRoomResponse
+{
+	unsigned int status;
+} CreateRoomResponse;
+
+typedef struct LogoutResponse
+{
+	unsigned int status;
+} LogoutResponse;
+
+typedef struct GetRoomsResponse
+{
+	unsigned int status;
+	std::vector<RoomData> rooms;
+} GetRoomsResponse;
+
+typedef struct GetPlayersInRoomResponse
+{
+	std::vector<std::string> players;
+} GetPlayersInRoomResponse;
+
+typedef struct getHighScoreResponse
+{
+	unsigned int status;
+	std::vector<std::string> statistics;
+} GetRoomsResponse;
+
+typedef struct getPersonalStatsResponse
+{
+	unsigned int status;
+	std::vector<std::string> statistics;
+} GetRoomsResponse;
+
 
 class JsonResponsePacketSerializer
 {
