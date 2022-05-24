@@ -7,32 +7,6 @@
         mc:Ignorable="d"
         Title="SignUp" Height="725" Width="880">
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="Blue" Offset="0.1" />
-                <GradientStop Color="Orange" Offset="0.25" />
-                <GradientStop Color="Green" Offset="0.75" />
-                <GradientStop Color="Red" Offset="1.0" />
-            </LinearGradientBrush>
-        </Grid.Background>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250*" />
-            <ColumnDefinition Width="335*" />
-            <ColumnDefinition Width="250*" />
-        </Grid.ColumnDefinitions>
-
-        <Button Content="Quit" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Background="Beige" FontStyle="Italic"/>
+        
     </Grid>
 </Window>
