@@ -30,12 +30,21 @@ namespace Client
 
         private void Check_Validation_And_Sign_Up(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_username.Text))
+            if (string.IsNullOrWhiteSpace(this._username.Text))
+            {
                 MessageBox.Show("Invalid Name Given", "INVALID NAME", MessageBoxButton.OK, MessageBoxImage.Error);
-            else if (_password.Text.Length < 4)
-                MessageBox.Show("Invalid Password Given", "INVALID PASSWORD", MessageBoxButton.OK, MessageBoxImage.Error);
-            else if (string.IsNullOrWhiteSpace(_email.Text))
+                this._username.Clear();
+            }
+            else if (this._password.Text.Length < 4)
+            {
+                MessageBox.Show("Invalid Password Given (At Least 4 Letters Required)", "INVALID PASSWORD", MessageBoxButton.OK, MessageBoxImage.Error);
+                this._password.Clear();
+            }
+            else if (string.IsNullOrWhiteSpace(this._email.Text))
+            {
                 MessageBox.Show("Invalid Mail Given", "INVALID MAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                this._email.Clear();
+            }
             else  // all parameters are valid
                 Add_New_User();
         }
