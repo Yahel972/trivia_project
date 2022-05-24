@@ -45,6 +45,7 @@
         <Button Content="Quit" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
 
         <Label Content="MagshiTrivia" Grid.Column="1" Margin="72,-10,103,47" FontSize="30" FontStyle="Italic"/>
+        <Label Content="______________________________________________________" Grid.Column="2" Margin="11,-4,-21,58" FontSize="20" FontStyle="Italic"/>
         <Label Content="Yahel Bareket &amp; Dean Einer" Grid.Column="1" Margin="40,48,40,5" FontSize="20" FontStyle="Italic"/>
         <Image Source="Images/logo.png" Margin="-62,5,62,57" Grid.RowSpan="2"/>
     </Grid>
