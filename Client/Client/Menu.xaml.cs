@@ -40,5 +40,12 @@ namespace Client
             su.Show();
             this.Close();
         }
+
+        private void Open_Create_Room_Page(object sender, RoutedEventArgs e)
+        {
+            CreateRoom cr = new CreateRoom();
+            cr.Show();
+            this.Close();
+        }
     }
 }
