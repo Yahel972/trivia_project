@@ -18,6 +18,7 @@ namespace Client
     class Global
     {
         public static bool isLoggedIn = false;
+        public static string loggedInName = "";
     }
 
     public partial class Menu : Window
@@ -72,6 +73,7 @@ namespace Client
                 this.bestScoresB.IsEnabled = true;
                 this.logInB.Visibility = System.Windows.Visibility.Hidden;
                 this.logOutB.Visibility = System.Windows.Visibility.Visible;
+                this.LoggedInUser.Content = Global.loggedInName;
             }
             else
             {
@@ -87,6 +89,7 @@ namespace Client
         private void Log_Out(object sender, RoutedEventArgs e)
         {
             Global.isLoggedIn = false;
+            Global.loggedInName = "";
 
             Menu m = new Menu();
             m.Show();

@@ -46,7 +46,7 @@
         <Button x:Name="logOutB" Content="Log Out" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Log_Out" Background="Beige" FontStyle="Italic" Visibility="Hidden"/>
 
         <Label Content="MagshiTrivia" Grid.Column="1" Margin="72,-10,103,47" FontSize="30" FontStyle="Italic"/>
-        <Label Content="______________________________________________________" Grid.Column="2" Margin="11,-4,-21,58" FontSize="20" FontStyle="Italic"/>
+        <Label x:Name="LoggedInUser" Grid.Column="2" Margin="10,0,10,35" FontSize="30" FontStyle="Italic" HorizontalContentAlignment="Right"/>
         <Label Content="Yahel Bareket &amp; Dean Einer" Grid.Column="1" Margin="40,48,40,5" FontSize="20" FontStyle="Italic"/>
         <Image Source="Images/logo.png" Margin="-62,5,62,57" Grid.RowSpan="2"/>
     </Grid>

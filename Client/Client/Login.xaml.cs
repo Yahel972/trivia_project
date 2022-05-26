@@ -66,6 +66,7 @@ namespace Client
         private void Log_In()
         {
             Global.isLoggedIn = true;
+            Global.loggedInName = this._username.Text;
 
             // TODO: add the user into the logged in users
 
