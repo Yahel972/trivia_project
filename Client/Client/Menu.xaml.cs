@@ -47,5 +47,12 @@ namespace Client
             cr.Show();
             this.Close();
         }
+
+        private void Open_Best_Scores_Page(object sender, RoutedEventArgs e)
+        {
+            BestScores bs = new BestScores();
+            bs.Show();
+            this.Close();
+        }
     }
 }
