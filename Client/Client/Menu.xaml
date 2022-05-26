@@ -36,13 +36,14 @@
             <ColumnDefinition Width="250*" />
         </Grid.ColumnDefinitions>
 
-        <Button Content="Log In" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Open_Login_Page" Background="Beige" FontStyle="Italic"/>
-        <Button Content="Sign Up" Grid.Column="1" Grid.Row="2" Margin="40,25,40,25" Click="Open_Sign_Up_Page" Background="Beige" FontStyle="Italic"/>
-        <Button Content="Join Room" Grid.Column="1" Grid.Row="3" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
-        <Button Content="Create Room" Grid.Column="1" Grid.Row="4" Margin="40,25,40,25" Click="Open_Create_Room_Page" Background="Beige" FontStyle="Italic"/>
-        <Button Content="My Status" Grid.Column="1" Grid.Row="5" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
-        <Button Content="Best Scores" Grid.Column="1" Grid.Row="6" Margin="40,25,40,25" Click="Open_Best_Scores_Page" Background="Beige" FontStyle="Italic"/>
-        <Button Content="Quit" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="logInB" Content="Log In" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Open_Login_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="signInB" Content="Sign Up" Grid.Column="1" Grid.Row="2" Margin="40,25,40,25" Click="Open_Sign_Up_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="joinRoomB" Content="Join Room" Grid.Column="1" Grid.Row="3" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="createRoomB" Content="Create Room" Grid.Column="1" Grid.Row="4" Margin="40,25,40,25" Click="Open_Create_Room_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="myStatusB" Content="My Status" Grid.Column="1" Grid.Row="5" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="bestScoresB" Content="Best Scores" Grid.Column="1" Grid.Row="6" Margin="40,25,40,25" Click="Open_Best_Scores_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="quitB" Content="Quit" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="logOutB" Content="Log Out" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Log_Out" Background="Beige" FontStyle="Italic" Visibility="Hidden"/>
 
         <Label Content="MagshiTrivia" Grid.Column="1" Margin="72,-10,103,47" FontSize="30" FontStyle="Italic"/>
         <Label Content="______________________________________________________" Grid.Column="2" Margin="11,-4,-21,58" FontSize="20" FontStyle="Italic"/>

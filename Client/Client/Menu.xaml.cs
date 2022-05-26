@@ -15,11 +15,17 @@ using System.Windows.Shapes;
 
 namespace Client
 {
+    class Global
+    {
+        public static bool isLoggedIn = false;
+    }
+
     public partial class Menu : Window
     {
         public Menu()
         {
             InitializeComponent();
+            Check_Buttons();
         }
 
         private void Quit(object sender, RoutedEventArgs e)
@@ -52,6 +58,38 @@ namespace Client
         {
             BestScores bs = new BestScores();
             bs.Show();
+            this.Close();
+        }
+
+        /** function updates the buttons state by the user's state (loggen in / not) */
+        private void Check_Buttons()
+        {
+            if (Global.isLoggedIn)
+            {
+                this.joinRoomB.IsEnabled = true;
+                this.createRoomB.IsEnabled = true;
+                this.myStatusB.IsEnabled = true;
+                this.bestScoresB.IsEnabled = true;
+                this.logInB.Visibility = System.Windows.Visibility.Hidden;
+                this.logOutB.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                this.joinRoomB.IsEnabled = false;
+                this.createRoomB.IsEnabled = false;
+                this.myStatusB.IsEnabled = false;
+                this.bestScoresB.IsEnabled = false;
+                this.logInB.Visibility = System.Windows.Visibility.Visible;
+                this.logOutB.Visibility = System.Windows.Visibility.Hidden;
+            }
+        }
+
+        private void Log_Out(object sender, RoutedEventArgs e)
+        {
+            Global.isLoggedIn = false;
+
+            Menu m = new Menu();
+            m.Show();
             this.Close();
         }
     }

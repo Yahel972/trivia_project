@@ -40,7 +40,7 @@ namespace Client
                 MessageBox.Show("Password's Length Must be at least 4 Letters", "INVALID PASSWORD", MessageBoxButton.OK, MessageBoxImage.Error);
                 this._password.Clear();
             }
-            if (IsPasswordMatchesName(this._username.Text, this._password.Text))
+            else if (IsPasswordMatchesName(this._username.Text, this._password.Text))
             {
                 MessageBox.Show("Password doesn't match the given username", "INVALID PASSWORD", MessageBoxButton.OK, MessageBoxImage.Error);
                 this._password.Clear();
@@ -65,7 +65,11 @@ namespace Client
 
         private void Log_In()
         {
+            Global.isLoggedIn = true;
 
+            // TODO: add the user into the logged in users
+
+            Back_To_Menu(null, null);
         }
     }
 }
