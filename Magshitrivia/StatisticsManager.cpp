@@ -2,7 +2,7 @@
 
 StatisticsManager::StatisticsManager()
 {
-	
+	this->m_database = nullptr;
 }
 
 StatisticsManager::StatisticsManager(IDatabase* database)
