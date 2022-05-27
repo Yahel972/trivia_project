@@ -23,6 +23,8 @@ namespace Client
         {
             InitializeComponent();
             this.LoggedInUser.Content = Global.loggedInName;
+
+            getbestScores();
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
@@ -30,6 +32,16 @@ namespace Client
             Menu m = new Menu();
             m.Show();
             this.Close();
+        }
+
+        private void getbestScores()
+        {
+            /*
+            TODO: update labels (from server):
+            this.first.Content = 
+            this.second.Content = 
+            this.third.Content = 
+            */
         }
     }
 }
