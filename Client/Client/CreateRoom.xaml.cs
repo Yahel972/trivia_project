@@ -82,6 +82,10 @@ namespace Client
         {
             // TODO Open new Windows
             // Wait till Start Game is being pressed
+
+            WaitingRoom wr = new WaitingRoom(this._roomName.Text, true);
+            wr.Show();
+            this.Close();
         }
     }
 }

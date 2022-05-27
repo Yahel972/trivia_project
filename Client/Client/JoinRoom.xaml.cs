@@ -48,17 +48,21 @@ namespace Client
 
         private void Join_Room(object sender, RoutedEventArgs e)
         {
-            // TODO - join room
+            // TODO - check if room is full.
+
+            WaitingRoom wr = new WaitingRoom(this.RoomsList.SelectedItem.ToString(), false);
+            wr.Show();
+            this.Close();
         }
 
         private void Refresh_Page(object sender, RoutedEventArgs e)
         {
             for (int i = 0; i < 10; i++)
             {
-                this.RoomsList.Items.Add("or");
+                this.RoomsList.Items.Add("Random_Room");
             }
 
-            // TODO - refresh the page
+            // TODO - refresh the page (function currently adds 10 rooms - just to make it easier for now)
         }
 
         private void Check_Choosing_Room(object sender, SelectionChangedEventArgs e)
