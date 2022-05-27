@@ -32,12 +32,12 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userna
 	statistics.push_back("Games played:" + std::to_string(this->m_database->getNumOfPlayerGames(username)));
 	statistics.push_back("Total answers:" + std::to_string(this->m_database->getNumOfTotalAnswers(username)));
 	statistics.push_back("Correct answers:" + std::to_string(this->m_database->getNumOfCorrectAnswers(username)));
-	statistics.push_back("Average answer time:" + std::to_string(this->m_database->getPlayerAverageAnswerTime(username)));
+	statistics.push_back("Average right answer time:" + std::to_string(this->m_database->getPlayerAverageRightAnswerTime(username)));
 	return statistics;
 }
 
 int StatisticsManager::getUserScore(std::string username)
 {
 	// formula: [(1 - (({response time} / {question timer}}) / 2)) * 1000]
-	return ((1 - ((this->m_database->getPlayerAverageAnswerTime(username) / this->m_database->getPlayerAverageAnswerTime(username)) / 2)) * 1000);
+	return ((1 - ((this->m_database->getPlayerAverageRightAnswerResponseTime(username) / this->m_database->getPlayerAverageRightAnswerTime(username)) / 2)) * 1000);
 }

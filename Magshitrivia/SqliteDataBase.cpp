@@ -99,12 +99,12 @@ void SqliteDataBase::addNewUser(std::string name, std::string password, std::str
 	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
 }
 
-float SqliteDataBase::getPlayerAverageAnswerTime(std::string username)
+float SqliteDataBase::getPlayerAverageRightAnswerResponseTime(std::string username)
 {
 	float sum = 0;
 	std::vector<int> times;
 	char** errMessage = nullptr;
-	std::string sqlStatement = "SELECT TIME_TO_ANSWER FROM STATISTICS where USERNAME='" + username + "';";
+	std::string sqlStatement = "SELECT TIME_TO_ANSWER FROM STATISTICS where USERNAME='" + username + "' AND IS_CORRECT=1;";
 	sqlite3_exec(this->db, sqlStatement.c_str(), callback_times, &times, errMessage);
 	for (int i = 0; i < times.size(); i++)
 	{
@@ -113,12 +113,12 @@ float SqliteDataBase::getPlayerAverageAnswerTime(std::string username)
 	return (sum / times.size());
 }
 
-float SqliteDataBase::getPlayerAverageThinkingTime(std::string username)
+float SqliteDataBase::getPlayerAverageRightAnswerTime(std::string username)
 {
 	float sum = 0;
 	std::vector<int> times;
 	char** errMessage = nullptr;
-	std::string sqlStatement = "SELECT TIME_FOR_QUESTION FROM STATISTICS where USERNAME='" + username + "';";
+	std::string sqlStatement = "SELECT TIME_FOR_QUESTION FROM STATISTICS where USERNAME='" + username + "' AND IS_CORRECT=1;";
 	sqlite3_exec(this->db, sqlStatement.c_str(), callback_times, &times, errMessage);
 	for (int i = 0; i < times.size(); i++)
 	{
