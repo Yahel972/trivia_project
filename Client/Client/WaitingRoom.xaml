@@ -41,7 +41,7 @@
         <Image Source="Images/logo.png" Margin="-62,5,62,57" Grid.RowSpan="2"/>
         <Label x:Name="LoggedInUser" Grid.Column="2" Margin="10,0,10,35" FontSize="30" FontStyle="Italic" HorizontalContentAlignment="Right"/>
 
-        <Label x:Name="connectedRoom" Grid.Row="1" FontStyle="Italic" FontSize="30" Grid.ColumnSpan="3" Margin="150,36,0,53" Grid.RowSpan="2"/>
+        <Label x:Name="connectedRoom" Grid.Row="1" FontStyle="Italic" FontSize="30" Grid.ColumnSpan="3" Margin="200,36,0,53" Grid.RowSpan="2"/>
         <Label Content="Connected users:" Grid.Row="1" Grid.Column="1" FontSize="20" FontStyle="Italic"  Margin="87,88,87,89" Grid.RowSpan="3"/>
         <ListBox x:Name="connectedUsers" Grid.Row="2" Grid.ColumnSpan="3" Margin="200,50,200,0" Grid.RowSpan="3" Background="Beige"/>
 

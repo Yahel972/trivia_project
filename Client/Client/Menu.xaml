@@ -37,10 +37,10 @@
         </Grid.ColumnDefinitions>
 
         <Button x:Name="logInB" Content="Log In" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Open_Login_Page" Background="Beige" FontStyle="Italic"/>
-        <Button x:Name="signInB" Content="Sign Up" Grid.Column="1" Grid.Row="2" Margin="40,25,40,25" Click="Open_Sign_Up_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="signUpB" Content="Sign Up" Grid.Column="1" Grid.Row="2" Margin="40,25,40,25" Click="Open_Sign_Up_Page" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="joinRoomB" Content="Join Room" Grid.Column="1" Grid.Row="3" Margin="40,25,40,25" Click="Open_Join_Room_page" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="createRoomB" Content="Create Room" Grid.Column="1" Grid.Row="4" Margin="40,25,40,25" Click="Open_Create_Room_Page" Background="Beige" FontStyle="Italic"/>
-        <Button x:Name="myStatusB" Content="My Status" Grid.Column="1" Grid.Row="5" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="myStatusB" Content="My Status" Grid.Column="1" Grid.Row="5" Margin="40,25,40,25" Click="Open_My_Status_Page" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="bestScoresB" Content="Best Scores" Grid.Column="1" Grid.Row="6" Margin="40,25,40,25" Click="Open_Best_Scores_Page" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="quitB" Content="Quit" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="logOutB" Content="Log Out" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Log_Out" Background="Beige" FontStyle="Italic" Visibility="Hidden"/>

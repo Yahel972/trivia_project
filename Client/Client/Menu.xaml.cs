@@ -56,6 +56,13 @@ namespace Client
             this.Close();
         }
 
+        private void Open_My_Status_Page(object sender, RoutedEventArgs e)
+        {
+            MyStatus ms = new MyStatus();
+            ms.Show();
+            this.Close();
+        }
+
         private void Open_Best_Scores_Page(object sender, RoutedEventArgs e)
         {
             BestScores bs = new BestScores();
@@ -76,6 +83,7 @@ namespace Client
             if (Global.isLoggedIn)
             {
                 this.joinRoomB.IsEnabled = true;
+                this.signUpB.IsEnabled = false;
                 this.createRoomB.IsEnabled = true;
                 this.myStatusB.IsEnabled = true;
                 this.logInB.Visibility = System.Windows.Visibility.Hidden;
@@ -84,6 +92,7 @@ namespace Client
             else
             {
                 this.joinRoomB.IsEnabled = false;
+                this.signUpB.IsEnabled = true;
                 this.createRoomB.IsEnabled = false;
                 this.myStatusB.IsEnabled = false;
                 this.logInB.Visibility = System.Windows.Visibility.Visible;

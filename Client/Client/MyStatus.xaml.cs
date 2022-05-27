@@ -15,16 +15,23 @@ using System.Windows.Shapes;
 namespace Client
 {
     /// <summary>
-    /// Interaction logic for BestScores.xaml
+    /// Interaction logic for MyStatus.xaml
     /// </summary>
-    public partial class BestScores : Window
+    public partial class MyStatus : Window
     {
-        public BestScores()
+        int numOfGames;
+        int numOfRightAnswers;
+        int numOfWrongAnswers;
+        double avgTimePerAnswer;
+
+        public MyStatus()
         {
             InitializeComponent();
             this.LoggedInUser.Content = Global.loggedInName;
 
-            getbestScores();
+            getStatus();
+
+
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
@@ -34,14 +41,9 @@ namespace Client
             this.Close();
         }
 
-        private void getbestScores()
+        void getStatus()
         {
-            /*
-            TODO: update labels (from server):
-            this.first.Content = <Name> - <score>
-            this.second.Content = <Name> - <score>
-            this.third.Content = <Name> - <score>
-            */
+            // TODO: get user's status and apply the 4 variables above
         }
     }
 }
