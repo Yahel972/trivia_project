@@ -159,7 +159,7 @@ std::vector<std::string> SqliteDataBase::getUsers()
 	std::vector<std::string> users;
 	char** errMessage = nullptr;
 	std::string sqlStatement = "SELECT USERNAME FROM USERS";
-	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_int, &users, errMessage);
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_users, &users, errMessage);
 	return users;
 }
 

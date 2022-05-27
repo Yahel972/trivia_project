@@ -2,9 +2,9 @@
 #include "IRequestHandler.h"
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
-#include "LoginManager.h"
 #include "RequestHandlerFactory.h"
-#include "MenuRequestHandler.h"
+#include "StatisticsManager.h"
+#include "RoomManager.h"
 
 class RequestHandlerFactory;
 
@@ -15,6 +15,13 @@ public:
 	bool isRequestRelevant(RequestInfo request);
 	RequestResult handleRequest(RequestInfo request);
 private:
+	RequestResult signout(RequestInfo request);
+	RequestResult getRooms(RequestInfo request);
+	RequestResult getPlayersInRoom(RequestInfo request);
+	RequestResult getPersonalStats(RequestInfo request);
+	RequestResult getHighScore(RequestInfo request);
+	RequestResult joinRoom(RequestInfo request);
+	RequestResult createRoom(RequestInfo request);
 	LoggedUser m_user;
 	RoomManager& m_roomManager;
 	StatisticsManager& m_statisticsManager;

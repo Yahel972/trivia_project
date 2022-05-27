@@ -1,5 +1,10 @@
 #include "StatisticsManager.h"
 
+StatisticsManager::StatisticsManager()
+{
+	
+}
+
 StatisticsManager::StatisticsManager(IDatabase* database)
 {
 	this->m_database = database;
@@ -14,7 +19,7 @@ std::vector<std::string> StatisticsManager::getHighScore()
 	}
 	std::sort(allScores.begin(), allScores.end());
 	std::vector<std::string> bestScores;
-	for (int i = 0; i < 5 || i < allScores.size(); i++)
+	for (int i = 0; i < 3 && i < allScores.size(); i++)
 	{
 		bestScores.push_back(std::to_string(allScores[i]));
 	}

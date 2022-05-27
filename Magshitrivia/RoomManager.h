@@ -10,7 +10,9 @@ public:
 	void createRoom(LoggedUser creator, RoomData data);
 	void deleteRoom(int id);
 	unsigned int getRoomState(int id);
-	std::vector<RoomData> getRooms();
+	std::vector<RoomData> getRoomsData();
+	std::map<int, Room> getAllRooms();
 private:
 	std::map<int, Room> m_rooms;
+	static unsigned int currentRoomId;
 };

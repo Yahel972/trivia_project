@@ -7,6 +7,8 @@
 
 class LoginRequestHandler;
 
+class MenuRequestHandler;
+
 class RequestHandlerFactory
 {
 public:
