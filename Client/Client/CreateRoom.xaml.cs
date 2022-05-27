@@ -23,6 +23,7 @@ namespace Client
         public CreateRoom()
         {
             InitializeComponent();
+            this.LoggedInUser.Content = Global.loggedInName;
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)

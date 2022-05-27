@@ -40,7 +40,8 @@
         <Label Content="MagshiTrivia - Log In" Grid.Column="1" Margin="22,-10,22,47" FontSize="30" FontStyle="Italic"/>
         <Label Content="Yahel Bareket &amp; Dean Einer" Grid.Column="1" Margin="40,48,40,5" FontSize="20" FontStyle="Italic"/>
         <Image Source="Images/logo.png" Margin="-62,5,62,57" Grid.RowSpan="2"/>
-
+        <Label x:Name="LoggedInUser" Grid.Column="2" Margin="10,0,10,35" FontSize="30" FontStyle="Italic" HorizontalContentAlignment="Right"/>
+        
         <Label Content="User name:" FontSize="30" Margin="145,74,292,44" FontStyle="Italic" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2"/>
         <TextBox x:Name="_username" Grid.Row="2" Grid.Column="1" Margin="48,0,0,55" FontSize="22" FontStyle="Italic" Background="Beige"/>
 

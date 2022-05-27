@@ -40,6 +40,7 @@
         <Label Content="MagshiTrivia - Create Room" Margin="256,-10,229,47" FontSize="30" FontStyle="Italic" Grid.ColumnSpan="3"/>
         <Label Content="Yahel Bareket &amp; Dean Einer" Grid.Column="1" Margin="40,48,40,5" FontSize="20" FontStyle="Italic"/>
         <Image Source="Images/logo.png" Margin="-62,5,62,57" Grid.RowSpan="2"/>
+        <Label x:Name="LoggedInUser" Grid.Column="2" Margin="10,0,10,35" FontSize="30" FontStyle="Italic" HorizontalContentAlignment="Right"/>
 
         <Label Content="Room name:" FontSize="30" Margin="125,74,312,45" FontStyle="Italic" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2"/>
         <TextBox x:Name="_roomName" Grid.Row="1" Grid.Column="1" Margin="168,88,143,55" FontSize="22" FontStyle="Italic" Background="Beige" Grid.ColumnSpan="2" Grid.RowSpan="2"/>

@@ -27,6 +27,7 @@ namespace Client
         {
             InitializeComponent();
             Check_Buttons();
+            this.LoggedInUser.Content = Global.loggedInName;
         }
 
         private void Quit(object sender, RoutedEventArgs e)
@@ -62,6 +63,13 @@ namespace Client
             this.Close();
         }
 
+        private void Open_Join_Room_page(object sender, RoutedEventArgs e)
+        {
+            JoinRoom jr = new JoinRoom();
+            jr.Show();
+            this.Close();
+        }
+
         /** function updates the buttons state by the user's state (loggen in / not) */
         private void Check_Buttons()
         {
@@ -73,7 +81,6 @@ namespace Client
                 this.bestScoresB.IsEnabled = true;
                 this.logInB.Visibility = System.Windows.Visibility.Hidden;
                 this.logOutB.Visibility = System.Windows.Visibility.Visible;
-                this.LoggedInUser.Content = Global.loggedInName;
             }
             else
             {

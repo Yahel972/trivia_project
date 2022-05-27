@@ -19,6 +19,7 @@ namespace Client
         public SignUp()
         {
             InitializeComponent();
+            this.LoggedInUser.Content = Global.loggedInName;
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
