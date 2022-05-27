@@ -8,6 +8,8 @@
 class StatisticsManager
 {
 public:
+	StatisticsManager();
+	StatisticsManager(IDatabase* database);
 	std::vector<std::string> getHighScore();
 	std::vector<std::string> getUserStatistics(std::string username);
 private:
