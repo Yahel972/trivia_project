@@ -9,6 +9,7 @@ class RequestHandlerFactory;
 class RoomAdminRequestHandler : public IRequestHandler
 {
 public:
+	RoomAdminRequestHandler(Room room, LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
 	bool isRequestRelevant(RequestInfo request);
 	RequestResult handleRequest(RequestInfo request);
 private:
