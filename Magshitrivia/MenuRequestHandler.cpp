@@ -1,6 +1,6 @@
 #include "MenuRequestHandler.h"
 
-MenuRequestHandler::MenuRequestHandler(LoggedUser user, RoomManager& roomManager, StatisticsManager& statisticsManager, RequestHandlerFactory& handlerFactory):m_roomManager(roomManager), m_statisticsManager(statisticsManager), m_handlerFactory(handlerFactory)
+MenuRequestHandler::MenuRequestHandler(LoggedUser user, RoomManager& roomManager, StatisticsManager& statisticsManager, RequestHandlerFactory& handlerFactory):m_roomManager(roomManager), m_statisticsManager(statisticsManager), m_handlerFactory(handlerFactory) 
 {
 	this->m_user = user;
 }
@@ -110,7 +110,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo request) // done
 	CreateRoomRequest createRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(request.buffer);
 	RoomData data;
 	data.id = 0;
-	data.isActive = false;
+	data.isActive = true;
 	data.maxPlayers = createRequest.maxUsers;
 	data.name = createRequest.roomName;
 	data.numOfQuestions = createRequest.questionCount;
@@ -119,6 +119,6 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo request) // done
 	RequestResult result;
 	CreateRoomResponse response = { OK };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = nullptr;
+	result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user.getUsername());
 	return result;
 }

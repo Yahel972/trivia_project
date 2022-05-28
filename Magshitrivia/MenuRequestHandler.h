@@ -5,6 +5,7 @@
 #include "RequestHandlerFactory.h"
 #include "StatisticsManager.h"
 #include "RoomManager.h"
+#include "RoomAdminRequestHandler.h"
 
 class RequestHandlerFactory;
 

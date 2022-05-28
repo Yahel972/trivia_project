@@ -6,10 +6,6 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(Room room, LoggedUser user, Roo
 	this->m_user = user;
 }
 
-RoomAdminRequestHandler::RoomAdminRequestHandler(Room room, LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory)
-{
-}
-
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo request)
 {
 	return (request.id == CLOSE_ROOM || request.id == START_GAME || request.id == GET_ROOM_STATE || request.id == LEAVE_ROOM);
