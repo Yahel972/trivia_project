@@ -8,7 +8,7 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(Room room, LoggedUser user, Roo
 
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo request)
 {
-	return (request.id == CLOSE_ROOM || request.id == START_GAME || request.id == GET_ROOM_STATE || request.id == LEAVE_ROOM);
+	return (request.id == CLOSE_ROOM || request.id == START_GAME || request.id == GET_ROOM_STATE);
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo request)
