@@ -10,10 +10,11 @@ def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST_IP, SERVER_PORT))
 
-        code = 2
-        json = {"username": "Dean", "password": "Einer"}
+        code = 1
+        json = {"username":"Yahel", "password":"Bareket", "email":"yahel.bareket@gmail.com"}
         msg = getMessage(code, json)
         sendMessage(msg, s)
+
 
         code = 4
         json = {"roomName": "firstRoom", "maxUsers": 10, "questionCount": 5, "answerTimeout": 30}
@@ -43,6 +44,7 @@ def main():
 
 def getMessage(code, json):
     data = bson.dumps(json)
+    print(data)
     msg = code.to_bytes(1, byteorder='big') + (len(data)).to_bytes(4, byteorder='big') + data
     return msg
 

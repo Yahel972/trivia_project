@@ -36,6 +36,7 @@ namespace Client
 
         private void getbestScores()
         {
+
             /*
             TODO: update labels (from server):
             this.first.Content = <Name> - <score>

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net.Sockets;
+using System.Net;
 
 namespace Client
 {
@@ -25,6 +27,7 @@ namespace Client
     {
         public Menu()
         {
+
             InitializeComponent();
             Check_Buttons();
             this.LoggedInUser.Content = Global.loggedInName;

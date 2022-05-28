@@ -11,9 +11,20 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Net.Sockets;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 
 namespace Client
-{
+{   
+    public class SignUpMessage
+    {
+        public string username { get; set; }
+        public string password { get; set; }
+        public string email { get; set; }
+    }
     public partial class SignUp : Window
     {
         public SignUp()
@@ -52,8 +63,34 @@ namespace Client
 
         private void Add_New_User()
         {
+            TcpClient client = new TcpClient();
+            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6969);
+            client.Connect(serverEndPoint);
+            NetworkStream clientStream = client.GetStream();
             // TODO: add a new user to the dataBase
-
+            var signup = new SignUpMessage
+            {
+                username = "Yahel",
+                password = "Bareket",
+                email = "yahel.bareket@gmail.com"
+            };
+            MemoryStream ms = new MemoryStream();
+            using (BsonWriter writer = new BsonWriter(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(writer, signup);
+            }
+            byte[] thirdPart = ms.ToArray();
+            int len = thirdPart.Length;
+            byte[] firstPart = new byte[5];
+            firstPart[0] = BitConverter.GetBytes(1)[0];
+            firstPart[1] = (byte)(len >> 24);
+            firstPart[2] = (byte)(len >> 16);
+            firstPart[3] = (byte)(len >> 8);
+            firstPart[4] = (byte)(len);
+            byte[] buffer = firstPart.Concat(thirdPart).ToArray();
+            clientStream.Write(buffer, 0, buffer.Length);
+            clientStream.Flush();
 
         }
     }
