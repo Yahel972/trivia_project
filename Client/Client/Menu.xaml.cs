@@ -21,6 +21,7 @@ namespace Client
     {
         public static bool isLoggedIn = false;
         public static string loggedInName = "";
+        public static Communicator communicator = new Communicator();
     }
 
     public partial class Menu : Window
