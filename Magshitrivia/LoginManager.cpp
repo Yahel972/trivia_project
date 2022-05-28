@@ -48,13 +48,16 @@ bool LoginManager::login(std::string username, std::string password)
 
 void LoginManager::logout(std::string username)
 {
-	int index = 0;
 	for (int i = 0; i < this->m_loggedUsers.size(); i++)
 	{
 		if (this->m_loggedUsers[i].getUsername() == username)
 		{
-			index = i;
+			this->m_loggedUsers.erase(this->m_loggedUsers.begin() + i);
 		}
 	}
-	this->m_loggedUsers.erase(this->m_loggedUsers.begin() + index);
+}
+
+IDatabase* LoginManager::getDataBase()
+{
+	return this->m_database;
 }

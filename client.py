@@ -11,38 +11,40 @@ def main():
         s.connect((HOST_IP, SERVER_PORT))
 
         code = 1
-        json = {"username": "user1", "password": "1234", "email": "user1@gmail.com"}
+        json = {"username":"Yahel", "password":"Bareket", "email":"yahel.bareket@gmail.com"}
         msg = getMessage(code, json)
         sendMessage(msg, s)
 
-        code = 2
-        json = {"username": "user1", "password": "1234"}
-        msg = getMessage(code, json)
-        sendMessage(msg, s)
-        sendMessage(msg, s)
 
-        code = 1
-        json = {"username": "dindos500", "password": "or", "email": "or@gmail.com"}
+        code = 4
+        json = {"roomName": "firstRoom", "maxUsers": 10, "questionCount": 5, "answerTimeout": 30}
         msg = getMessage(code, json)
         sendMessage(msg, s)
 
-        code = 1
-        json = {"username": "yahel", "password": "bareket", "email": "abc@gmail.com"}
+        code = 8
+        json = {}
         msg = getMessage(code, json)
         sendMessage(msg, s)
 
-        code = 2
-        json = {"username": "yahel", "password": "bareket"}
+        code = 3
+        json = {}
         msg = getMessage(code, json)
         sendMessage(msg, s)
 
-        code = 2
-        json = {"username": "user1", "password": "1234"}
+        code = 4
+        json = {"roomName": "secondRoom", "maxUsers": 10, "questionCount": 5, "answerTimeout": 30}
         msg = getMessage(code, json)
         sendMessage(msg, s)
+
+        code = 6
+        json = {}
+        msg = getMessage(code, json)
+        sendMessage(msg, s)
+
 
 def getMessage(code, json):
     data = bson.dumps(json)
+    print(data)
     msg = code.to_bytes(1, byteorder='big') + (len(data)).to_bytes(4, byteorder='big') + data
     return msg
 

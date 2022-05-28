@@ -10,6 +10,7 @@ public:
 	bool signup(std::string username, std::string password, std::string email);
 	bool login(std::string username, std::string password);
 	void logout(std::string username);
+	IDatabase* getDataBase();
 private:
 	IDatabase* m_database;
 	std::vector<LoggedUser> m_loggedUsers;

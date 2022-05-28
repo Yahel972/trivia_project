@@ -51,7 +51,6 @@ void Communicator::handleNewClient(SOCKET socket)
 	// reciving message and parsing into the struct "RequsetInfo"
 	// checking if the new RequestInfo is relevent 
 	// if the RequestInfo IS relevent, handle it
-
 	// receving data 
 	while (true)
 	{
@@ -89,7 +88,7 @@ void Communicator::handleNewClient(SOCKET socket)
 		{
 			ErrorResponse errorResponse;
 			errorResponse.message = "ERROR wrong code (" + std::to_string(requestInfo.id) + ") for current state";
-			std::vector<unsigned char> serializedResponse = JsonResponsePacketSerializer::serializeErrorResponse(errorResponse);
+			std::vector<unsigned char> serializedResponse = JsonResponsePacketSerializer::serializeResponse(errorResponse);
 			std::stringstream responseStream;
 			for (int i = 0; i < serializedResponse.size(); i++)
 			{

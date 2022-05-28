@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <vector>
+
 class IDatabase
 {
 public:
@@ -7,4 +9,11 @@ public:
 	virtual bool doesUserExist(std::string user) = 0;
 	virtual bool doesPasswordMatch(std::string enterdPassword, std::string passwordToMatch) = 0;
 	virtual void addNewUser(std::string name, std::string password, std::string email) = 0;
+	virtual void insertQuestions() = 0;
+	virtual float getPlayerAverageRightAnswerTime(std::string username) = 0;
+	virtual float getPlayerAverageRightAnswerResponseTime(std::string username) = 0;
+	virtual int getNumOfCorrectAnswers(std::string username) = 0;
+	virtual int getNumOfTotalAnswers(std::string username) = 0;
+	virtual int getNumOfPlayerGames(std::string username) = 0;
+	virtual std::vector<std::string> getUsers() = 0;
 };
