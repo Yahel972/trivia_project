@@ -103,6 +103,37 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getPe
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_USER_STATISTICS));
 }
 
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
+{
+	std::vector<unsigned char> serializedResponse;
+	nlohmann::json j = nlohmann::json{ {"status",response.status} };
+	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
+	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, CLOSE_ROOM));
+}
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
+{
+	std::vector<unsigned char> serializedResponse;
+	nlohmann::json j = nlohmann::json{ {"status",response.status} };
+	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
+	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, START_GAME));
+}
+
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
+{
+	std::vector<unsigned char> serializedResponse;
+	//nlohmann::json j = nlohmann::json{ {"status",response.status}, {"hasGameBegun",response.hasGameBegun.toString()}, { };
+	return serializedResponse;
+}
+
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
+{
+	std::vector<unsigned char> serializedResponse;
+	nlohmann::json j = nlohmann::json{ {"status",response.status} };
+	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
+	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, LEAVE_ROOM));
+}
+
+
 std::vector<unsigned char> JsonResponsePacketSerializer::generalSerialize(std::vector<unsigned char> jsonAsBytes, int code)
 {
 	std::vector<unsigned char> serializedResponse;
