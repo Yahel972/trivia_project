@@ -5,9 +5,9 @@
 #include "RoomManager.h"
 #include "StatisticsManager.h"
 #include "RoomAdminRequestHandler.h"
+#include "RoomMemberRequestHandler.h"
+#include "RoomUserHandler.h"	
 
-
-class RoomAdminRequestHandler;
 
 class LoginRequestHandler;
 

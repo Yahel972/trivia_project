@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Client
 {
@@ -40,6 +41,11 @@ namespace Client
     public class getPlayersInRoomMessage
     {
         public uint roomId { get; set; }
+    }
+
+    public class OnlyStatusResponse
+    {
+        public uint status { get; set; }
     }
 
 
@@ -169,6 +175,28 @@ namespace Client
         {
             byte[] response = new byte[4096];
             int bytesRead = this.clientStream.Read(response, 0, 4096);
+            return response;
+        }
+
+        public OnlyStatusResponse getGeneralResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            OnlyStatusResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+
+                response = serializer.Deserialize<OnlyStatusResponse>(reader);
+
+                if(response.status == 1)
+                {
+                    MessageBox.Show("niceeee");
+                }
+                else
+                {
+                    MessageBox.Show("very niceeee");
+                }
+            }
             return response;
         }
 

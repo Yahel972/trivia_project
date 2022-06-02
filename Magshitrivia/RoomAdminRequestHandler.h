@@ -1,11 +1,8 @@
 #pragma once
-#include "IRequestHandler.h"
-#include "RequestHandlerFactory.h"
 #include "Room.h"
-#include "LoggedUser.h"
+#include "RoomManager.h"
 #include "RoomUserHandler.h"
-
-class RequestHandlerFactory;
+#include "RequestHandlerFactory.h"
 
 class RoomAdminRequestHandler : public RoomUserHandler
 {
