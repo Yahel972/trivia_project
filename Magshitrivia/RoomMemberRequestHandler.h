@@ -6,7 +6,7 @@
 #include "RoomUserHandler.h"
 
 class RequestHandlerFactory;
-class RoomMemberRequestHandler : public RoomUserHandler
+class RoomMemberRequestHandler : public IRequestHandler
 {
 public:
 	RoomMemberRequestHandler(Room room, LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
@@ -14,4 +14,9 @@ public:
 	RequestResult handleRequest(RequestInfo request);
 private:
 	RequestResult leaveRoom(RequestInfo request);
+	RequestResult getRoomState(RequestInfo request);
+	Room m_room;
+	LoggedUser m_user;
+	RoomManager& m_roomManager;
+	RequestHandlerFactory& m_handlerFactory;
 };

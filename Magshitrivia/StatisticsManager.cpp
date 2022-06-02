@@ -38,6 +38,6 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userna
 
 int StatisticsManager::getUserScore(std::string username)
 {
-	// formula: [(1 - (({response time} / {question timer}}) / 2)) * 1000]
+	// formula: [(1 - (({response time} / {question timer}}) / 2)) * 1000]getPlayerAverageRightAnswerTime
 	return ((1 - ((this->m_database->getPlayerAverageRightAnswerResponseTime(username) / this->m_database->getPlayerAverageRightAnswerTime(username)) / 2)) * 1000);
 }

@@ -48,6 +48,11 @@ namespace Client
         public uint status { get; set; }
     }
 
+    public class getHighScoreResponse
+    {
+        public uint status { get; set; }
+        public List<string> statistics { get; set; }
+    }
 
     class Communicator
     {
@@ -173,9 +178,16 @@ namespace Client
 
         public byte[] reciveResponse()
         {
-            byte[] response = new byte[4096];
+            byte[] response = new byte[4101];
+            byte[] onlyData = new byte[4096];
             int bytesRead = this.clientStream.Read(response, 0, 4096);
-            return response;
+            int index = 0;
+            for(int i = 5; i < response.Length; i++)
+            {
+                onlyData[index] = response[i];
+                index++;
+            }
+            return onlyData;
         }
 
         public OnlyStatusResponse getGeneralResponse(byte[] buffer)
@@ -187,15 +199,18 @@ namespace Client
                 JsonSerializer serializer = new JsonSerializer();
 
                 response = serializer.Deserialize<OnlyStatusResponse>(reader);
+            }
+            return response;
+        }
 
-                if(response.status == 1)
-                {
-                    MessageBox.Show("niceeee");
-                }
-                else
-                {
-                    MessageBox.Show("very niceeee");
-                }
+        public getHighScoreResponse getStatisticsResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            getHighScoreResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                response = serializer.Deserialize<getHighScoreResponse>(reader);
             }
             return response;
         }

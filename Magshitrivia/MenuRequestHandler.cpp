@@ -86,7 +86,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo request) // done
 {
 	RequestResult result;
 	std::vector<std::string> stats = this->m_statisticsManager.getHighScore();
-	getPersonalStatsResponse response;
+	getHighScoreResponse response;
 	response.statistics = stats;
 	response.status = OK;
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);

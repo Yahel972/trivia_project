@@ -36,7 +36,11 @@ namespace Client
 
         private void getbestScores()
         {
-
+            byte[] fullMessage = Global.communicator.getNoDataMessage(8);
+            Global.communicator.sendMessage(fullMessage);
+            byte[] statistics = Global.communicator.reciveResponse();
+            getHighScoreResponse response = Global.communicator.getStatisticsResponse(statistics);
+            Console.WriteLine("");
             /*
             TODO: update labels (from server):
             this.first.Content = <Name> - <score>

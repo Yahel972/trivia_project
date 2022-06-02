@@ -9,6 +9,8 @@
 #include "RoomUserHandler.h"	
 
 
+class RoomAdminRequestHandler;
+
 class LoginRequestHandler;
 
 class MenuRequestHandler;

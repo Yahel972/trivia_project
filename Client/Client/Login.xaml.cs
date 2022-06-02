@@ -70,7 +70,13 @@ namespace Client
             Global.loggedInName = this._username.Text;
 
             // TODO: add the user into the logged in users
-
+            byte[] message = Global.communicator.getLoginMessage(this._username.Text, this._password.Text);
+            Global.communicator.sendMessage(message);
+            OnlyStatusResponse response = Global.communicator.getGeneralResponse(Global.communicator.reciveResponse());
+            if(response.status == 0)
+            {
+                MessageBox.Show("ERROR USER WASN'T LOGGED");
+            }
             Back_To_Menu(null, null);
         }
     }

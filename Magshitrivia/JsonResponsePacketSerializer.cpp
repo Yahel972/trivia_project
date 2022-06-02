@@ -85,7 +85,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHi
 		highScores += score;
 		highScores += ",";
 	}
-	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"HighScores",highScores} };
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"statistics",response.statistics} };
 	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_HIGH_SCORES));
 }
@@ -98,7 +98,8 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getPe
 		userStatistics += statistic;
 		userStatistics += ",";
 	}
-	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"UserStatistics",userStatistics} };
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"statistics",userStatistics} };
+
 	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_USER_STATISTICS));
 }
