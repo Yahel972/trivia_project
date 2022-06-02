@@ -24,6 +24,7 @@ public:
 	void removeUser(LoggedUser userToRemove);
 	std::vector<std::string> getAllUsers();
 	RoomData getData();
+	void start();
 private:
 	RoomData m_metadata;
 	std::vector<LoggedUser> m_users;

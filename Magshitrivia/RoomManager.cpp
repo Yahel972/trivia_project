@@ -39,3 +39,8 @@ std::map<int, Room> RoomManager::getAllRooms()
 {
 	return this->m_rooms;
 }
+
+void RoomManager::deletePlayer(int id, LoggedUser user)
+{
+	this->m_rooms[id].removeUser(user);
+}

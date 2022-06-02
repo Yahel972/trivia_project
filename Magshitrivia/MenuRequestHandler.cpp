@@ -110,7 +110,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo request) // done
 	CreateRoomRequest createRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(request.buffer);
 	RoomData data;
 	data.id = 0;
-	data.isActive = true;
+	data.isActive = false;
 	data.maxPlayers = createRequest.maxUsers;
 	data.name = createRequest.roomName;
 	data.numOfQuestions = createRequest.questionCount;

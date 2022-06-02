@@ -1,9 +1,8 @@
 #include "RoomMemberRequestHandler.h"
 
-RoomMemberRequestHandler::RoomMemberRequestHandler(Room room, LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory) : m_roomManager(roomManager), m_handlerFactory(handlerFactory)
+RoomMemberRequestHandler::RoomMemberRequestHandler(Room room, LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory) : RoomUserHandler(room, user, roomManager, handlerFactory)
 {
-	this->m_room = room;
-	this->m_user = user;
+
 }
 
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo request)
@@ -13,15 +12,23 @@ bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo request)
 
 RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo request)
 {
-	return RequestResult();
+	switch (request.id)
+	{
+	case LEAVE_ROOM:
+		return this->leaveRoom(request);
+		break;
+	case GET_ROOM_STATE:
+		return this->getRoomState(request);
+		break;
+	}
 }
 
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo request)
 {
-	return RequestResult();
-}
-
-RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo request)
-{
-	return RequestResult();
+	RequestResult requestResult;
+	this->m_roomManager.deletePlayer(this->m_room.getData().id,this->m_user);
+	requestResult.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user.getUsername());
+	LeaveRoomResponse response = { OK };
+	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
+	return requestResult;
 }
