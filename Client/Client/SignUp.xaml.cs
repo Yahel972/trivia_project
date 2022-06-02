@@ -59,7 +59,11 @@ namespace Client
         {
             byte[] fullMessage = Global.communicator.getSignupMessage(this._username.Text, this._password.Text, this._email.Text);
             Global.communicator.sendMessage(fullMessage);
-
+            OnlyStatusResponse response = Global.communicator.getGeneralResponse(Global.communicator.reciveResponse());
+            if(response.status == 0)
+            {
+                MessageBox.Show("USER WASN'T CREATED");
+            }
             Back_To_Menu(null, null);
         }
     }

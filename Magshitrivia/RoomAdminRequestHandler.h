@@ -1,13 +1,11 @@
 #pragma once
+#include "Room.h"
+#include "RoomManager.h"
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
-#include "Room.h"
-#include "LoggedUser.h"
-#include "RoomUserHandler.h"
 
 class RequestHandlerFactory;
-
-class RoomAdminRequestHandler : public RoomUserHandler
+class RoomAdminRequestHandler : public IRequestHandler
 {
 public:
 	RoomAdminRequestHandler(Room room, LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
@@ -16,4 +14,9 @@ public:
 private:
 	RequestResult closeRoom(RequestInfo request);
 	RequestResult startGame(RequestInfo request);
+	RequestResult getRoomState(RequestInfo request);
+	Room m_room;
+	LoggedUser m_user;
+	RoomManager& m_roomManager;
+	RequestHandlerFactory& m_handlerFactory;
 };

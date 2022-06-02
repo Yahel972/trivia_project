@@ -110,12 +110,16 @@ float SqliteDataBase::getPlayerAverageRightAnswerResponseTime(std::string userna
 	{
 		sum += times[i];
 	}
+	if (times.size() == 0)
+	{
+		return sum;
+	}
 	return (sum / times.size());
 }
 
 float SqliteDataBase::getPlayerAverageRightAnswerTime(std::string username)
 {
-	float sum = 0;
+	float sum = 1;
 	std::vector<int> times;
 	char** errMessage = nullptr;
 	std::string sqlStatement = "SELECT TIME_FOR_QUESTION FROM STATISTICS where USERNAME='" + username + "' AND IS_CORRECT=1;";
@@ -124,7 +128,11 @@ float SqliteDataBase::getPlayerAverageRightAnswerTime(std::string username)
 	{
 		sum += times[i];
 	}
-	return (sum / times.size());
+	if (times.size() == 0)
+	{
+		return sum;
+	}
+	return ((sum - 1) / times.size());
 }
 
 int SqliteDataBase::getNumOfCorrectAnswers(std::string username)
@@ -173,6 +181,7 @@ int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, ch
 int SqliteDataBase::callback_times(void* data, int argc, char** argv, char** azColName)
 {
 	std::vector<int>* times = static_cast<std::vector<int>*>(data);
+
 	for (int i = 0; i < argc; i++) {
 		times->push_back(atoi(argv[i]));
 	}
