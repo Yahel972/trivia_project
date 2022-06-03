@@ -19,9 +19,9 @@ namespace Client
 {
     class Global
     {
-        public static bool isLoggedIn = false;
-        public static string loggedInName = "";
-        public static Communicator communicator = new Communicator();
+        public static bool IsLoggedIn = false;
+        public static string LoggedInName = "";
+        public static Communicator Communicator = new Communicator();
     }
 
     public partial class Menu : Window
@@ -31,61 +31,60 @@ namespace Client
 
             InitializeComponent();
             Check_Buttons();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
         }
 
         private void Quit(object sender, RoutedEventArgs e)
         {
-            if (Global.isLoggedIn)
+            if (Global.IsLoggedIn)
             {
-                Global.isLoggedIn = false;
-                Global.loggedInName = "";
-                byte[] fullMessage = Global.communicator.getNoDataMessage(3);
-                Global.communicator.sendMessage(fullMessage);
-                Global.communicator.reciveResponse();
+                Global.IsLoggedIn = false;
+                Global.LoggedInName = "";
+                byte[] fullMessage = Global.Communicator.getNoDataMessage(3);
+                Global.Communicator.sendMessage(fullMessage);
+                Global.Communicator.reciveResponse();
             }
-
             this.Close();
         }
 
         private void Open_Login_Page(object sender, RoutedEventArgs e)
         {
-            Login li = new Login();
+            var li = new Login();
             li.Show();
             this.Close();
         }
 
         private void Open_Sign_Up_Page(object sender, RoutedEventArgs e)
         {
-            SignUp su = new SignUp();
+            var su = new SignUp();
             su.Show();
             this.Close();
         }
 
         private void Open_Create_Room_Page(object sender, RoutedEventArgs e)
         {
-            CreateRoom cr = new CreateRoom();
+            var cr = new CreateRoom();
             cr.Show();
             this.Close();
         }
 
         private void Open_My_Status_Page(object sender, RoutedEventArgs e)
         {
-            MyStatus ms = new MyStatus();
+            var ms = new MyStatus();
             ms.Show();
             this.Close();
         }
 
         private void Open_Best_Scores_Page(object sender, RoutedEventArgs e)
         {
-            BestScores bs = new BestScores();
+            var bs = new BestScores();
             bs.Show();
             this.Close();
         }
 
         private void Open_Join_Room_page(object sender, RoutedEventArgs e)
         {
-            JoinRoom jr = new JoinRoom();
+            var jr = new JoinRoom();
             jr.Show();
             this.Close();
         }
@@ -93,34 +92,34 @@ namespace Client
         /** function updates the buttons state by the user's state (loggen in / not) */
         private void Check_Buttons()
         {
-            if (Global.isLoggedIn)
+            if (Global.IsLoggedIn)
             {
-                this.joinRoomB.IsEnabled = true;
-                this.signUpB.IsEnabled = false;
-                this.createRoomB.IsEnabled = true;
-                this.myStatusB.IsEnabled = true;
-                this.logInB.Visibility = System.Windows.Visibility.Hidden;
-                this.logOutB.Visibility = System.Windows.Visibility.Visible;
+                this.JoinRoomB.IsEnabled = true;
+                this.SignUpB.IsEnabled = false;
+                this.CreateRoomB.IsEnabled = true;
+                this.MyStatusB.IsEnabled = true;
+                this.LogInB.Visibility = System.Windows.Visibility.Hidden;
+                this.LogOutB.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
-                this.joinRoomB.IsEnabled = false;
-                this.signUpB.IsEnabled = true;
-                this.createRoomB.IsEnabled = false;
-                this.myStatusB.IsEnabled = false;
-                this.logInB.Visibility = System.Windows.Visibility.Visible;
-                this.logOutB.Visibility = System.Windows.Visibility.Hidden;
+                this.JoinRoomB.IsEnabled = false;
+                this.SignUpB.IsEnabled = true;
+                this.CreateRoomB.IsEnabled = false;
+                this.MyStatusB.IsEnabled = false;
+                this.LogInB.Visibility = System.Windows.Visibility.Visible;
+                this.LogOutB.Visibility = System.Windows.Visibility.Hidden;
             }
         }
 
         private void Log_Out(object sender, RoutedEventArgs e)
         {
-            Global.isLoggedIn = false;
-            Global.loggedInName = "";
-            byte[] fullMessage = Global.communicator.getNoDataMessage(3);
-            Global.communicator.sendMessage(fullMessage);
-            Global.communicator.reciveResponse();
-            Menu m = new Menu();
+            Global.IsLoggedIn = false;
+            Global.LoggedInName = "";
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(3);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
+            var m = new Menu();
             m.Show();
             this.Close();
         }

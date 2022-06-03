@@ -25,7 +25,7 @@ namespace Client
         {
             InitializeComponent();
             ShowAllRooms();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
@@ -61,6 +61,7 @@ namespace Client
             {
                 this.RoomsList.Items.Add("Random_Room");
             }
+
 
             // TODO - refresh the page (function currently adds 10 rooms - just to make it easier for now)
         }

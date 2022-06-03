@@ -24,7 +24,7 @@ namespace Client
         public SignUp()
         {
             InitializeComponent();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
@@ -58,9 +58,9 @@ namespace Client
         private void Add_New_User()
         {
             // sending sign-up request to server and getting its response:
-            byte[] fullMessage = Global.communicator.getSignupMessage(this._username.Text, this._password.Text, this._email.Text);
-            Global.communicator.sendMessage(fullMessage);
-            OnlyStatusResponse response = Global.communicator.getGeneralResponse(Global.communicator.reciveResponse());
+            byte[] fullMessage = Global.Communicator.getSignupMessage(this._username.Text, this._password.Text, this._email.Text);
+            Global.Communicator.sendMessage(fullMessage);
+            OnlyStatusResponse response = Global.Communicator.getGeneralResponse(Global.Communicator.reciveResponse());
 
             if (response.status == 0)  // user already exists
             {

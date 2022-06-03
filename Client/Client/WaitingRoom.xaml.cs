@@ -32,7 +32,7 @@ namespace Client
             findAllConnectedUsers();
 
             this.connectedRoom.Content = "You are connected to room: \"" + roomName + "\"";
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
         }
 
         private void Check_Buttons(bool isAdmin)
@@ -77,6 +77,11 @@ namespace Client
         private void StartGameB_Click(object sender, RoutedEventArgs e)
         {
             // TODO: start game for all users (loop through listBox)
+        }
+
+        private void Refresh_Waiting_Room(object sender, RoutedEventArgs e)
+        {
+            // TODO: send status msg - add to listBox
         }
     }
 }

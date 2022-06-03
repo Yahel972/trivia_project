@@ -19,7 +19,7 @@ namespace Client
         public Login()
         {
             InitializeComponent();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
@@ -48,9 +48,9 @@ namespace Client
         private void Log_In()
         {
             // sending login request to server and getting its response:
-            byte[] message = Global.communicator.getLoginMessage(this._username.Text, this._password.Text);
-            Global.communicator.sendMessage(message);
-            OnlyStatusResponse response = Global.communicator.getGeneralResponse(Global.communicator.reciveResponse());
+            byte[] message = Global.Communicator.getLoginMessage(this._username.Text, this._password.Text);
+            Global.Communicator.sendMessage(message);
+            OnlyStatusResponse response = Global.Communicator.getGeneralResponse(Global.Communicator.reciveResponse());
 
             if(response.status == 2)  // username does not exists
             {
@@ -71,8 +71,8 @@ namespace Client
             }
             else  // valid request
             {
-                Global.isLoggedIn = true;
-                Global.loggedInName = this._username.Text;
+                Global.IsLoggedIn = true;
+                Global.LoggedInName = this._username.Text;
                 Back_To_Menu(null, null);
             }
         }
