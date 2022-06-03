@@ -57,14 +57,20 @@ namespace Client
 
         private void Add_New_User()
         {
+            // sending sign-up request to server and getting its response:
             byte[] fullMessage = Global.communicator.getSignupMessage(this._username.Text, this._password.Text, this._email.Text);
             Global.communicator.sendMessage(fullMessage);
             OnlyStatusResponse response = Global.communicator.getGeneralResponse(Global.communicator.reciveResponse());
-            if(response.status == 0)
+
+            if (response.status == 0)  // user already exists
             {
-                MessageBox.Show("USER WASN'T CREATED");
+                MessageBox.Show("Username Already Exists", "INVALID USERNAME", MessageBoxButton.OK, MessageBoxImage.Error);
+                this._username.Clear();
             }
-            Back_To_Menu(null, null);
+            else  // valid request
+            {
+                Back_To_Menu(null, null);
+            }
         }
     }
 }
