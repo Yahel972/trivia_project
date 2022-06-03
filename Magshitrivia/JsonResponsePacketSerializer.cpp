@@ -81,10 +81,6 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHi
 {
 	std::vector<unsigned char> serializedResponse;
 	std::string highScores = "";
-	for (auto score : response.statistics) {
-		highScores += score;
-		highScores += ",";
-	}
 	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"statistics",response.statistics} };
 	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_HIGH_SCORES));

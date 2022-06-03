@@ -108,7 +108,9 @@ namespace Client
         {
             Global.isLoggedIn = false;
             Global.loggedInName = "";
-
+            byte[] fullMessage = Global.communicator.getNoDataMessage(3);
+            Global.communicator.sendMessage(fullMessage);
+            Global.communicator.reciveResponse();
             Menu m = new Menu();
             m.Show();
             this.Close();

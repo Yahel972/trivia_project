@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System;
 
 namespace Client
 {
@@ -40,13 +41,9 @@ namespace Client
             Global.communicator.sendMessage(fullMessage);
             byte[] statistics = Global.communicator.reciveResponse();
             getHighScoreResponse response = Global.communicator.getStatisticsResponse(statistics);
-            Console.WriteLine("");
-            /*
-            TODO: update labels (from server):
-            this.first.Content = <Name> - <score>
-            this.second.Content = <Name> - <score>
-            this.third.Content = <Name> - <score>
-            */
+            this.first.Content = response.statistics[2].Substring(0, response.statistics[2].IndexOf(':')) + "-" + response.statistics[2].Substring(response.statistics[2].IndexOf(':') + 1);
+            this.second.Content = response.statistics[1].Substring(0, response.statistics[1].IndexOf(':')) + "-" + response.statistics[1].Substring(response.statistics[1].IndexOf(':') + 1);
+            this.third.Content = response.statistics[0].Substring(0, response.statistics[0].IndexOf(':')) + "-" + response.statistics[0].Substring(response.statistics[0].IndexOf(':') + 1);
         }
     }
 }
