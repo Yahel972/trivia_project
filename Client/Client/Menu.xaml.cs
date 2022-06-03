@@ -36,6 +36,15 @@ namespace Client
 
         private void Quit(object sender, RoutedEventArgs e)
         {
+            if (Global.isLoggedIn)
+            {
+                Global.isLoggedIn = false;
+                Global.loggedInName = "";
+                byte[] fullMessage = Global.communicator.getNoDataMessage(3);
+                Global.communicator.sendMessage(fullMessage);
+                Global.communicator.reciveResponse();
+            }
+
             this.Close();
         }
 
