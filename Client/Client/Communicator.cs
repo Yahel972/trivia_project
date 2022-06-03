@@ -48,7 +48,7 @@ namespace Client
         public uint status { get; set; }
     }
 
-    public class getHighScoreResponse
+    public class getStatisticsResponse
     {
         public uint status { get; set; }
         public List<string> statistics { get; set; }
@@ -203,14 +203,14 @@ namespace Client
             return response;
         }
 
-        public getHighScoreResponse getStatisticsResponse(byte[] buffer)
+        public getStatisticsResponse getStatisticsResponse(byte[] buffer)
         {
             MemoryStream ms = new MemoryStream(buffer);
-            getHighScoreResponse response;
+            getStatisticsResponse response;
             using (BsonReader reader = new BsonReader(ms))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                response = serializer.Deserialize<getHighScoreResponse>(reader);
+                response = serializer.Deserialize<getStatisticsResponse>(reader);
             }
             return response;
         }

@@ -52,12 +52,28 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userna
 	statistics.push_back("Games played:" + std::to_string(this->m_database->getNumOfPlayerGames(username)));
 	statistics.push_back("Total answers:" + std::to_string(this->m_database->getNumOfTotalAnswers(username)));
 	statistics.push_back("Correct answers:" + std::to_string(this->m_database->getNumOfCorrectAnswers(username)));
-	statistics.push_back("Average right answer time:" + std::to_string(this->m_database->getPlayerAverageRightAnswerTime(username)));
+	//std::vector<int> averageRightTimes = this->m_database.getPlayerAnswerTimes(username);
+	//statistics.push_back("Average answer time:" + std::to_string(this->m_database->getPlayerAverageRightAnswerTime(username)));
 	return statistics;
 }
 
 int StatisticsManager::getUserScore(std::string username)
 {
-	// formula: [(1 - (({response time} / {question timer}}) / 2)) * 1000]getPlayerAverageRightAnswerTime
-	return ((1 - ((this->m_database->getPlayerAverageRightAnswerResponseTime(username) / this->m_database->getPlayerAverageRightAnswerTime(username)) / 2)) * 1000);
+	// formula: [(1 - (({response time} / {question timer}}) / 2)) * 1000]
+	// average question score * number of questions
+	//return ((1 - ((this->m_database->getPlayerAverageRightAnswerResponseTime(username) / this->m_database->getPlayerAverageRightAnswerTime(username)) / 2) * 1000) * this->m_database->getNumOfTotalAnswers(username));
+	return this->getUserPoints(username);
+}
+
+int StatisticsManager::getUserPoints(std::string username)
+{
+	int sum = 0;
+	char** errMessage = nullptr;
+	std::vector<int> timeForQuestion =this->m_database->getPlayerTimeToAnswerTimes(username);
+	std::vector<int> answerTimes = this->m_database->getPlayerAnswerTimes(username);
+	for (int i = 0; i < timeForQuestion.size(); i++)
+	{
+		sum += (1 - (((float)answerTimes[i] / timeForQuestion[i]) / 2)) * 1000;
+	}
+	return sum;
 }

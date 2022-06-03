@@ -29,7 +29,7 @@ namespace Client
             InitializeComponent();
             this.LoggedInUser.Content = Global.loggedInName;
 
-            getStatus();
+            //getStatus(); TODO: add parameters
 
 
         }
@@ -43,6 +43,10 @@ namespace Client
 
         void getStatus()
         {
+            byte[] fullMessage = Global.communicator.getNoDataMessage(8);
+            Global.communicator.sendMessage(fullMessage);
+            byte[] statistics = Global.communicator.reciveResponse();
+            getStatisticsResponse response = Global.communicator.getStatisticsResponse(statistics);
             // TODO: get user's status and apply the 4 variables above
         }
     }
