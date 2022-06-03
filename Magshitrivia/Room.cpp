@@ -35,3 +35,10 @@ RoomData Room::getData()
 {
 	return this->m_metadata;
 }
+
+void Room::start()
+{
+	RoomData oldData = this->m_metadata;
+	RoomData newData = {oldData.id, oldData.name, oldData.maxPlayers, oldData.numOfQuestions, oldData.timePerQuestion, true};
+	this->m_metadata = newData;
+}

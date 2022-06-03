@@ -81,11 +81,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getHi
 {
 	std::vector<unsigned char> serializedResponse;
 	std::string highScores = "";
-	for (auto score : response.statistics) {
-		highScores += score;
-		highScores += ",";
-	}
-	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"HighScores",highScores} };
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"statistics",response.statistics} };
 	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_HIGH_SCORES));
 }
@@ -98,7 +94,8 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(getPe
 		userStatistics += statistic;
 		userStatistics += ",";
 	}
-	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"UserStatistics",userStatistics} };
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"statistics",userStatistics} };
+
 	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_USER_STATISTICS));
 }
@@ -121,8 +118,9 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(Start
 std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
-	//nlohmann::json j = nlohmann::json{ {"status",response.status}, {"hasGameBegun",response.hasGameBegun.toString()}, { };
-	return serializedResponse;
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"hasGameBegun",response.hasGameBegun}, {"players",response.players}, {"AnswerCount",response.questionCount}, {"answerTimeOut",response.answerTimeout} };
+	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
+	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_ROOM_STATE));
 }
 
 std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)

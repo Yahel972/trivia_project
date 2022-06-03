@@ -86,7 +86,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo request) // done
 {
 	RequestResult result;
 	std::vector<std::string> stats = this->m_statisticsManager.getHighScore();
-	getPersonalStatsResponse response;
+	getHighScoreResponse response;
 	response.statistics = stats;
 	response.status = OK;
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
@@ -110,7 +110,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo request) // done
 	CreateRoomRequest createRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(request.buffer);
 	RoomData data;
 	data.id = 0;
-	data.isActive = true;
+	data.isActive = false;
 	data.maxPlayers = createRequest.maxUsers;
 	data.name = createRequest.roomName;
 	data.numOfQuestions = createRequest.questionCount;
@@ -119,6 +119,6 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo request) // done
 	RequestResult result;
 	CreateRoomResponse response = { OK };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = nullptr;
+	result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user.getUsername());
 	return result;
 }

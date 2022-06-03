@@ -12,6 +12,7 @@ public:
 	unsigned int getRoomState(int id);
 	std::vector<RoomData> getRoomsData();
 	std::map<int, Room> getAllRooms();
+	void deletePlayer(int id, LoggedUser user);
 private:
 	std::map<int, Room> m_rooms;
 	static unsigned int currentRoomId;

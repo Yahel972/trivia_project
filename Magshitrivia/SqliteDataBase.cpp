@@ -99,32 +99,22 @@ void SqliteDataBase::addNewUser(std::string name, std::string password, std::str
 	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
 }
 
-float SqliteDataBase::getPlayerAverageRightAnswerResponseTime(std::string username)
+std::vector<int> SqliteDataBase::getPlayerAnswerTimes(std::string username)
 {
-	float sum = 0;
 	std::vector<int> times;
 	char** errMessage = nullptr;
 	std::string sqlStatement = "SELECT TIME_TO_ANSWER FROM STATISTICS where USERNAME='" + username + "' AND IS_CORRECT=1;";
 	sqlite3_exec(this->db, sqlStatement.c_str(), callback_times, &times, errMessage);
-	for (int i = 0; i < times.size(); i++)
-	{
-		sum += times[i];
-	}
-	return (sum / times.size());
+	return times;
 }
 
-float SqliteDataBase::getPlayerAverageRightAnswerTime(std::string username)
+std::vector<int>  SqliteDataBase::getPlayerTimeToAnswerTimes(std::string username)
 {
-	float sum = 0;
 	std::vector<int> times;
 	char** errMessage = nullptr;
 	std::string sqlStatement = "SELECT TIME_FOR_QUESTION FROM STATISTICS where USERNAME='" + username + "' AND IS_CORRECT=1;";
 	sqlite3_exec(this->db, sqlStatement.c_str(), callback_times, &times, errMessage);
-	for (int i = 0; i < times.size(); i++)
-	{
-		sum += times[i];
-	}
-	return (sum / times.size());
+	return times;
 }
 
 int SqliteDataBase::getNumOfCorrectAnswers(std::string username)
@@ -173,6 +163,7 @@ int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, ch
 int SqliteDataBase::callback_times(void* data, int argc, char** argv, char** azColName)
 {
 	std::vector<int>* times = static_cast<std::vector<int>*>(data);
+
 	for (int i = 0; i < argc; i++) {
 		times->push_back(atoi(argv[i]));
 	}
