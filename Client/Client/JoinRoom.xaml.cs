@@ -35,11 +35,42 @@ namespace Client
             this.Close();
         }
 
+        private void Check_Validation_And_Join_Room(object sender, RoutedEventArgs e)
+        {
+            // TODO - check if room is full.
+            uint roomId = Convert.ToUInt32(this.RoomsList.SelectedItem.ToString().Substring(this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ") + 3));
+            uint maxPlayers = 0;
+            uint currentPlayers = 0;
+
+            // getting all rooms and searching the room with the wanted ID
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(6);
+            Global.Communicator.sendMessage(fullMessage);
+            byte[] rooms = Global.Communicator.reciveResponse();
+            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
+            for (int i = 0; i < response.Rooms.Count(); i++)
+            {
+                if (response.Rooms[i].id == roomId)
+                {
+                    maxPlayers = response.Rooms[i].maxPlayers;
+                    currentPlayers = 
+                    break;
+                }
+            }
+
+            if (currentPlayers < maxPlayers)  // checking if the given room is full
+            {
+                Join_Room(sender, e);
+            }
+            else
+            {
+                MessageBox.Show("Can't Join Room (Maximum " + maxPlayers + " Players)", "ROOM IS FULL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void Join_Room(object sender, RoutedEventArgs e)
         {
             uint roomId = Convert.ToUInt32(this.RoomsList.SelectedItem.ToString().Substring(this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ") + 3));
             
-            // TODO - check if room is full.
             byte[] fullMessage = Global.Communicator.getJoinRoomMessage(roomId);
             Global.Communicator.sendMessage(fullMessage);
             Global.Communicator.reciveResponse();
@@ -74,5 +105,7 @@ namespace Client
                 this.JoinB.IsEnabled = false;
             }
         }
+
+        
     }
 }
