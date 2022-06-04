@@ -48,7 +48,5 @@
         <Button x:Name="StartGameB" Grid.Column="1" Grid.Row="6" Content="Start Game" Margin="40,25,40,25" Background="Beige" FontStyle="Italic" Click="StartGameB_Click"/>
         <Button x:Name="LeaveRoomB" Grid.Column="1" Grid.Row="7" Content="Leave Room" Margin="40,25,40,25" Background="Beige" FontStyle="Italic" Click="LeaveRoomB_Click"/>
         <Button x:Name="CloseRoomB" Grid.Column="1" Grid.Row="7" Content="Close Room" Margin="40,25,40,25" Background="Beige" FontStyle="Italic" Click="CloseRoomB_Click"/>
-        <Button Grid.Column="1" Grid.Row="5" Content="Refresh" Margin="40,10,40,41" Background="Beige" FontStyle="Italic" Click="Refresh_Waiting_Room"/>
-
     </Grid>
 </Window>
