@@ -80,9 +80,7 @@ namespace Client
 
         private void Create_Room()
         {
-            // TODO Open new Windows
-            // Wait till Start Game is being pressed
-            byte[] fullMessage = Global.Communicator.getCreateRoomMessage("testRoom", 10, 30, 5);
+            byte[] fullMessage = Global.Communicator.getCreateRoomMessage(this._roomName.Text, Convert.ToUInt32(this._numOfPlayers.Text), Convert.ToUInt32(this._timePerQuestion.Text), Convert.ToUInt32(this._numOfQuestions.Text));
             Global.Communicator.sendMessage(fullMessage);
             Global.Communicator.reciveResponse();
             WaitingRoom wr = new WaitingRoom(this._roomName.Text, true);
