@@ -119,4 +119,5 @@ public:
 	static std::vector<unsigned char> serializeResponse(LeaveRoomResponse response);
 private:
 	static std::vector<unsigned char> generalSerialize(std::vector<unsigned char> jsonAsBytes, int code);
+	static void to_json(nlohmann::json& j, const RoomData& r);
 };

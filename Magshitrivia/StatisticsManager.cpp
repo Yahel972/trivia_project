@@ -49,11 +49,17 @@ std::vector<std::string> StatisticsManager::getHighScore()
 std::vector<std::string> StatisticsManager::getUserStatistics(std::string username)
 {
 	std::vector<std::string> statistics;
-	statistics.push_back("Games played:" + std::to_string(this->m_database->getNumOfPlayerGames(username)));
-	statistics.push_back("Total answers:" + std::to_string(this->m_database->getNumOfTotalAnswers(username)));
-	statistics.push_back("Correct answers:" + std::to_string(this->m_database->getNumOfCorrectAnswers(username)));
+	statistics.push_back(std::to_string(this->m_database->getNumOfPlayerGames(username))); // games played
+	statistics.push_back(std::to_string(this->m_database->getNumOfTotalAnswers(username))); // total answers
+	statistics.push_back(std::to_string(this->m_database->getNumOfCorrectAnswers(username))); // correct answers
+	std::vector<int> answerTimes = this->m_database->getPlayerTimesToAnswer(username);
+	int sum = 0;
+	for (int i = 0; i < answerTimes.size(); i++)
+	{
+		sum += answerTimes[i];
+	}
 	//std::vector<int> averageRightTimes = this->m_database.getPlayerAnswerTimes(username);
-	//statistics.push_back("Average answer time:" + std::to_string(this->m_database->getPlayerAverageRightAnswerTime(username)));
+	statistics.push_back(std::to_string(sum / answerTimes.size())); // Average answer time 
 	return statistics;
 }
 
@@ -69,8 +75,8 @@ int StatisticsManager::getUserPoints(std::string username)
 {
 	int sum = 0;
 	char** errMessage = nullptr;
-	std::vector<int> timeForQuestion =this->m_database->getPlayerTimeToAnswerTimes(username);
-	std::vector<int> answerTimes = this->m_database->getPlayerAnswerTimes(username);
+	std::vector<int> timeForQuestion = this->m_database->getPlayerTimesForQuestions(username);
+	std::vector<int> answerTimes = this->m_database->getPlayerTimesToAnswer(username);
 	for (int i = 0; i < timeForQuestion.size(); i++)
 	{
 		sum += (1 - (((float)answerTimes[i] / timeForQuestion[i]) / 2)) * 1000;

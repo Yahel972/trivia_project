@@ -49,7 +49,9 @@ namespace Client
         private void Join_Room(object sender, RoutedEventArgs e)
         {
             // TODO - check if room is full.
-
+            //byte[] fullMessage = Global.Communicator.getJoinRoomMessage(); GET_ROOM_ID
+            //Global.Communicator.sendMessage(fullMessage);
+            //Global.Communicator.reciveResponse();
             WaitingRoom wr = new WaitingRoom(this.RoomsList.SelectedItem.ToString(), false);
             wr.Show();
             this.Close();
@@ -57,13 +59,14 @@ namespace Client
 
         private void Refresh_Page(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 10; i++)
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(6);
+            Global.Communicator.sendMessage(fullMessage);
+            byte[] rooms = Global.Communicator.reciveResponse();
+            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
+            for(int i = 0; i < response.Rooms.Count(); i++)
             {
-                this.RoomsList.Items.Add("Random_Room");
+                this.RoomsList.Items.Add(response.Rooms[i].name + " - " + response.Rooms[i].id);
             }
-
-
-            // TODO - refresh the page (function currently adds 10 rooms - just to make it easier for now)
         }
 
         private void Check_Choosing_Room(object sender, SelectionChangedEventArgs e)

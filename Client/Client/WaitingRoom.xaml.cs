@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace Client
 {
@@ -27,6 +28,9 @@ namespace Client
             roomName = Room_Name;
             isAdmin = Is_Admin;
             InitializeComponent();
+
+            // check status
+            Thread t = new Thread(Refresh_Waiting_Room);
 
             Check_Buttons(isAdmin);
             findAllConnectedUsers();
@@ -59,7 +63,9 @@ namespace Client
         private void CloseRoomB_Click(object sender, RoutedEventArgs e)
         {
             // TODO: close game for all users (loop through listBox)
-
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(10);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
             Menu m = new Menu();
             m.Show();
             this.Close();
@@ -79,8 +85,17 @@ namespace Client
             // TODO: start game for all users (loop through listBox)
         }
 
-        private void Refresh_Waiting_Room(object sender, RoutedEventArgs e)
+        private void Refresh_Waiting_Room()
         {
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(12);
+            Global.Communicator.sendMessage(fullMessage);
+            GetRoomStatusResponse response = Global.Communicator.getRoomStatusResponse(Global.Communicator.reciveResponse());
+            bool HasGameBegun = response.hasGameBegun;
+            while(true)
+            {
+                Thread.Sleep(3000);
+            }
+            
             // TODO: send status msg - add to listBox
         }
     }

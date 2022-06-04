@@ -82,7 +82,9 @@ namespace Client
         {
             // TODO Open new Windows
             // Wait till Start Game is being pressed
-
+            byte[] fullMessage = Global.Communicator.getCreateRoomMessage("testRoom", 10, 30, 5);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
             WaitingRoom wr = new WaitingRoom(this._roomName.Text, true);
             wr.Show();
             this.Close();

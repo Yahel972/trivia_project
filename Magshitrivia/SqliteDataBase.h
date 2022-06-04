@@ -10,8 +10,8 @@ public:
 	bool doesPasswordMatch(std::string username, std::string passwordToMatch) override;
 	void addNewUser(std::string name, std::string password, std::string email) override;
 	void insertQuestions() override;
-	std::vector<int>  getPlayerTimeToAnswerTimes(std::string username) override;
-	std::vector<int> getPlayerAnswerTimes(std::string username) override;
+	std::vector<int>  getPlayerTimesToAnswer(std::string username) override;
+	std::vector<int> getPlayerTimesForQuestions(std::string username) override;
 	int getNumOfCorrectAnswers(std::string username) override;
 	int getNumOfTotalAnswers(std::string username) override;
 	int getNumOfPlayerGames(std::string username) override;
