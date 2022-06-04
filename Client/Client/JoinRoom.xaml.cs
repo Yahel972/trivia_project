@@ -24,7 +24,6 @@ namespace Client
         public JoinRoom()
         {
             InitializeComponent();
-            ShowAllRooms();
             this.LoggedInUser.Content = Global.LoggedInName;
         }
 
@@ -33,17 +32,6 @@ namespace Client
             Menu m = new Menu();
             m.Show();
             this.Close();
-        }
-
-        private void ShowAllRooms()
-        {
-            // TODO: push all rooms from given vector to the listBox
-            /*
-            for (int i = 0; i < 10000; i++)
-            {
-                string dataToAdd = Vector[i].name + " - " + Vector[i].id;
-                this.RoomsList.Items.Add(dataToAdd); 
-            }*/
         }
 
         private void Join_Room(object sender, RoutedEventArgs e)
@@ -59,13 +47,15 @@ namespace Client
 
         private void Refresh_Page(object sender, RoutedEventArgs e)
         {
+            this.RoomsList.Items.Clear();
+
             byte[] fullMessage = Global.Communicator.getNoDataMessage(6);
             Global.Communicator.sendMessage(fullMessage);
             byte[] rooms = Global.Communicator.reciveResponse();
             GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
             for(int i = 0; i < response.Rooms.Count(); i++)
             {
-                this.RoomsList.Items.Add(response.Rooms[i].name + " - " + response.Rooms[i].id);
+                this.RoomsList.Items.Add(response.Rooms[i].name);
             }
         }
 
