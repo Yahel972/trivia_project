@@ -56,7 +56,7 @@ namespace Client
             GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
             for(int i = 0; i < response.Rooms.Count(); i++)
             {
-                this.RoomsList.Items.Add(response.Rooms[i].name + " - " + response.Rooms[i].id + response.Rooms[i].);
+                this.RoomsList.Items.Add(response.Rooms[i].name + " - " + response.Rooms[i].id);
             }
         }
 
