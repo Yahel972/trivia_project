@@ -40,7 +40,7 @@ namespace Client
                 MessageBox.Show("Invalid Room Name Given", "INVALID ROOM NAME", MessageBoxButton.OK, MessageBoxImage.Error);
                 this._roomName.Clear();
             }
-            else if (!IsRoomNameTaken(this._roomName.Text))
+            else if (IsRoomNameTaken(this._roomName.Text))
             {
                 MessageBox.Show("Room Name Given is Already Taken", "INVALID ROOM NAME", MessageBoxButton.OK, MessageBoxImage.Error);
                 this._roomName.Clear();
@@ -66,9 +66,20 @@ namespace Client
 
         private bool IsRoomNameTaken(string roomName)
         {
-            // TODO: check if a given room name is already taken
+            byte[] roomsMsg = Global.Communicator.getNoDataMessage(6);
+            Global.Communicator.sendMessage(roomsMsg);
+            byte[] rooms = Global.Communicator.reciveResponse();
+            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
 
-            return true;
+            for (int i = 0; i < response.Rooms.Count(); i++)
+            {
+                if (response.Rooms[i].name == this._roomName.Text)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /** function filters only numbers in a text box input */
