@@ -80,10 +80,28 @@ namespace Client
 
         private void Create_Room()
         {
+            // creating room
             byte[] fullMessage = Global.Communicator.getCreateRoomMessage(this._roomName.Text, Convert.ToUInt32(this._numOfPlayers.Text), Convert.ToUInt32(this._timePerQuestion.Text), Convert.ToUInt32(this._numOfQuestions.Text));
             Global.Communicator.sendMessage(fullMessage);
             Global.Communicator.reciveResponse();
-            WaitingRoom wr = new WaitingRoom(this._roomName.Text, true);
+
+            // getting room's id
+            uint roomId = 0;
+            byte[] roomsMsg = Global.Communicator.getNoDataMessage(6);
+            Global.Communicator.sendMessage(roomsMsg);
+            byte[] rooms = Global.Communicator.reciveResponse();
+            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
+            for(int i = 0; i < response.Rooms.Count(); i++)
+            {
+                if (response.Rooms[i].name == this._roomName.Text)
+                {
+                    roomId = response.Rooms[i].id;
+                    break;
+                }
+            }
+
+            // openning waiting room
+            WaitingRoom wr = new WaitingRoom(this._roomName.Text, true, roomId);
             wr.Show();
             this.Close();
         }

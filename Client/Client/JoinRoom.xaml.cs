@@ -37,11 +37,12 @@ namespace Client
 
         private void Join_Room(object sender, RoutedEventArgs e)
         {
+            uint roomId = Convert.ToUInt32(this.RoomsList.SelectedItem.ToString().Substring(this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ") + 3));
             // TODO - check if room is full.
             //byte[] fullMessage = Global.Communicator.getJoinRoomMessage(); GET_ROOM_ID
             //Global.Communicator.sendMessage(fullMessage);
             //Global.Communicator.reciveResponse();
-            WaitingRoom wr = new WaitingRoom(this.RoomsList.SelectedItem.ToString().Substring(0, this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ")), false);
+            WaitingRoom wr = new WaitingRoom(this.RoomsList.SelectedItem.ToString().Substring(0, this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ")), false, roomId);
             wr.Show();
             this.Close();
         }

@@ -22,11 +22,13 @@ namespace Client
     {
         public string roomName;
         public bool isAdmin;
+        public uint roomId;
 
-        public WaitingRoom(string Room_Name, bool Is_Admin)
+        public WaitingRoom(string Room_Name, bool Is_Admin, uint Room_Id)
         {
             roomName = Room_Name;
             isAdmin = Is_Admin;
+            roomId = Room_Id;
             InitializeComponent();
 
             // check status
@@ -95,8 +97,12 @@ namespace Client
             {
                 Thread.Sleep(3000);
             }
-            
+
             // TODO: send status msg - add to listBox
+            //byte[] fullMessage1 = Global.Communicator.getNoDataMessage(7);
+            //Global.Communicator.sendMessage(fullMessage1);
+            //byte[] res = Global.Communicator.reciveResponse();
+            //response = Global.Communicator.(res);
         }
     }
 }

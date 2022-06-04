@@ -8,7 +8,7 @@ RoomAdminRequestHandler::RoomAdminRequestHandler(Room room, LoggedUser user, Roo
 
 bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo request)
 {
-	return (request.id == CLOSE_ROOM || request.id == START_GAME || request.id == GET_ROOM_STATE);
+	return (request.id == CLOSE_ROOM || request.id == START_GAME || request.id == GET_ROOM_STATE || request.id == GET_ROOMS);
 }
 
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo request)
@@ -22,6 +22,9 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo request)
 		return this->startGame(request);
 	case GET_ROOM_STATE:
 		return this->getRoomState(request);
+		break;
+	case GET_ROOMS:
+		return this->getRooms(request);
 		break;
 	}
 }
@@ -61,4 +64,16 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo request)
 	response.status = OK;
 	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return requestResult;
+}
+
+RequestResult RoomAdminRequestHandler::getRooms(RequestInfo request) // done
+{
+	RequestResult result;
+	std::vector<RoomData> rooms = this->m_roomManager.getRoomsData();
+	GetRoomsResponse response;
+	response.rooms = rooms;
+	response.status = OK;
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+	result.newHandler = nullptr;
+	return result;
 }
