@@ -35,7 +35,7 @@ namespace Client
 
         private void Check_Validation_And_Create_Room(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this._roomName.Text))
+            if (string.IsNullOrWhiteSpace(this._roomName.Text) || this._roomName.Text.Contains("-"))
             {
                 MessageBox.Show("Invalid Room Name Given", "INVALID ROOM NAME", MessageBoxButton.OK, MessageBoxImage.Error);
                 this._roomName.Clear();

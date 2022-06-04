@@ -41,7 +41,7 @@ namespace Client
             //byte[] fullMessage = Global.Communicator.getJoinRoomMessage(); GET_ROOM_ID
             //Global.Communicator.sendMessage(fullMessage);
             //Global.Communicator.reciveResponse();
-            WaitingRoom wr = new WaitingRoom(this.RoomsList.SelectedItem.ToString(), false);
+            WaitingRoom wr = new WaitingRoom(this.RoomsList.SelectedItem.ToString().Substring(0, this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ")), false);
             wr.Show();
             this.Close();
         }
@@ -56,7 +56,7 @@ namespace Client
             GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
             for(int i = 0; i < response.Rooms.Count(); i++)
             {
-                this.RoomsList.Items.Add(response.Rooms[i].name);
+                this.RoomsList.Items.Add(response.Rooms[i].name + " - " + response.Rooms[i].id + response.Rooms[i].);
             }
         }
 
