@@ -24,6 +24,7 @@ namespace Client
         public JoinRoom()
         {
             InitializeComponent();
+            this.Refresh_Page(null, null);
             this.LoggedInUser.Content = Global.LoggedInName;
         }
 
