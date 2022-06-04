@@ -40,7 +40,10 @@ namespace Client
             // TODO - check if room is full.
             uint roomId = Convert.ToUInt32(this.RoomsList.SelectedItem.ToString().Substring(this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ") + 3));
             uint maxPlayers = 0;
-            uint currentPlayers = 0;
+            byte[] getPlayersMessage = Global.Communicator.getPlayersInRoomMessage(roomId);
+            Global.Communicator.sendMessage(getPlayersMessage);
+            GetPlayersInRoomResponse getPlayersResponse = Global.Communicator.getPlayersInRoomResponse(Global.Communicator.reciveResponse());
+            uint currentPlayers = (uint)getPlayersResponse.players.Count;
 
             // getting all rooms and searching the room with the wanted ID
             byte[] fullMessage = Global.Communicator.getNoDataMessage(6);

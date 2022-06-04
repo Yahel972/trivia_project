@@ -80,6 +80,11 @@ namespace Client
         public uint answerTimeout { get; set; }
     }
 
+    public class GetPlayersInRoomResponse
+    {
+        public List<string> players { get; set; }
+    }
+
     class Communicator
     {
         public TcpClient client;
@@ -261,6 +266,18 @@ namespace Client
             {
                 JsonSerializer serializer = new JsonSerializer();
                 response = serializer.Deserialize<GetRoomStatusResponse>(reader);
+            }
+            return response;
+        }
+
+        public GetPlayersInRoomResponse getPlayersInRoomResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            GetPlayersInRoomResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                response = serializer.Deserialize<GetPlayersInRoomResponse>(reader);
             }
             return response;
         }
