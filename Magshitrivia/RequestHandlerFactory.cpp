@@ -39,11 +39,11 @@ RoomManager& RequestHandlerFactory::getRoomManager()
 RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(std::string username)
 {
 	LoggedUser user(username);	
-	Room room;
-	std::map<int, Room> allRooms = this->m_roomManager.getAllRooms();
+	Room* room = nullptr;
+	std::map<int, Room*> allRooms = this->m_roomManager.getAllRooms();
 	for (auto it = allRooms.begin(); it != allRooms.end(); it++)
 	{
-		std::vector<std::string> playersInRoom = it->second.getAllUsers();
+		std::vector<std::string> playersInRoom = it->second->getAllUsers();
 		for (int i = 0; i < playersInRoom.size(); i++)
 		{
 			if (playersInRoom[i] == username)
@@ -52,7 +52,7 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(st
 			}
 		}
 	}
-
+	std::cout << "Admin: " << room << std::endl;
 	RoomAdminRequestHandler* roomAdminRequest = new RoomAdminRequestHandler(room, user, this->getRoomManager(), *this);
 	return roomAdminRequest;
 }
@@ -60,11 +60,11 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(st
 RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(std::string username)
 {
 	LoggedUser user(username);
-	Room room;
-	std::map<int, Room> allRooms = this->m_roomManager.getAllRooms();
+	Room* room = nullptr;
+	std::map<int, Room*> allRooms = this->m_roomManager.getAllRooms();
 	for (auto it = allRooms.begin(); it != allRooms.end(); it++)
 	{
-		std::vector<std::string> playersInRoom = it->second.getAllUsers();
+		std::vector<std::string> playersInRoom = it->second->getAllUsers();
 		for (int i = 0; i < playersInRoom.size(); i++)
 		{
 			if (playersInRoom[i] == username)
@@ -73,7 +73,7 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 			}
 		}
 	}
-
+	std::cout << "Member: " << room << std::endl;
 	RoomMemberRequestHandler* roomMemberRequest = new RoomMemberRequestHandler(room, user, this->getRoomManager(), *this);
 	return roomMemberRequest;
 }

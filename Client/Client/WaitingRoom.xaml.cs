@@ -23,16 +23,23 @@ namespace Client
         public string roomName;
         public bool isAdmin;
         public uint roomId;
+        public bool inWaitingRoom;
+        public bool userExitedRoom;
+        public bool hasGameBegun;
 
         public WaitingRoom(string Room_Name, bool Is_Admin, uint Room_Id)
         {
             roomName = Room_Name;
             isAdmin = Is_Admin;
             roomId = Room_Id;
+            this.userExitedRoom = false;
+            this.hasGameBegun = false;
+            this.inWaitingRoom = true;
             InitializeComponent();
 
             // check status
             Thread t = new Thread(new ThreadStart(Refresh_Waiting_Room));
+            t.SetApartmentState(ApartmentState.STA);
             Check_Buttons(isAdmin);
             findAllConnectedUsers();
 
@@ -65,67 +72,69 @@ namespace Client
         private void CloseRoomB_Click(object sender, RoutedEventArgs e)
         {
             // TODO: close game for all users (loop through listBox)
+            this.userExitedRoom = true;
             byte[] fullMessage = Global.Communicator.getNoDataMessage(10);
             Global.Communicator.sendMessage(fullMessage);
             Global.Communicator.reciveResponse();
-            Menu m = new Menu();
-            m.Show();
-            this.Close();
         }
 
         private void LeaveRoomB_Click(object sender, RoutedEventArgs e)
         {
             // TODO: remove user from the other user's listBox
-
-            Menu m = new Menu();
-            m.Show();
-            this.Close();
+            this.userExitedRoom = true;
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(13);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
         }
 
         private void StartGameB_Click(object sender, RoutedEventArgs e)
         {
             // TODO: start game for all users (loop through listBox)
+            this.hasGameBegun = true;
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(11);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
         }
 
         private void Refresh_Waiting_Room()
         {
-            while(true)
+            while(!this.userExitedRoom && !this.hasGameBegun)   
             {
                 byte[] fullMessage = Global.Communicator.getNoDataMessage(12);
                 Global.Communicator.sendMessage(fullMessage);
                 byte[] response = Global.Communicator.reciveResponse();
                 GetRoomStatusResponse getRoomStatusResponse = Global.Communicator.getRoomStatusResponse(response);
-                bool hasGameBegun = getRoomStatusResponse.hasGameBegun;
+                this.hasGameBegun = getRoomStatusResponse.hasGameBegun;
                 List<string> players = getRoomStatusResponse.players;
-                if (hasGameBegun)
-                {
-                    // create question game (pass paremeters: questionCount and answerTimeout
-                    // questionGame.Show()
-                    this.Close();
-                }
                 this.Dispatcher.Invoke(() =>
                 {
                     this.connectedUsers.Items.Clear();
                     for (int i = 0; i < players.Count(); i++)
                     {
+                        if (Global.LoggedInName.Equals(players[i]))
+                        {
+                            this.userExitedRoom = false;
+                            }
                         this.connectedUsers.Items.Add(players[i]);
                     }
                 });
                 Thread.Sleep(3000);
             }
-        }
-
-
-        private bool elementInList(List<string> list, string element)
-        {
-            for(int i = 0; i < list.Count(); i++)
+            this.Dispatcher.Invoke(() =>
             {
-                if(list[i].Equals(element))
+                if (this.hasGameBegun)
                 {
-                    return true;
+                    // create question game (pass paremeters: questionCount and answerTimeout
+                    // questionGame.Show()
+                    this.Close();
                 }
-            }
-            return false;
+                if(this.userExitedRoom)
+                {
+                    var m = new Menu();
+                    m.Show();
+                    this.Close();
+                }
+            });
         }
     }
 }

@@ -16,6 +16,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
+using System.Text.RegularExpressions;
 
 namespace Client
 {   
@@ -70,6 +71,64 @@ namespace Client
             else  // valid request
             {
                 Back_To_Menu(null, null);
+            }
+        }
+        public static int CheckStrength(string password)
+        {
+            int score = 0;
+
+            if (password.Length < 1)
+                return 0;
+            if (password.Length < 4)
+                return 1;
+
+            if (password.Length >= 8)
+                score++;
+            if (password.Length >= 12)
+                score++;
+            if (Regex.Match(password, @"/\d+/", RegexOptions.ECMAScript).Success)
+                score++;
+            if (Regex.Match(password, @"/[a-z]/", RegexOptions.ECMAScript).Success &&
+                Regex.Match(password, @"/[A-Z].*.*/", RegexOptions.ECMAScript).Success)
+                score++;
+            if (Regex.Match(password, @"/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/", RegexOptions.ECMAScript).Success)
+                score++;
+
+            return score;
+        }
+
+
+        private void textChangedEventHandler(object sender, TextChangedEventArgs e)
+        {
+
+            string password = _password.Text;
+            int howStrong = CheckStrength(password);
+            if(howStrong == 0)
+            {
+                Howstrongpassword1.Visibility = Visibility.Hidden;
+                Howstrongpassword2.Visibility = Visibility.Hidden;
+            }
+            if (howStrong <= 2)
+            {
+                Howstrongpassword1.Visibility = Visibility.Visible;
+                Howstrongpassword2.Visibility = Visibility.Visible;
+                Howstrongpassword1.Fill = new SolidColorBrush(Color.FromRgb(255, 51, 51));
+                Howstrongpassword2.Content = "Weak";
+            }
+            else if (howStrong <= 3)
+            {
+                Howstrongpassword1.Visibility = Visibility.Visible;
+                Howstrongpassword2.Visibility = Visibility.Visible;
+                Howstrongpassword1.Fill = new SolidColorBrush(Color.FromRgb(255, 153, 51));
+                Howstrongpassword2.Content = "Medium";
+            }
+
+            else if (howStrong <= 5)
+            {
+                Howstrongpassword1.Visibility = Visibility.Visible;
+                Howstrongpassword2.Visibility = Visibility.Visible;
+                Howstrongpassword1.Fill = new SolidColorBrush(Color.FromRgb(51, 255, 51));
+                Howstrongpassword2.Content = "Strong";
             }
         }
     }

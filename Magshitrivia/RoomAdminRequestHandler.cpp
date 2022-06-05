@@ -1,6 +1,6 @@
 #include "RoomAdminRequestHandler.h"
 
-RoomAdminRequestHandler::RoomAdminRequestHandler(Room room, LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory) : m_roomManager(roomManager), m_handlerFactory(handlerFactory)
+RoomAdminRequestHandler::RoomAdminRequestHandler(Room* room, LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory) : m_roomManager(roomManager), m_handlerFactory(handlerFactory)
 {
 	this->m_room = room;
 	this->m_user = user;
@@ -35,15 +35,15 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo request)
 	requestResult.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user.getUsername());
 	CloseRoomResponse response = { OK };
 	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
-	this->m_roomManager.deleteRoom(this->m_room.getData().id);
+	this->m_roomManager.deleteRoom(this->m_room->getData().id);
 	return requestResult;
 }
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo request)
 {
-	if (!this->m_room.getData().isActive)
+	if (!this->m_room->getData().isActive)
 	{
-		this->m_room.start();
+		this->m_room->start();
 	}
 	RequestResult requestResult;
 	requestResult.newHandler = nullptr; // IMPORTANT: the handler should be to "GameRequestHandler"
@@ -57,10 +57,10 @@ RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo request)
 	RequestResult requestResult;
 	requestResult.newHandler = nullptr;
 	GetRoomStateResponse response;
-	response.answerTimeout = this->m_room.getData().timePerQuestion;
-	response.hasGameBegun = this->m_room.getData().isActive;
-	response.players = this->m_room.getAllUsers();
-	response.questionCount = this->m_room.getData().numOfQuestions;
+	response.answerTimeout = this->m_room->getData().timePerQuestion;
+	response.hasGameBegun = this->m_room->getData().isActive;
+	response.players = this->m_room->getAllUsers();
+	response.questionCount = this->m_room->getData().numOfQuestions;
 	response.status = OK;
 	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return requestResult;

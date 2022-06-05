@@ -1,4 +1,5 @@
 #include "Room.h"
+#include <string>
 
 Room::Room(LoggedUser creator, RoomData data)
 {
@@ -18,6 +19,7 @@ void Room::removeUser(LoggedUser userToRemove)
 		if (this->m_users[i].getUsername() == userToRemove.getUsername())
 		{
 			this->m_users.erase(this->m_users.begin() + i);
+			break;
 		}
 	}
 }
@@ -25,6 +27,7 @@ void Room::removeUser(LoggedUser userToRemove)
 std::vector<std::string> Room::getAllUsers()
 {
 	std::vector<std::string> usernamesInRoom;
+	std::vector<LoggedUser> usersInRoom = this->m_users;
 	for (auto user: this->m_users) {
 		usernamesInRoom.push_back(user.getUsername());
 	}
@@ -41,4 +44,9 @@ void Room::start()
 	RoomData oldData = this->m_metadata;
 	RoomData newData = {oldData.id, oldData.name, oldData.maxPlayers, oldData.numOfQuestions, oldData.timePerQuestion, true};
 	this->m_metadata = newData;
+}
+
+void Room::setUsers(std::vector<LoggedUser> newUsers)
+{
+	this->m_users = newUsers;
 }
