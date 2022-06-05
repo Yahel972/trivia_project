@@ -16,6 +16,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
+using System.Text.RegularExpressions;
 
 namespace Client
 {   
@@ -24,7 +25,7 @@ namespace Client
         public SignUp()
         {
             InitializeComponent();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
@@ -57,14 +58,78 @@ namespace Client
 
         private void Add_New_User()
         {
-            byte[] fullMessage = Global.communicator.getSignupMessage(this._username.Text, this._password.Text, this._email.Text);
-            Global.communicator.sendMessage(fullMessage);
-            OnlyStatusResponse response = Global.communicator.getGeneralResponse(Global.communicator.reciveResponse());
-            if(response.status == 0)
+            // sending sign-up request to server and getting its response:
+            byte[] fullMessage = Global.Communicator.getSignupMessage(this._username.Text, this._password.Text, this._email.Text);
+            Global.Communicator.sendMessage(fullMessage);
+            OnlyStatusResponse response = Global.Communicator.getGeneralResponse(Global.Communicator.reciveResponse());
+
+            if (response.status == 0)  // user already exists
             {
-                MessageBox.Show("USER WASN'T CREATED");
+                MessageBox.Show("Username Already Exists", "INVALID USERNAME", MessageBoxButton.OK, MessageBoxImage.Error);
+                this._username.Clear();
             }
-            Back_To_Menu(null, null);
+            else  // valid request
+            {
+                Back_To_Menu(null, null);
+            }
+        }
+        public static int CheckStrength(string password)
+        {
+            int score = 0;
+
+            if (password.Length < 1)
+                return 0;
+            if (password.Length < 4)
+                return 1;
+
+            if (password.Length >= 8)
+                score++;
+            if (password.Length >= 12)
+                score++;
+            if (Regex.Match(password, @"/\d+/", RegexOptions.ECMAScript).Success)
+                score++;
+            if (Regex.Match(password, @"/[a-z]/", RegexOptions.ECMAScript).Success &&
+                Regex.Match(password, @"/[A-Z].*.*/", RegexOptions.ECMAScript).Success)
+                score++;
+            if (Regex.Match(password, @"/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/", RegexOptions.ECMAScript).Success)
+                score++;
+
+            return score;
+        }
+
+
+        private void textChangedEventHandler(object sender, TextChangedEventArgs e)
+        {
+
+            string password = _password.Text;
+            int howStrong = CheckStrength(password);
+            if(howStrong == 0)
+            {
+                Howstrongpassword1.Visibility = Visibility.Hidden;
+                Howstrongpassword2.Visibility = Visibility.Hidden;
+            }
+            if (howStrong <= 2)
+            {
+                Howstrongpassword1.Visibility = Visibility.Visible;
+                Howstrongpassword2.Visibility = Visibility.Visible;
+                Howstrongpassword1.Fill = new SolidColorBrush(Color.FromRgb(255, 51, 51));
+                Howstrongpassword2.Content = "Weak";
+            }
+            else if (howStrong <= 3)
+            {
+                Howstrongpassword1.Visibility = Visibility.Visible;
+                Howstrongpassword2.Visibility = Visibility.Visible;
+                Howstrongpassword1.Fill = new SolidColorBrush(Color.FromRgb(255, 153, 51));
+                Howstrongpassword2.Content = "Medium";
+            }
+
+            else if (howStrong <= 5)
+            {
+                Howstrongpassword1.Visibility = Visibility.Visible;
+                Howstrongpassword2.Visibility = Visibility.Visible;
+                Howstrongpassword1.Fill = new SolidColorBrush(Color.FromRgb(51, 255, 51));
+                Howstrongpassword2.Content = "Strong";
+            }
         }
     }
 }

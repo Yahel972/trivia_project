@@ -23,7 +23,7 @@ namespace Client
         public CreateRoom()
         {
             InitializeComponent();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
@@ -35,12 +35,12 @@ namespace Client
 
         private void Check_Validation_And_Create_Room(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this._roomName.Text))
+            if (string.IsNullOrWhiteSpace(this._roomName.Text) || this._roomName.Text.Contains("-"))
             {
                 MessageBox.Show("Invalid Room Name Given", "INVALID ROOM NAME", MessageBoxButton.OK, MessageBoxImage.Error);
                 this._roomName.Clear();
             }
-            else if (!IsRoomNameTaken(this._roomName.Text))
+            else if (IsRoomNameTaken(this._roomName.Text))
             {
                 MessageBox.Show("Room Name Given is Already Taken", "INVALID ROOM NAME", MessageBoxButton.OK, MessageBoxImage.Error);
                 this._roomName.Clear();
@@ -66,9 +66,20 @@ namespace Client
 
         private bool IsRoomNameTaken(string roomName)
         {
-            // TODO: check if a given room name is already taken
+            byte[] roomsMsg = Global.Communicator.getNoDataMessage(6);
+            Global.Communicator.sendMessage(roomsMsg);
+            byte[] rooms = Global.Communicator.reciveResponse();
+            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
 
-            return true;
+            for (int i = 0; i < response.Rooms.Count(); i++)
+            {
+                if (response.Rooms[i].name == this._roomName.Text)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /** function filters only numbers in a text box input */
@@ -80,10 +91,28 @@ namespace Client
 
         private void Create_Room()
         {
-            // TODO Open new Windows
-            // Wait till Start Game is being pressed
+            // creating room
+            byte[] fullMessage = Global.Communicator.getCreateRoomMessage(this._roomName.Text, Convert.ToUInt32(this._numOfPlayers.Text), Convert.ToUInt32(this._timePerQuestion.Text), Convert.ToUInt32(this._numOfQuestions.Text));
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
 
-            WaitingRoom wr = new WaitingRoom(this._roomName.Text, true);
+            // getting room's id
+            uint roomId = 0;
+            byte[] roomsMsg = Global.Communicator.getNoDataMessage(6);
+            Global.Communicator.sendMessage(roomsMsg);
+            byte[] rooms = Global.Communicator.reciveResponse();
+            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
+            for(int i = 0; i < response.Rooms.Count(); i++)
+            {
+                if (response.Rooms[i].name == this._roomName.Text)
+                {
+                    roomId = response.Rooms[i].id;
+                    break;
+                }
+            }
+
+            // openning waiting room
+            WaitingRoom wr = new WaitingRoom(this._roomName.Text, true, roomId);
             wr.Show();
             this.Close();
         }

@@ -46,11 +46,13 @@
         <TextBox x:Name="_username" Grid.Row="2" Grid.Column="1" Margin="48,0,0,55" FontSize="22" FontStyle="Italic" Background="Beige"/>
 
         <Label Content="Password:" FontSize="30" Margin="145,74,292,45" FontStyle="Italic" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2"/>
-        <TextBox x:Name="_password" Grid.Row="3" Grid.Column="1" Margin="48,0,0,55" FontSize="22" FontStyle="Italic" Background="Beige"/>
+        <TextBox x:Name="_password" Grid.Row="3" Grid.Column="1" Margin="48,0,0,55" FontSize="22" FontStyle="Italic" Background="Beige"  TextChanged="textChangedEventHandler"/>
 
         <Label Content="E-mail:" FontSize="30" Margin="145,73,292,45" FontStyle="Italic" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2"/>
         <TextBox x:Name="_email" Grid.Row="4" Grid.Column="1" Margin="48,0,0,55" FontSize="22" FontStyle="Italic" Background="Beige"/>
 
         <Button Content="OK" Grid.Column="1" Grid.Row="4" Margin="170,66,263,68" FontStyle="Italic" FontSize="22" Background="Beige" Grid.ColumnSpan="2" Grid.RowSpan="2" Click="Check_Validation_And_Sign_Up"/>
+        <Rectangle x:Name="Howstrongpassword1" Grid.Column="1" Height="34" Margin="48,55,0,0" Grid.Row="2" Stroke="Black" Fill="#FF0DA908" RadiusX="8.527" RadiusY="8.527" Visibility="Hidden"/>
+        <Label x:Name="Howstrongpassword2" Grid.Column="1" Content="Strong" Height="34" Margin="48,55,0,0" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Visibility="Hidden"/>
     </Grid>
 </Window>

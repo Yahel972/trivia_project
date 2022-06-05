@@ -47,8 +47,8 @@
         <Image Source="Images/second2.png" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="220,10,134,79" Grid.RowSpan="2"/>
         <Image Source="Images/third3.png" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="220,20,134,68" Grid.RowSpan="2"/>
 
-        <Label x:Name="first" Grid.Row="3" FontSize="30" FontStyle="Italic" Margin="0,7,38,8" Content="first place - 999999" HorizontalContentAlignment="Right" Grid.ColumnSpan="2"/>
-        <Label x:Name="second" Grid.Row="4" FontSize="30" FontStyle="Italic" Margin="0,15,38,0" Content="second place - 1000" HorizontalContentAlignment="Right" Grid.ColumnSpan="2"/>
-        <Label x:Name="third" Grid.Row="5" FontSize="30" FontStyle="Italic" Margin="0,25,38,78" Content="third place - 00000" Grid.RowSpan="2" HorizontalContentAlignment="Right" Grid.ColumnSpan="2"/>
+        <Label x:Name="first" Grid.Row="3" FontSize="30" FontStyle="Italic" Margin="0,7,38,8" HorizontalContentAlignment="Right" Grid.ColumnSpan="2"/>
+        <Label x:Name="second" Grid.Row="4" FontSize="30" FontStyle="Italic" Margin="0,15,38,0" HorizontalContentAlignment="Right" Grid.ColumnSpan="2"/>
+        <Label x:Name="third" Grid.Row="5" FontSize="30" FontStyle="Italic" Margin="0,25,38,78" Grid.RowSpan="2" HorizontalContentAlignment="Right" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

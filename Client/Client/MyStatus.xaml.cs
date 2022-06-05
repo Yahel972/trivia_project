@@ -27,9 +27,9 @@ namespace Client
         public MyStatus()
         {
             InitializeComponent();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
 
-            //getStatus(); TODO: add parameters
+            getStatus();
 
 
         }
@@ -43,10 +43,14 @@ namespace Client
 
         void getStatus()
         {
-            byte[] fullMessage = Global.communicator.getNoDataMessage(8);
-            Global.communicator.sendMessage(fullMessage);
-            byte[] statistics = Global.communicator.reciveResponse();
-            getStatisticsResponse response = Global.communicator.getStatisticsResponse(statistics);
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(9);
+            Global.Communicator.sendMessage(fullMessage);
+            byte[] statistics = Global.Communicator.reciveResponse();
+            getStatisticsResponse response = Global.Communicator.getStatisticsResponse(statistics);
+            this._numOfGames.Content = response.statistics[0];
+            this._numOfTotalAnswers.Content = response.statistics[1];
+            this._numOfCorrectAnswers.Content = response.statistics[2];
+            this._avgTimePerAnswer.Content = response.statistics[3];
             // TODO: get user's status and apply the 4 variables above
         }
     }

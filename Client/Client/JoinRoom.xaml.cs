@@ -24,8 +24,8 @@ namespace Client
         public JoinRoom()
         {
             InitializeComponent();
-            ShowAllRooms();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.Refresh_Page(null, null);
+            this.LoggedInUser.Content = Global.LoggedInName;
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
@@ -35,34 +35,67 @@ namespace Client
             this.Close();
         }
 
-        private void ShowAllRooms()
+        private void Check_Validation_And_Join_Room(object sender, RoutedEventArgs e)
         {
-            // TODO: push all rooms from given vector to the listBox
-            /*
-            for (int i = 0; i < 10000; i++)
+            // TODO - check if room is full.
+            uint roomId = Convert.ToUInt32(this.RoomsList.SelectedItem.ToString().Substring(this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ") + 3));
+            uint maxPlayers = 0;
+
+            byte[] getPlayersMessage = Global.Communicator.getPlayersInRoomMessage(roomId);
+            Global.Communicator.sendMessage(getPlayersMessage);
+            byte[] players = Global.Communicator.reciveResponse();
+            GetPlayersInRoomResponse getPlayersResponse = Global.Communicator.getPlayersInRoomResponse(players);
+            uint currentPlayers = (uint)getPlayersResponse.players.Count;
+
+            // getting all rooms and searching the room with the wanted ID
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(6);
+            Global.Communicator.sendMessage(fullMessage);
+            byte[] rooms = Global.Communicator.reciveResponse();
+            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
+            for (int i = 0; i < response.Rooms.Count(); i++)
             {
-                string dataToAdd = Vector[i].name + " - " + Vector[i].id;
-                this.RoomsList.Items.Add(dataToAdd); 
-            }*/
+                if (response.Rooms[i].id == roomId)
+                {
+                    maxPlayers = response.Rooms[i].maxPlayers;
+                    break;
+                }
+            }
+
+            if (currentPlayers < maxPlayers)  // checking if the given room is full
+            {
+                Join_Room(sender, e);
+            }
+            else
+            {
+                MessageBox.Show("Can't Join Room (Maximum " + maxPlayers + " Players)", "ROOM IS FULL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Join_Room(object sender, RoutedEventArgs e)
         {
-            // TODO - check if room is full.
+            uint roomId = Convert.ToUInt32(this.RoomsList.SelectedItem.ToString().Substring(this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ") + 3));
+            
+            byte[] fullMessage = Global.Communicator.getJoinRoomMessage(roomId);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
 
-            WaitingRoom wr = new WaitingRoom(this.RoomsList.SelectedItem.ToString(), false);
+            WaitingRoom wr = new WaitingRoom(this.RoomsList.SelectedItem.ToString().Substring(0, this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ")), false, roomId);
             wr.Show();
             this.Close();
         }
 
         private void Refresh_Page(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 10; i++)
-            {
-                this.RoomsList.Items.Add("Random_Room");
-            }
+            this.RoomsList.Items.Clear();
 
-            // TODO - refresh the page (function currently adds 10 rooms - just to make it easier for now)
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(6);
+            Global.Communicator.sendMessage(fullMessage);
+            byte[] rooms = Global.Communicator.reciveResponse();
+            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
+            for(int i = 0; i < response.Rooms.Count(); i++)
+            {
+                this.RoomsList.Items.Add(response.Rooms[i].name + " - " + response.Rooms[i].id);
+            }
         }
 
         private void Check_Choosing_Room(object sender, SelectionChangedEventArgs e)
@@ -75,6 +108,6 @@ namespace Client
             {
                 this.JoinB.IsEnabled = false;
             }
-        }
+        }        
     }
 }

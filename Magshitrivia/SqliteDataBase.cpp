@@ -99,7 +99,7 @@ void SqliteDataBase::addNewUser(std::string name, std::string password, std::str
 	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
 }
 
-std::vector<int> SqliteDataBase::getPlayerAnswerTimes(std::string username)
+std::vector<int> SqliteDataBase::getPlayerTimesToAnswer(std::string username)
 {
 	std::vector<int> times;
 	char** errMessage = nullptr;
@@ -108,7 +108,7 @@ std::vector<int> SqliteDataBase::getPlayerAnswerTimes(std::string username)
 	return times;
 }
 
-std::vector<int>  SqliteDataBase::getPlayerTimeToAnswerTimes(std::string username)
+std::vector<int> SqliteDataBase::getPlayerTimesForQuestions(std::string username)
 {
 	std::vector<int> times;
 	char** errMessage = nullptr;

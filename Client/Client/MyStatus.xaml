@@ -47,11 +47,11 @@
         <Label FontSize="30" FontStyle="Italic" Grid.Row="2" Content="Number of Games:" Grid.ColumnSpan="2" Margin="177,40,176,49" Grid.RowSpan="2"/>
         <Label x:Name="_numOfGames" FontSize="30" FontStyle="Italic" Grid.Row="2" Margin="166,40,237,49" Grid.RowSpan="2" HorizontalContentAlignment="Right" Grid.Column="1" Grid.ColumnSpan="2"/>
 
-        <Label FontSize="30" FontStyle="Italic" Grid.Row="3" Content="Number of Right Answers:" Grid.ColumnSpan="2" Margin="177,41,70,47" Grid.RowSpan="2"/>
-        <Label x:Name="_numOfRightAnswers" FontSize="30" FontStyle="Italic" Grid.Row="3" Margin="256,41,237,47" Grid.RowSpan="2" HorizontalContentAlignment="Right" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Label FontSize="30" FontStyle="Italic" Grid.Row="3" Content="Total Answers:" Grid.ColumnSpan="2" Margin="177,41,70,47" Grid.RowSpan="2"/>
+        <Label x:Name="_numOfTotalAnswers" FontSize="30" FontStyle="Italic" Grid.Row="3" Margin="256,41,237,47" Grid.RowSpan="2" HorizontalContentAlignment="Right" Grid.Column="1" Grid.ColumnSpan="2"/>
 
-        <Label FontSize="30" FontStyle="Italic" Grid.Row="4" Content="Number of Wrong Answers:" Grid.ColumnSpan="2" Margin="177,44,70,44" Grid.RowSpan="2"/>
-        <Label x:Name="_numOfWrongAnswers" FontSize="30" FontStyle="Italic" Grid.Row="4" Margin="275,44,237,44" Grid.RowSpan="2" HorizontalContentAlignment="Right" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Label FontSize="30" FontStyle="Italic" Grid.Row="4" Content="Number of Correct Answers:" Grid.ColumnSpan="2" Margin="177,44,70,44" Grid.RowSpan="2"/>
+        <Label x:Name="_numOfCorrectAnswers" FontSize="30" FontStyle="Italic" Grid.Row="4" Margin="275,44,237,44" Grid.RowSpan="2" HorizontalContentAlignment="Right" Grid.Column="1" Grid.ColumnSpan="2"/>
 
         <Label FontSize="30" FontStyle="Italic" Grid.Row="5" Content="Average Time Per Answer:" Grid.ColumnSpan="2" Margin="177,46,83,42" Grid.RowSpan="2"/>
         <Label x:Name="_avgTimePerAnswer" FontSize="30" FontStyle="Italic" Grid.Row="5" Margin="259,46,237,42" Grid.RowSpan="2" HorizontalContentAlignment="Right" Grid.Column="1" Grid.ColumnSpan="2"/>

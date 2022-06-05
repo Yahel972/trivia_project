@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace Client
 {
@@ -21,18 +22,30 @@ namespace Client
     {
         public string roomName;
         public bool isAdmin;
+        public uint roomId;
+        public bool inWaitingRoom;
+        public bool userExitedRoom;
+        public bool hasGameBegun;
 
-        public WaitingRoom(string Room_Name, bool Is_Admin)
+        public WaitingRoom(string Room_Name, bool Is_Admin, uint Room_Id)
         {
             roomName = Room_Name;
             isAdmin = Is_Admin;
+            roomId = Room_Id;
+            this.userExitedRoom = false;
+            this.hasGameBegun = false;
+            this.inWaitingRoom = true;
             InitializeComponent();
 
+            // check status
+            Thread t = new Thread(new ThreadStart(Refresh_Waiting_Room));
+            t.SetApartmentState(ApartmentState.STA);
             Check_Buttons(isAdmin);
             findAllConnectedUsers();
 
             this.connectedRoom.Content = "You are connected to room: \"" + roomName + "\"";
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
+            t.Start();
         }
 
         private void Check_Buttons(bool isAdmin)
@@ -59,24 +72,69 @@ namespace Client
         private void CloseRoomB_Click(object sender, RoutedEventArgs e)
         {
             // TODO: close game for all users (loop through listBox)
-
-            Menu m = new Menu();
-            m.Show();
-            this.Close();
+            this.userExitedRoom = true;
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(10);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
         }
 
         private void LeaveRoomB_Click(object sender, RoutedEventArgs e)
         {
             // TODO: remove user from the other user's listBox
-
-            Menu m = new Menu();
-            m.Show();
-            this.Close();
+            this.userExitedRoom = true;
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(13);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
         }
 
         private void StartGameB_Click(object sender, RoutedEventArgs e)
         {
             // TODO: start game for all users (loop through listBox)
+            this.hasGameBegun = true;
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(11);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
+        }
+
+        private void Refresh_Waiting_Room()
+        {
+            while(!this.userExitedRoom && !this.hasGameBegun)   
+            {
+                byte[] fullMessage = Global.Communicator.getNoDataMessage(12);
+                Global.Communicator.sendMessage(fullMessage);
+                byte[] response = Global.Communicator.reciveResponse();
+                GetRoomStatusResponse getRoomStatusResponse = Global.Communicator.getRoomStatusResponse(response);
+                this.hasGameBegun = getRoomStatusResponse.hasGameBegun;
+                List<string> players = getRoomStatusResponse.players;
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.connectedUsers.Items.Clear();
+                    for (int i = 0; i < players.Count(); i++)
+                    {
+                        if (Global.LoggedInName.Equals(players[i]))
+                        {
+                            this.userExitedRoom = false;
+                            }
+                        this.connectedUsers.Items.Add(players[i]);
+                    }
+                });
+                Thread.Sleep(3000);
+            }
+            this.Dispatcher.Invoke(() =>
+            {
+                if (this.hasGameBegun)
+                {
+                    // create question game (pass paremeters: questionCount and answerTimeout
+                    // questionGame.Show()
+                    this.Close();
+                }
+                if(this.userExitedRoom)
+                {
+                    var m = new Menu();
+                    m.Show();
+                    this.Close();
+                }
+            });
         }
     }
 }

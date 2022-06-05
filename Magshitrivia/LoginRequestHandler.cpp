@@ -20,8 +20,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 	}
 	if (request.id == LOGIN_CODE)
 	{
-
-		return (this->login(request));;
+		return (this->login(request));
 	}
 }
 
@@ -29,15 +28,16 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 {
 	LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(request.buffer); // the request
 	RequestResult result;
-	if(this->m_loginManager.login(loginRequest.username, loginRequest.password))
+	int resultCode = this->m_loginManager.login(loginRequest.username, loginRequest.password);
+	if(resultCode == OK)  // valid request
 	{
 		LoginResponse loginResonse = { OK };
 		result.newHandler = this->m_handlerFactory.createMenuRequestHandler(loginRequest.username);
 		result.response = JsonResponsePacketSerializer::serializeResponse(loginResonse);
 	}
-	else
+	else  // invalid request
 	{
-		LoginResponse loginResponse = { 0 };
+		LoginResponse loginResponse = { resultCode };
 		result.newHandler = nullptr;
 		result.response = JsonResponsePacketSerializer::serializeResponse(loginResponse);
 	}

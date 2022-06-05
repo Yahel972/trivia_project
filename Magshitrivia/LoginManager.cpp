@@ -17,13 +17,13 @@ bool LoginManager::signup(std::string username, std::string password, std::strin
 	return (this->login(username, password));
 }
 
-bool LoginManager::login(std::string username, std::string password)
+int LoginManager::login(std::string username, std::string password)
 {
 	for (auto connectedUser: this->m_loggedUsers) {
 		if (connectedUser.getUsername() == username)
 		{
 			std::cout << "already connected!" << std::endl;
-			return false;
+			return USER_ALREADY_CONNCETED;
 		}
 	}
 	if (this->m_database->doesUserExist(username))
@@ -32,18 +32,19 @@ bool LoginManager::login(std::string username, std::string password)
 		{
 			LoggedUser user(username);
 			this->m_loggedUsers.push_back(user);
-			return true;
+			return OK;
 		}
 		else
 		{
 			std::cout << "password incorrect" << std::endl;
+			return PASSWORD_DOESNT_MATCH;
 		}
 	}
 	else
 	{
 		std::cout << "user doesn't exist" << std::endl;
+		return USER_DOESNT_EXISTS;
 	}
-	return false;
 }
 
 void LoginManager::logout(std::string username)

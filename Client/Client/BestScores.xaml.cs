@@ -23,7 +23,7 @@ namespace Client
         public BestScores()
         {
             InitializeComponent();
-            this.LoggedInUser.Content = Global.loggedInName;
+            this.LoggedInUser.Content = Global.LoggedInName;
 
             getbestScores();
         }
@@ -37,10 +37,10 @@ namespace Client
 
         private void getbestScores()
         {
-            byte[] fullMessage = Global.communicator.getNoDataMessage(8);
-            Global.communicator.sendMessage(fullMessage);
-            byte[] statistics = Global.communicator.reciveResponse();
-            getStatisticsResponse response = Global.communicator.getStatisticsResponse(statistics);
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(8);
+            Global.Communicator.sendMessage(fullMessage);
+            byte[] statistics = Global.Communicator.reciveResponse();
+            getStatisticsResponse response = Global.Communicator.getStatisticsResponse(statistics);
             this.first.Content = response.statistics[0].Substring(0, response.statistics[0].IndexOf(':')) + "-" + response.statistics[0].Substring(response.statistics[0].IndexOf(':') + 1);
             this.second.Content = response.statistics[1].Substring(0, response.statistics[1].IndexOf(':')) + "-" + response.statistics[1].Substring(response.statistics[1].IndexOf(':') + 1);
             this.third.Content = response.statistics[2].Substring(0, response.statistics[2].IndexOf(':')) + "-" + response.statistics[2].Substring(response.statistics[2].IndexOf(':') + 1);
