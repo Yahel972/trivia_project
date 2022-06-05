@@ -82,6 +82,7 @@ namespace Client
 
     public class GetPlayersInRoomResponse
     {
+        public uint status { get; set; }
         public List<string> players { get; set; }
     }
 
@@ -195,7 +196,7 @@ namespace Client
                 serializer.Serialize(writer, joinRoom);
             }
             byte[] data = ms.ToArray();
-            byte[] firstPart = this.getFirstMessagePart(5, data.Length);
+            byte[] firstPart = this.getFirstMessagePart(7, data.Length);
             byte[] buffer = firstPart.Concat(data).ToArray();
             return buffer;
         }

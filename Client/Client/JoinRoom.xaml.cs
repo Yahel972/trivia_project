@@ -40,9 +40,11 @@ namespace Client
             // TODO - check if room is full.
             uint roomId = Convert.ToUInt32(this.RoomsList.SelectedItem.ToString().Substring(this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ") + 3));
             uint maxPlayers = 0;
+
             byte[] getPlayersMessage = Global.Communicator.getPlayersInRoomMessage(roomId);
             Global.Communicator.sendMessage(getPlayersMessage);
-            GetPlayersInRoomResponse getPlayersResponse = Global.Communicator.getPlayersInRoomResponse(Global.Communicator.reciveResponse());
+            byte[] players = Global.Communicator.reciveResponse();
+            GetPlayersInRoomResponse getPlayersResponse = Global.Communicator.getPlayersInRoomResponse(players);
             uint currentPlayers = (uint)getPlayersResponse.players.Count;
 
             // getting all rooms and searching the room with the wanted ID
@@ -55,7 +57,6 @@ namespace Client
                 if (response.Rooms[i].id == roomId)
                 {
                     maxPlayers = response.Rooms[i].maxPlayers;
-                    currentPlayers = 
                     break;
                 }
             }
@@ -107,8 +108,6 @@ namespace Client
             {
                 this.JoinB.IsEnabled = false;
             }
-        }
-
-        
+        }        
     }
 }

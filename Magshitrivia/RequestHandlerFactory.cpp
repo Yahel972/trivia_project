@@ -57,3 +57,24 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(st
 	return roomAdminRequest;
 }
 
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(std::string username)
+{
+	LoggedUser user(username);
+	Room room;
+	std::map<int, Room> allRooms = this->m_roomManager.getAllRooms();
+	for (auto it = allRooms.begin(); it != allRooms.end(); it++)
+	{
+		std::vector<std::string> playersInRoom = it->second.getAllUsers();
+		for (int i = 0; i < playersInRoom.size(); i++)
+		{
+			if (playersInRoom[i] == username)
+			{
+				room = it->second;
+			}
+		}
+	}
+
+	RoomMemberRequestHandler* roomMemberRequest = new RoomMemberRequestHandler(room, user, this->getRoomManager(), *this);
+	return roomMemberRequest;
+}
+

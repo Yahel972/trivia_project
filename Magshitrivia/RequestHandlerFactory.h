@@ -8,6 +8,7 @@
 #include "RoomMemberRequestHandler.h"
 #include "RoomUserHandler.h"	
 
+class RoomMemberRequestHandler;
 
 class RoomAdminRequestHandler;
 
@@ -25,6 +26,7 @@ public:
 	StatisticsManager& getStatisticsManager();
 	RoomManager& getRoomManager();
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(std::string username);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(std::string username);
 private:
 	IDatabase* m_database;
 	LoginManager m_loginManager;

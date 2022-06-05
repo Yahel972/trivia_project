@@ -32,13 +32,13 @@ namespace Client
             InitializeComponent();
 
             // check status
-            Thread t = new Thread(Refresh_Waiting_Room);
-
+            Thread t = new Thread(new ThreadStart(Refresh_Waiting_Room));
             Check_Buttons(isAdmin);
             findAllConnectedUsers();
 
             this.connectedRoom.Content = "You are connected to room: \"" + roomName + "\"";
             this.LoggedInUser.Content = Global.LoggedInName;
+            t.Start();
         }
 
         private void Check_Buttons(bool isAdmin)
@@ -89,20 +89,43 @@ namespace Client
 
         private void Refresh_Waiting_Room()
         {
-            byte[] fullMessage = Global.Communicator.getNoDataMessage(12);
-            Global.Communicator.sendMessage(fullMessage);
-            GetRoomStatusResponse response = Global.Communicator.getRoomStatusResponse(Global.Communicator.reciveResponse());
-            bool HasGameBegun = response.hasGameBegun;
             while(true)
             {
+                byte[] fullMessage = Global.Communicator.getNoDataMessage(12);
+                Global.Communicator.sendMessage(fullMessage);
+                byte[] response = Global.Communicator.reciveResponse();
+                GetRoomStatusResponse getRoomStatusResponse = Global.Communicator.getRoomStatusResponse(response);
+                bool hasGameBegun = getRoomStatusResponse.hasGameBegun;
+                List<string> players = getRoomStatusResponse.players;
+                if (hasGameBegun)
+                {
+                    // create question game (pass paremeters: questionCount and answerTimeout
+                    // questionGame.Show()
+                    this.Close();
+                }
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.connectedUsers.Items.Clear();
+                    for (int i = 0; i < players.Count(); i++)
+                    {
+                        this.connectedUsers.Items.Add(players[i]);
+                    }
+                });
                 Thread.Sleep(3000);
             }
+        }
 
-            // TODO: send status msg - add to listBox
-            //byte[] fullMessage1 = Global.Communicator.getNoDataMessage(7);
-            //Global.Communicator.sendMessage(fullMessage1);
-            //byte[] res = Global.Communicator.reciveResponse();
-            //response = Global.Communicator.(res);
+
+        private bool elementInList(List<string> list, string element)
+        {
+            for(int i = 0; i < list.Count(); i++)
+            {
+                if(list[i].Equals(element))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

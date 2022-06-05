@@ -44,3 +44,8 @@ void RoomManager::deletePlayer(int id, LoggedUser user)
 {
 	this->m_rooms[id].removeUser(user);
 }
+
+void RoomManager::addPlayer(int id, LoggedUser user)
+{
+	this->m_rooms[id].addUser(user);
+}

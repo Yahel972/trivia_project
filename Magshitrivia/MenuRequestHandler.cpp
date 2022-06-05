@@ -64,6 +64,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo request) // done
 	RequestResult result;
 	std::vector<std::string> playersInRoom = this->m_roomManager.getAllRooms()[getPlayersRequest.roomId].getAllUsers();
 	GetPlayersInRoomResponse response;
+	response.status = OK;
 	response.players = playersInRoom;
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = nullptr;
@@ -97,11 +98,11 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo request) // done
 RequestResult MenuRequestHandler::joinRoom(RequestInfo request) // done
 {
 	JoinRoomRequest joinRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(request.buffer);
-	this->m_roomManager.getAllRooms()[joinRequest.roomId].addUser(this->m_user.getUsername());
+	this->m_roomManager.addPlayer(joinRequest.roomId, this->m_user); //getAllRooms()[joinRequest.roomId].addUser(this->m_user.getUsername());
 	RequestResult result;
 	JoinRoomResponse response = { OK };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = nullptr;
+	result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user.getUsername());
 	return result;
 }
 

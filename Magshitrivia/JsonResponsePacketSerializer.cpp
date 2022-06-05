@@ -51,13 +51,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRo
 
 std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
 {
-	std::vector<unsigned char> serializedResponse;
-	std::string players = "";
-	for (auto player : response.players) {
-		players += player;
-		players += ",";
-	}
-	nlohmann::json j = nlohmann::json{ {"PlayersInRoom:",players} };
+	nlohmann::json j = nlohmann::json{ {"status", response.status}, {"players",response.players} };
 	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_PLAYERS_IN_ROOM));
 }
