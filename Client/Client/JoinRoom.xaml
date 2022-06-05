@@ -46,6 +46,6 @@
         <ListBox x:Name="RoomsList" Grid.Row="1" Grid.ColumnSpan="3" Margin="220,88,220,0" Grid.RowSpan="4" Background="Beige" SelectionChanged="Check_Choosing_Room"/>
 
         <Button x:Name="JoinB" Grid.Column="1" Grid.Row="5" Content="Join" FontStyle="Italic" Grid.ColumnSpan="2" Margin="200,50,220,88" Background="Beige" Grid.RowSpan="2" Click="Check_Validation_And_Join_Room" IsEnabled="False"/>
-        <Button Grid.Row="5" Content="Refresh" FontStyle="Italic" Margin="220,50,200,88" Background="Beige" Grid.RowSpan="2" Grid.ColumnSpan="2" Click="Refresh_Page"/>
+        <Button Grid.Row="5" Content="Refresh" FontStyle="Italic" Margin="220,50,200,88" Background="Beige" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

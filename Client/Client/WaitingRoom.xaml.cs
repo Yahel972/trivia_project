@@ -82,9 +82,6 @@ namespace Client
         {
             // TODO: remove user from the other user's listBox
             this.userExitedRoom = true;
-            byte[] fullMessage = Global.Communicator.getNoDataMessage(13);
-            Global.Communicator.sendMessage(fullMessage);
-            Global.Communicator.reciveResponse();
         }
 
         private void StartGameB_Click(object sender, RoutedEventArgs e)
@@ -100,6 +97,7 @@ namespace Client
         {
             while(!this.userExitedRoom && !this.hasGameBegun)   
             {
+                this.userExitedRoom = true;
                 byte[] fullMessage = Global.Communicator.getNoDataMessage(12);
                 Global.Communicator.sendMessage(fullMessage);
                 byte[] response = Global.Communicator.reciveResponse();
@@ -114,7 +112,7 @@ namespace Client
                         if (Global.LoggedInName.Equals(players[i]))
                         {
                             this.userExitedRoom = false;
-                            }
+                        }
                         this.connectedUsers.Items.Add(players[i]);
                     }
                 });
@@ -130,6 +128,9 @@ namespace Client
                 }
                 if(this.userExitedRoom)
                 {
+                    byte[] fullMessage = Global.Communicator.getNoDataMessage(13);
+                    Global.Communicator.sendMessage(fullMessage);
+                    Global.Communicator.reciveResponse();
                     var m = new Menu();
                     m.Show();
                     this.Close();
