@@ -41,7 +41,7 @@
         <Button x:Name="JoinRoomB" Content="Join Room" Grid.Column="1" Grid.Row="3" Margin="40,25,40,25" Click="Open_Join_Room_page" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="CreateRoomB" Content="Create Room" Grid.Column="1" Grid.Row="4" Margin="40,25,40,25" Click="Open_Create_Room_Page" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="MyStatusB" Content="My Status" Grid.Column="1" Grid.Row="5" Margin="40,25,40,25" Click="Open_My_Status_Page" Background="Beige" FontStyle="Italic"/>
-        <Button Content="Best Scores" Grid.Column="1" Grid.Row="6" Margin="40,25,40,25" Click="Open_Best_Scores_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="BestScoresB" Content="Best Scores" Grid.Column="1" Grid.Row="6" Margin="40,25,40,25" Click="Open_Best_Scores_Page" Background="Beige" FontStyle="Italic"/>
         <Button Content="Quit" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="LogOutB" Content="Log Out" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Log_Out" Background="Beige" FontStyle="Italic" Visibility="Hidden"/>
 

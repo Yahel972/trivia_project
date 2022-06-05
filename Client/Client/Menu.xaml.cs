@@ -98,6 +98,7 @@ namespace Client
                 this.SignUpB.IsEnabled = false;
                 this.CreateRoomB.IsEnabled = true;
                 this.MyStatusB.IsEnabled = true;
+                this.BestScoresB.IsEnabled = true;
                 this.LogInB.Visibility = System.Windows.Visibility.Hidden;
                 this.LogOutB.Visibility = System.Windows.Visibility.Visible;
             }
@@ -107,6 +108,7 @@ namespace Client
                 this.SignUpB.IsEnabled = true;
                 this.CreateRoomB.IsEnabled = false;
                 this.MyStatusB.IsEnabled = false;
+                this.BestScoresB.IsEnabled = false;
                 this.LogInB.Visibility = System.Windows.Visibility.Visible;
                 this.LogOutB.Visibility = System.Windows.Visibility.Hidden;
             }
