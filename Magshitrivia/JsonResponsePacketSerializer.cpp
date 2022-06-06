@@ -197,10 +197,9 @@ void JsonResponsePacketSerializer::to_json(nlohmann::json& j, const RoomData& r)
 void JsonResponsePacketSerializer::to_json(nlohmann::json& j, const PlayerResults& r)
 {
 	j = nlohmann::json{
-			{"id", r.id},
-			{"name", r.name},
-			{"maxPlayers", r.maxPlayers},
-			{"timePerQuestion", r.timePerQuestion},
-			{"isActive", r.isActive}
+			{"username", r.username},
+			{"correctAnswerCount", r.correctAnswerCount},
+			{"wrongAnswerCount", r.wrongAnswerCount},
+			{"averageAnswerTime", r.averageAnswerTime}
 	};
 }

@@ -34,10 +34,10 @@ typedef struct JoinRoomRequest
 	unsigned int roomId;
 } JoinRoomRequest;
 
-typedef struct SubmitAnswerResponse
+typedef struct SubmitAnswerRequest
 {
 	unsigned int answerId;
-} SubmitAnswerResponse;
+} SubmitAnswerRequest;
 
 
 
@@ -49,5 +49,5 @@ public:
 	static GetPlayersInRoomRequest deserializeGetPlayersRequest(std::vector<unsigned char> Buffer);
 	static JoinRoomRequest deserializeJoinRoomRequest(std::vector<unsigned char> Buffer);
 	static CreateRoomRequest deserializeCreateRoomRequest(std::vector<unsigned char> Buffer);
-	static SubmitAnswerResponse deserializeSubmitAnswerResponse(std::vector<unsigned char> Buffer);
+	static SubmitAnswerRequest deserializeSubmitAnswerRequest(std::vector<unsigned char> Buffer);
 };

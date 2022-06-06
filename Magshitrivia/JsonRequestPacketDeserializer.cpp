@@ -42,10 +42,10 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(st
 	return request;
 }
 
-SubmitAnswerResponse JsonRequestPacketDeserializer::deserializeSubmitAnswerResponse(std::vector<unsigned char> Buffer)
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(std::vector<unsigned char> Buffer)
 {
 	std::vector<unsigned char> jsonAsBytes;
 	nlohmann::json j = nlohmann::json::from_bson(Buffer);
-	SubmitAnswerResponse request = { j["answerId"].get<unsigned int>() };
+	SubmitAnswerRequest request = { j["answerId"].get<unsigned int>() };
 	return request;
 }
