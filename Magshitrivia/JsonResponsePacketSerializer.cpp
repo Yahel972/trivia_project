@@ -119,6 +119,44 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(Leave
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, LEAVE_ROOM));
 }
 
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse response)
+{
+	std::vector<unsigned char> serializedResponse;
+	nlohmann::json j = nlohmann::json{ {"status",response.status} };
+	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
+	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, LEAVE_GAME));
+}
+
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse response)
+{
+	std::vector<unsigned char> serializedResponse;
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"question",response.question}, {"answers",response.answers} };
+	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
+	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_QUESTION));
+}
+
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse response)
+{
+	std::vector<unsigned char> serializedResponse;
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"correctAnswerId",response.correctAnswerId} };
+	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
+	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, SUBMIT_ANSWER));
+}
+
+std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse response)
+{
+	std::vector<nlohmann::json> jVec;
+	for (int i = 0; i < response.results.size(); i++)
+	{
+		nlohmann::json j;
+		JsonResponsePacketSerializer::to_json(j, response.results[i]);
+		jVec.push_back(j);
+	}
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"results",jVec} };
+	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
+	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_GAME_RESULTS));
+}
+
 
 std::vector<unsigned char> JsonResponsePacketSerializer::generalSerialize(std::vector<unsigned char> jsonAsBytes, int code)
 {
@@ -154,4 +192,15 @@ void JsonResponsePacketSerializer::to_json(nlohmann::json& j, const RoomData& r)
 			{"timePerQuestion", r.timePerQuestion},
 			{"isActive", r.isActive}
 		};
+}
+
+void JsonResponsePacketSerializer::to_json(nlohmann::json& j, const PlayerResults& r)
+{
+	j = nlohmann::json{
+			{"id", r.id},
+			{"name", r.name},
+			{"maxPlayers", r.maxPlayers},
+			{"timePerQuestion", r.timePerQuestion},
+			{"isActive", r.isActive}
+	};
 }
