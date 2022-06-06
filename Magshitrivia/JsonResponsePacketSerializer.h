@@ -100,6 +100,31 @@ typedef struct LeaveRoomResponse
 	unsigned int status;
 } LeaveRoomResponse;
 
+typedef struct LeaveGameResponse
+{
+	unsigned int status;
+} LeaveGameResponse;
+
+typedef struct GetQuestionResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+} GetQuestionResponse;
+
+typedef struct PlayerResults
+{
+	std::string username;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	unsigned int averageAnswerTime;
+} PlayerResults;
+
+typedef struct GetGameResultsResponse
+{
+	unsigned int status;
+	std::vector<PlayerResults> results;
+} GetGameResultsResponse;
+
 
 class JsonResponsePacketSerializer
 {
