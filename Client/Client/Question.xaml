@@ -8,7 +8,7 @@
         ResizeMode="CanMinimize"
         Title="Question" Height="725" Width="1100"
         WindowStartupLocation="Manual" 
-        Left="900" Top="100">
+        Left="800" Top="100">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -37,8 +37,8 @@
         </Grid.ColumnDefinitions>
 
         <Label x:Name="Subject" Content="MagshiTrivia - Question " Margin="256,-10,130,47" FontSize="30" FontStyle="Italic" Grid.ColumnSpan="3"/>
-        <Label Content="Yahel Bareket &amp; Dean Einer" Grid.Column="1" Margin="40,48,40,5" FontSize="20" FontStyle="Italic"/>
-        <Image Source="Images/logo.png" Margin="-62,5,62,57" Grid.RowSpan="2"/>
+        <Label Content="Yahel Bareket &amp; Dean Einer" Margin="1,48,79,5" FontSize="20" FontStyle="Italic" Grid.Column="1"/>
+        <Image Source="Images/logo.png" Margin="-95,5,95,57" Grid.RowSpan="2"/>
         <Label x:Name="LoggedInUser" Grid.Column="2" Margin="10,0,10,35" FontSize="30" FontStyle="Italic" HorizontalContentAlignment="Right"/>
         <Button Content="Quit" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
 
@@ -47,5 +47,7 @@
         <Button x:Name="Answer2B" Grid.Row="3" Grid.ColumnSpan="2" Margin="275,0,50,0" Grid.Column="1" Background="Beige" FontStyle="Italic" FontSize="25" Click="Answer2B_Click"/>
         <Button x:Name="Answer3B" Grid.Row="5" Grid.ColumnSpan="2" Margin="50,0,275,0" Background="Beige" FontStyle="Italic" FontSize="25" Click="Answer3B_Click"/>
         <Button x:Name="Answer4B" Grid.Row="5" Grid.ColumnSpan="2" Margin="275,0,50,0" Grid.Column="1" Background="Beige" FontStyle="Italic" FontSize="25" Click="Answer4B_Click"/>
+
+        <Label x:Name="Timer" Grid.Column="2" FontSize="50" FontStyle="Italic" Margin="0,21,0,0" Grid.RowSpan="2"/>
     </Grid>
 </Window>
