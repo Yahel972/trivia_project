@@ -106,7 +106,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(Start
 std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
-	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"hasGameBegun",response.hasGameBegun}, {"players",response.players}, {"AnswerCount",response.questionCount}, {"answerTimeOut",response.answerTimeout} };
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"hasGameBegun",response.hasGameBegun}, {"players",response.players}, {"questionCount",response.questionCount}, {"answerTimeOut",response.answerTimeout} };
 	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, GET_ROOM_STATE));
 }

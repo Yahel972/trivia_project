@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include "Question.h"
+
 
 class IDatabase
 {
@@ -16,4 +19,5 @@ public:
 	virtual int getNumOfTotalAnswers(std::string username) = 0;
 	virtual int getNumOfPlayerGames(std::string username) = 0;
 	virtual std::vector<std::string> getUsers() = 0;
+	virtual std::vector<Question> getQuestions(int numOfQuestions) = 0;
 };

@@ -43,8 +43,6 @@ namespace Client
         public uint roomId { get; set; }
     }
 
-
-
     public class OnlyStatusResponse
     {
         public uint status { get; set; }
@@ -84,6 +82,13 @@ namespace Client
     {
         public uint status { get; set; }
         public List<string> players { get; set; }
+    }
+
+    public class GetQuestionResponse
+    {
+        public uint status { get; set; }
+        public String question { get; set; }
+        public List<string> answers { get; set; }
     }
 
     class Communicator
@@ -279,6 +284,18 @@ namespace Client
             {
                 JsonSerializer serializer = new JsonSerializer();
                 response = serializer.Deserialize<GetPlayersInRoomResponse>(reader);
+            }
+            return response;
+        }
+
+        public GetQuestionResponse getQuestionResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            GetQuestionResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                response = serializer.Deserialize<GetQuestionResponse>(reader);
             }
             return response;
         }

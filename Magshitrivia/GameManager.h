@@ -3,9 +3,12 @@
 #include "SqliteDataBase.h"
 #include "Room.h"
 
+
 class GameManager
 {
 public:
+	GameManager() = default;
+	GameManager(IDatabase* datebase);
 	Game createGame(Room room);
 	void deleteGame();
 private:

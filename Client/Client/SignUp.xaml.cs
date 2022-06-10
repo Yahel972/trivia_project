@@ -82,16 +82,16 @@ namespace Client
             if (password.Length < 4)
                 return 1;
 
+            if (password.Length >= 4)
+                score++;
             if (password.Length >= 8)
                 score++;
-            if (password.Length >= 12)
+            if (Regex.IsMatch(password, @"[a-z]"))
                 score++;
-            if (Regex.Match(password, @"/\d+/", RegexOptions.ECMAScript).Success)
+            if (Regex.IsMatch(password, @"[0-9]"))
                 score++;
-            if (Regex.Match(password, @"/[a-z]/", RegexOptions.ECMAScript).Success &&
-                Regex.Match(password, @"/[A-Z].*.*/", RegexOptions.ECMAScript).Success)
-                score++;
-            if (Regex.Match(password, @"/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/", RegexOptions.ECMAScript).Success)
+
+            if (Regex.IsMatch(password, @"[A-Z]"))
                 score++;
 
             return score;

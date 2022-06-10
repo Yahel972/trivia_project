@@ -143,7 +143,7 @@ int SqliteDataBase::getNumOfPlayerGames(std::string username)
 	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_int, &numOfGames, errMessage);
 	return numOfGames;
 }
-
+	
 std::vector<std::string> SqliteDataBase::getUsers()
 {
 	std::vector<std::string> users;
@@ -151,6 +151,27 @@ std::vector<std::string> SqliteDataBase::getUsers()
 	std::string sqlStatement = "SELECT USERNAME FROM USERS";
 	sqlite3_exec(this->db, sqlStatement.c_str(), callback_users, &users, errMessage);
 	return users;
+}
+
+std::vector<Question> SqliteDataBase::getQuestions(int numOfQuestions)
+{
+	std::vector<std::string> values;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT QUESTION,CORRECT_ANSWER,INCORRECT_ANSWER_1,INCORRECT_ANSWER_2,INCORRECT_ANSWER_3 FROM QUESTIONS LIMIT " + std::to_string(numOfQuestions) + ";";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_users, &values, errMessage);
+	std::vector<Question> questions;
+	for (int i = 0; i < values.size(); i +=5)
+	{
+		std::vector<std::string> possibleAnswers;
+		std::string question = values[i];
+		for (int j = i + 1; j < i + 5; j++)
+		{
+			possibleAnswers.push_back(values[j]);
+		}
+		questions.push_back(Question(question, possibleAnswers));
+	}
+	std::random_shuffle(questions.begin(), questions.end());
+	return questions;
 }
 
 int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, char** azColName)

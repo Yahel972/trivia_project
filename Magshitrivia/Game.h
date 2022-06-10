@@ -2,22 +2,19 @@
 #include "Question.h"
 #include <map>
 #include "LoggedUser.h"
-
-typedef struct GameData
-{
-	Question currentQuestion;
-	unsigned int correctAnswerCount;
-	unsigned int wrongAnswerCount;
-	unsigned int averageAnswerTime;
-} GameData;
+#include "GameData.h"
 
 class Game
 {
 public:
-	void getQuestionForUser(LoggedUser user);
+	Game() = default;
+	Game(std::vector<Question> questions);
+	Question getQuestionForUser(LoggedUser user);
 	void submitAnswer(LoggedUser user, std::string answer);
 	void removePlayer(LoggedUser user);
+	void addNewPlayer(LoggedUser user);
+
 private:
+	std::map<std::string, GameData> m_players;
 	std::vector<Question> m_questions;
-	std::map<LoggedUser, GameData> m_players;
 };

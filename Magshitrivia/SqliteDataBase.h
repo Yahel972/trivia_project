@@ -16,6 +16,7 @@ public:
 	int getNumOfTotalAnswers(std::string username) override;
 	int getNumOfPlayerGames(std::string username) override;
 	std::vector<std::string> getUsers() override;
+	std::vector<Question> getQuestions(int numOfQuestions) override;
 private:
 	sqlite3* db;
 	static int callback_single_string(void* data, int argc, char** argv, char** azColName);

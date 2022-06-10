@@ -15,9 +15,9 @@ private:
 	RequestResult closeRoom(RequestInfo request);
 	RequestResult startGame(RequestInfo request);
 	RequestResult getRoomState(RequestInfo request);
+	RequestResult getRooms(RequestInfo request);
 	Room* m_room;
 	LoggedUser m_user;
 	RoomManager& m_roomManager;
 	RequestHandlerFactory& m_handlerFactory;
-	RequestResult getRooms(RequestInfo request);
 };

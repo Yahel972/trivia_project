@@ -28,12 +28,9 @@ namespace Client
     {
         public Menu()
         {
-
             InitializeComponent();
             Check_Buttons();
             this.LoggedInUser.Content = Global.LoggedInName;
-            Question q = new Question(5, 5);
-            q.Show();
         }
 
         private void Quit(object sender, RoutedEventArgs e)

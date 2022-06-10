@@ -46,7 +46,7 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo request)
 		this->m_room->start();
 	}
 	RequestResult requestResult;
-	requestResult.newHandler = nullptr; // IMPORTANT: the handler should be to "GameRequestHandler"
+	requestResult.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user); // IMPORTANT: the handler should be to "GameRequestHandler"
 	StartGameResponse response = { OK };
 	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return requestResult;

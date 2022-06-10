@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,14 +31,46 @@ namespace Client
             CurrentQuestion = current_question;
 
             InitializeComponent();
+            Thread t = new Thread(new ThreadStart(Game));
+            t.Start();
+        }
 
-            Answers = new[] { this.Answer1B, this.Answer2B, this.Answer3B, this.Answer4B };
-            this.Subject.Content += CurrentQuestion + "/" + NumOfQuestions;
+        private void Game()
+        {
+            for (int i = 0; i < NumOfQuestions; i++)
+            {
+                byte[] fullMessage = Global.Communicator.getNoDataMessage(15);
+                Global.Communicator.sendMessage(fullMessage);
+                GetQuestionResponse response = Global.Communicator.getQuestionResponse(Global.Communicator.reciveResponse());
+                response.
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.QuestionContent.Content = response.question;
+                    this.Answer1B.Content = response.answers[0];
+                    this.Answer2B.Content = response.answers[1];
+                    this.Answer3B.Content = response.answers[2];
+                    this.Answer4B.Content = response.answers[3];
+                    this.Subject.Content += CurrentQuestion + "/" + NumOfQuestions;
+                });
+                CurrentQuestion += 1;
+                Answers = new[] { this.Answer1B, this.Answer2B, this.Answer3B, this.Answer4B };
+                // create a timer thread (changes timer) - CreateTimer() 
+                // submit answer
+                //}
 
-            RollQuestion();
+                // recieve result
+                RollQuestion();
 
-            // create a timer thread (changes timer) - CreateTimer()
-            // thread will call an ending function that will show correct answer & calculate points - Change_Buttons_Colors_TimesUp()
+                Thread.Sleep(3000);
+
+                // create a timer thread (changes timer) - CreateTimer()
+                // thread will call an ending function that will show correct answer & calculate points - Change_Buttons_Colors_TimesUp()
+
+            }
+            this.Dispatcher.Invoke(() =>
+            {
+                this.Close();
+            });
         }
 
         private void Quit(object sender, RoutedEventArgs e)

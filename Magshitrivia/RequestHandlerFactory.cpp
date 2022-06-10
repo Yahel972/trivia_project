@@ -6,6 +6,7 @@ RequestHandlerFactory::RequestHandlerFactory()
 	this->m_database = this->m_loginManager.getDataBase();
 	this->m_roomManager = RoomManager();
 	this->m_StatisticsManager = StatisticsManager(this->m_database);
+	this->m_gameManager = GameManager(this->m_database);
 }
 
 LoginRequestHandler* RequestHandlerFactory::createLoginRequest()
@@ -52,7 +53,6 @@ RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(st
 			}
 		}
 	}
-	std::cout << "Admin: " << room << std::endl;
 	RoomAdminRequestHandler* roomAdminRequest = new RoomAdminRequestHandler(room, user, this->getRoomManager(), *this);
 	return roomAdminRequest;
 }
@@ -73,8 +73,31 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 			}
 		}
 	}
-	std::cout << "Member: " << room << std::endl;
 	RoomMemberRequestHandler* roomMemberRequest = new RoomMemberRequestHandler(room, user, this->getRoomManager(), *this);
 	return roomMemberRequest;
+}
+
+GameManager& RequestHandlerFactory::getGameManager()
+{
+	return this->m_gameManager;
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser user)
+{
+	Room* room = nullptr;
+	std::map<int, Room*> allRooms = this->m_roomManager.getAllRooms();
+	for (auto it = allRooms.begin(); it != allRooms.end(); it++)
+	{
+		std::vector<std::string> playersInRoom = it->second->getAllUsers();
+		for (int i = 0; i < playersInRoom.size(); i++)
+		{
+			if (playersInRoom[i] == user.getUsername())
+			{
+				room = it->second;
+			}
+		}
+	}
+	GameRequestHandler* gameRequestHandler = new GameRequestHandler(*room, user, this->getGameManager(), *this);
+	return gameRequestHandler;
 }
 

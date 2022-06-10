@@ -26,6 +26,8 @@ namespace Client
         public bool inWaitingRoom;
         public bool userExitedRoom;
         public bool hasGameBegun;
+        public uint timeToAnswer;
+        public uint numOfQuestions;
 
         public WaitingRoom(string Room_Name, bool Is_Admin, uint Room_Id)
         {
@@ -88,20 +90,19 @@ namespace Client
         {
             // TODO: start game for all users (loop through listBox)
             this.hasGameBegun = true;
-            byte[] fullMessage = Global.Communicator.getNoDataMessage(11);
-            Global.Communicator.sendMessage(fullMessage);
-            Global.Communicator.reciveResponse();
         }
 
         private void Refresh_Waiting_Room()
         {
-            while(!this.userExitedRoom && !this.hasGameBegun)   
+            while (!this.userExitedRoom && !this.hasGameBegun)   
             {
                 this.userExitedRoom = true;
                 byte[] fullMessage = Global.Communicator.getNoDataMessage(12);
                 Global.Communicator.sendMessage(fullMessage);
                 byte[] response = Global.Communicator.reciveResponse();
                 GetRoomStatusResponse getRoomStatusResponse = Global.Communicator.getRoomStatusResponse(response);
+                timeToAnswer = getRoomStatusResponse.answerTimeout;
+                numOfQuestions = getRoomStatusResponse.questionCount;
                 this.hasGameBegun = getRoomStatusResponse.hasGameBegun;
                 List<string> players = getRoomStatusResponse.players;
                 this.Dispatcher.Invoke(() =>
@@ -124,6 +125,11 @@ namespace Client
                 {
                     // create question game (pass paremeters: questionCount and answerTimeout
                     // questionGame.Show()
+                    byte[] fullMessage = Global.Communicator.getNoDataMessage(11);
+                    Global.Communicator.sendMessage(fullMessage);
+                    Global.Communicator.reciveResponse();
+                    Question q = new Question(timeToAnswer, numOfQuestions);
+                    q.Show();
                     this.Close();
                 }
                 if(this.userExitedRoom)
