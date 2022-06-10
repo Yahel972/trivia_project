@@ -125,38 +125,50 @@ namespace Client
 
         private void Answer1B_Click(object sender, RoutedEventArgs e)
         {
-            stopwatch.Stop();
-            this.ClickedButton = 1;
-            this.Answer1B.BorderThickness = new Thickness(1, 1, 1, 3);
-            this.Answer1B.BorderBrush = Brushes.Black;
-            Lock_All_Buttons(false);
+            if (IsStateOK())
+            {
+                stopwatch.Stop();
+                this.ClickedButton = 1;
+                this.Answer1B.BorderThickness = new Thickness(1, 1, 1, 3);
+                this.Answer1B.BorderBrush = Brushes.Black;
+                Lock_All_Buttons(false);
+            }
         }
 
         private void Answer2B_Click(object sender, RoutedEventArgs e)
         {
-            stopwatch.Stop();
-            this.ClickedButton = 2;
-            this.Answer2B.BorderThickness = new Thickness(1, 1, 1, 3);
-            this.Answer2B.BorderBrush = Brushes.Black;
-            Lock_All_Buttons(false);
+            if (IsStateOK())
+            {
+                stopwatch.Stop();
+                this.ClickedButton = 2;
+                this.Answer2B.BorderThickness = new Thickness(1, 1, 1, 3);
+                this.Answer2B.BorderBrush = Brushes.Black;
+                Lock_All_Buttons(false);
+            }
         }
 
         private void Answer3B_Click(object sender, RoutedEventArgs e)
         {
-            stopwatch.Stop();
-            this.ClickedButton = 3;
-            this.Answer3B.BorderThickness = new Thickness(1, 1, 1, 3);
-            this.Answer3B.BorderBrush = Brushes.Black;
-            Lock_All_Buttons(false);
+            if (IsStateOK())
+            {
+                stopwatch.Stop();
+                this.ClickedButton = 3;
+                this.Answer3B.BorderThickness = new Thickness(1, 1, 1, 3);
+                this.Answer3B.BorderBrush = Brushes.Black;
+                Lock_All_Buttons(false);
+            }
         }
 
         private void Answer4B_Click(object sender, RoutedEventArgs e)
         {
-            stopwatch.Stop();
-            this.ClickedButton = 4;
-            this.Answer4B.BorderThickness = new Thickness(1, 1, 1, 3);
-            this.Answer4B.BorderBrush = Brushes.Black;
-            Lock_All_Buttons(false);
+            if (IsStateOK())
+            {
+                stopwatch.Stop();
+                this.ClickedButton = 4;
+                this.Answer4B.BorderThickness = new Thickness(1, 1, 1, 3);
+                this.Answer4B.BorderBrush = Brushes.Black;
+                Lock_All_Buttons(false);
+            }
         }
 
         private void Lock_All_Buttons(bool eMode)
@@ -165,6 +177,11 @@ namespace Client
             this.Answer2B.IsEnabled = eMode;
             this.Answer3B.IsEnabled = eMode;
             this.Answer4B.IsEnabled = eMode;
+        }
+
+        private bool IsStateOK()
+        {
+            return (this.Answer1B.Background == Brushes.Beige && this.Answer2B.Background == Brushes.Beige && this.Answer3B.Background == Brushes.Beige && this.Answer4B.Background == Brushes.Beige);
         }
 
         private void Check_Answer(int button)
