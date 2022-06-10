@@ -29,6 +29,7 @@ namespace Client
             TimePerQuestion = time_per_question;
             NumOfQuestions = num_of_questions;
             CurrentQuestion = current_question;
+            this.CorrectAnswer = 2;  // TODO UPDATE THAT AFTER ROLLING QUESTION
 
             InitializeComponent();
             Thread t = new Thread(new ThreadStart(Game));
@@ -58,10 +59,7 @@ namespace Client
                 // submit answer
                 //}
 
-                // recieve result
-                RollQuestion();
-
-                Thread.Sleep(3000);
+                Thread.Sleep(Convert.ToInt32(this.TimePerQuestion) * 1000);
                 this.Dispatcher.Invoke(() =>
                 {
                     ResetButtons();
@@ -87,13 +85,6 @@ namespace Client
             // TODO: remove user from the game
             // special case if he is the only player
             // or if there are 2 players (other player will be the winner)
-        }
-
-        private void RollQuestion()
-        {
-            // TODO: roll a question from the DB
-            // update question content, correct answer & buttons contents
-            this.CorrectAnswer = 2;  // delete this line after, using it for now cause it is easier
         }
 
         private void CreateTimer()
