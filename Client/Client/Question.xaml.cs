@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Client
 {
@@ -23,8 +24,9 @@ namespace Client
 
         public Button[] Answers;
         public int CorrectAnswer;
-
         public int ClickedButton;
+
+        Stopwatch stopwatch;
 
         public Question(uint time_per_question, uint num_of_questions, uint current_question = 1)
         {
@@ -33,6 +35,7 @@ namespace Client
             CurrentQuestion = current_question;
             this.CorrectAnswer = 2;  // TODO UPDATE THAT AFTER ROLLING QUESTION
             this.ClickedButton = 0;  // no button clicked yet
+            stopwatch = new Stopwatch();
 
             InitializeComponent();
             Answers = new[] { this.Answer1B, this.Answer2B, this.Answer3B, this.Answer4B };
@@ -60,7 +63,8 @@ namespace Client
                     this.ClickedButton = 0;
                 });
                 CurrentQuestion += 1;
-
+                stopwatch.Start();  // starting to measure time 
+                
                 // create a timer thread (changes timer) - CreateTimer() 
                 // submit answer
                 //}
@@ -75,11 +79,13 @@ namespace Client
 
                 Thread.Sleep(2000);
 
+                // reseting Window for next question
                 this.Dispatcher.Invoke(() =>
                 {
                     ResetButtons();
                     this.Subject.Content = "MagshiTrivia - Question ";
                 });
+                stopwatch.Reset();
 
                 // create a timer thread (changes timer) - CreateTimer()
                 // thread will call an ending function that will show correct answer & calculate points - Change_Buttons_Colors_TimesUp()
@@ -109,6 +115,7 @@ namespace Client
 
         private void Answer1B_Click(object sender, RoutedEventArgs e)
         {
+            stopwatch.Stop();
             this.ClickedButton = 1;
             this.Answer1B.BorderThickness = new Thickness(1, 1, 1, 3);
             this.Answer1B.BorderBrush = Brushes.Black;
@@ -117,6 +124,7 @@ namespace Client
 
         private void Answer2B_Click(object sender, RoutedEventArgs e)
         {
+            stopwatch.Stop();
             this.ClickedButton = 2;
             this.Answer2B.BorderThickness = new Thickness(1, 1, 1, 3);
             this.Answer2B.BorderBrush = Brushes.Black;
@@ -125,6 +133,7 @@ namespace Client
 
         private void Answer3B_Click(object sender, RoutedEventArgs e)
         {
+            stopwatch.Stop();
             this.ClickedButton = 3;
             this.Answer3B.BorderThickness = new Thickness(1, 1, 1, 3);
             this.Answer3B.BorderBrush = Brushes.Black;
@@ -133,6 +142,7 @@ namespace Client
 
         private void Answer4B_Click(object sender, RoutedEventArgs e)
         {
+            stopwatch.Stop();
             this.ClickedButton = 4;
             this.Answer4B.BorderThickness = new Thickness(1, 1, 1, 3);
             this.Answer4B.BorderBrush = Brushes.Black;
