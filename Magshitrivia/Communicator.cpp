@@ -69,7 +69,6 @@ void Communicator::handleNewClient(SOCKET socket)
 		}
 
 		// checking if the request given is valid
-		std::cout << requestInfo.id << std::endl;
 		if (this->m_clients[socket]->isRequestRelevant(requestInfo))
 		{
 			RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);
