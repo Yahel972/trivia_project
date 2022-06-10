@@ -63,13 +63,16 @@ namespace Client
                     this.ClickedButton = 0;
                 });
                 CurrentQuestion += 1;
-                stopwatch.Start();  // starting to measure time 
-                
+
+                //Thread t = new Thread(new ThreadStart(Update_Timer));  // thread will update the timer each second
+                //t.Start();
+
                 // create a timer thread (changes timer) - CreateTimer() 
                 // submit answer
-                //}
 
+                stopwatch.Start();  // starting to measure time 
                 Thread.Sleep(Convert.ToInt32(this.TimePerQuestion) * 1000);
+                //t.Abort();
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -105,13 +108,20 @@ namespace Client
         {
             // TODO: remove user from the game
             // special case if he is the only player
-            // or if there are 2 players (other player will be the winner)
         }
 
-        private void CreateTimer()
+        /*
+        private void Update_Timer()
         {
-            // TODO: create a timer (use TimePerQuestion variable)
-        }
+            uint currTime = this.TimePerQuestion;
+
+            while (true)
+            {
+                this.Timer.Content = currTime;
+                currTime--;
+                Thread.Sleep(1000);
+            }
+        }*/
 
         private void Answer1B_Click(object sender, RoutedEventArgs e)
         {
