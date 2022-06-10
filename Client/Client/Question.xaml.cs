@@ -62,13 +62,22 @@ namespace Client
                 RollQuestion();
 
                 Thread.Sleep(3000);
+                this.Dispatcher.Invoke(() =>
+                {
+                    ResetButtons();
+                    this.Subject.Content = "MagshiTrivia - Question ";
+                });
 
                 // create a timer thread (changes timer) - CreateTimer()
                 // thread will call an ending function that will show correct answer & calculate points - Change_Buttons_Colors_TimesUp()
-
             }
             this.Dispatcher.Invoke(() =>
             {
+                // TODO: show result as a MessageBox
+                // then after clicking OK return to the menu
+
+                Menu m = new Menu();
+                m.Show();
                 this.Close();
             });
         }
@@ -180,6 +189,14 @@ namespace Client
                     this.Answers[i].Background = Brushes.Red;
                 }
             }
+        }
+
+        private void ResetButtons()
+        {
+            this.Answer1B.Background = Brushes.Beige;
+            this.Answer2B.Background = Brushes.Beige;
+            this.Answer3B.Background = Brushes.Beige;
+            this.Answer4B.Background = Brushes.Beige;
         }
     }
 }
