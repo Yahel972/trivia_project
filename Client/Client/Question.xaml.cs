@@ -24,14 +24,19 @@ namespace Client
         public Button[] Answers;
         public int CorrectAnswer;
 
+        public int ClickedButton;
+
         public Question(uint time_per_question, uint num_of_questions, uint current_question = 1)
         {
             TimePerQuestion = time_per_question;
             NumOfQuestions = num_of_questions;
             CurrentQuestion = current_question;
             this.CorrectAnswer = 2;  // TODO UPDATE THAT AFTER ROLLING QUESTION
+            this.ClickedButton = 0;  // no button clicked yet
 
             InitializeComponent();
+            Answers = new[] { this.Answer1B, this.Answer2B, this.Answer3B, this.Answer4B };
+
             Thread t = new Thread(new ThreadStart(Game));
             t.Start();
         }
@@ -52,14 +57,23 @@ namespace Client
                     this.Answer3B.Content = response.answers[2];
                     this.Answer4B.Content = response.answers[3];
                     this.Subject.Content += CurrentQuestion + "/" + NumOfQuestions;
+                    this.ClickedButton = 0;
                 });
                 CurrentQuestion += 1;
-                Answers = new[] { this.Answer1B, this.Answer2B, this.Answer3B, this.Answer4B };
+
                 // create a timer thread (changes timer) - CreateTimer() 
                 // submit answer
                 //}
 
                 Thread.Sleep(Convert.ToInt32(this.TimePerQuestion) * 1000);
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    Check_Answer(this.ClickedButton);
+                });
+
+                Thread.Sleep(2000);
+
                 this.Dispatcher.Invoke(() =>
                 {
                     ResetButtons();
@@ -94,66 +108,47 @@ namespace Client
 
         private void Answer1B_Click(object sender, RoutedEventArgs e)
         {
-            // user chose answer 1
-            if (this.CorrectAnswer == 1)  // correct ans
-            {
-                Change_Buttons_Colors_Right();
-                // update scores
-            }
-            else  // wrong ans
-            {
-                Change_Buttons_Colors_Wrong(1);
-            }
-
-            // Wait 2 sec
+            this.ClickedButton = 1;
+            this.Answer1B.BorderThickness = new Thickness(1, 1, 1, 3);
+            this.Answer1B.BorderBrush = Brushes.Black;
         }
 
         private void Answer2B_Click(object sender, RoutedEventArgs e)
         {
-            // user chose answer 2
-            if (this.CorrectAnswer == 2)  // correct ans
-            {
-                Change_Buttons_Colors_Right();
-                // update scores
-            }
-            else  // wrong ans
-            {
-                Change_Buttons_Colors_Wrong(2);
-            }
-
-            // Wait 2 sec
+            this.ClickedButton = 2;
+            this.Answer2B.BorderThickness = new Thickness(1, 1, 1, 3);
+            this.Answer2B.BorderBrush = Brushes.Black;
         }
 
         private void Answer3B_Click(object sender, RoutedEventArgs e)
         {
-            // user chose answer 3
-            if (this.CorrectAnswer == 3)  // correct ans
-            {
-                Change_Buttons_Colors_Right();
-                // update scores
-            }
-            else  // wrong ans
-            {
-                Change_Buttons_Colors_Wrong(3);
-            }
-
-            // Wait 2 sec
+            this.ClickedButton = 3;
+            this.Answer3B.BorderThickness = new Thickness(1, 1, 1, 3);
+            this.Answer3B.BorderBrush = Brushes.Black;
         }
 
         private void Answer4B_Click(object sender, RoutedEventArgs e)
         {
-            // user chose answer 4
-            if (this.CorrectAnswer == 4)  // correct ans
+            this.ClickedButton = 4;
+            this.Answer4B.BorderThickness = new Thickness(1, 1, 1, 3);
+            this.Answer4B.BorderBrush = Brushes.Black;
+        }
+
+        private void Check_Answer(int button)
+        {
+            if (button == 0)  // times up
+            {
+                Change_Buttons_Colors_TimesUp();
+            }
+            else if (button == this.CorrectAnswer)  // correct answer
             {
                 Change_Buttons_Colors_Right();
-                // update scores
+                // TODO: calculate points & add to score
             }
-            else  // wrong ans
+            else  // wrong answer
             {
-                Change_Buttons_Colors_Wrong(4);
+                Change_Buttons_Colors_Wrong(button);
             }
-            
-            // Wait 2 sec
         }
 
         private void Change_Buttons_Colors_Right()
@@ -167,11 +162,11 @@ namespace Client
             this.Answers[this.CorrectAnswer - 1].Background = Brushes.Green;
         }
 
-        private void Change_Buttons_Colors_TimesUp(int selectedAnswer)
+        private void Change_Buttons_Colors_TimesUp()
         {
             for (int i = 0; i < this.Answers.Length; i++)
             {
-                if (i == (selectedAnswer - 1))
+                if (i == (this.CorrectAnswer - 1))
                 {
                     this.Answers[i].Background = Brushes.Green;
                 }
@@ -185,9 +180,16 @@ namespace Client
         private void ResetButtons()
         {
             this.Answer1B.Background = Brushes.Beige;
+            this.Answer1B.BorderThickness = new Thickness(1, 1, 1, 1);
+
             this.Answer2B.Background = Brushes.Beige;
+            this.Answer2B.BorderThickness = new Thickness(1, 1, 1, 1);
+
             this.Answer3B.Background = Brushes.Beige;
+            this.Answer3B.BorderThickness = new Thickness(1, 1, 1, 1);
+
             this.Answer4B.Background = Brushes.Beige;
+            this.Answer4B.BorderThickness = new Thickness(1, 1, 1, 1);
         }
     }
 }
