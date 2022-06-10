@@ -42,7 +42,7 @@ namespace Client
                 byte[] fullMessage = Global.Communicator.getNoDataMessage(15);
                 Global.Communicator.sendMessage(fullMessage);
                 GetQuestionResponse response = Global.Communicator.getQuestionResponse(Global.Communicator.reciveResponse());
-                response.
+
                 this.Dispatcher.Invoke(() =>
                 {
                     this.QuestionContent.Content = response.question;
