@@ -58,8 +58,10 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userna
 	{
 		sum += answerTimes[i];
 	}
-	//std::vector<int> averageRightTimes = this->m_database.getPlayerAnswerTimes(username);
-	statistics.push_back(std::to_string(sum / answerTimes.size())); // Average answer time 
+	if (answerTimes.size() == 0)
+		statistics.push_back("0");
+	else
+		statistics.push_back(std::to_string(sum / answerTimes.size())); // Average answer time 
 	return statistics;
 }
 
