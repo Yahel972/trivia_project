@@ -50,6 +50,11 @@ namespace Client
                 MessageBox.Show("Amount Of Players must be Bigger than 0", "INVALID AMOUNT OF PLAYERS", MessageBoxButton.OK, MessageBoxImage.Error);
                 this._numOfPlayers.Clear();
             }
+            else if (Convert.ToInt32(this._numOfQuestions.Text) > 10)
+            {
+                MessageBox.Show("Maximum Amount Of Questions is 10", "INVALID AMOUNT OF QUESTIONS", MessageBoxButton.OK, MessageBoxImage.Error);
+                this._numOfQuestions.Clear();
+            }
             else if (this._numOfQuestions.Text == "0" || this._numOfQuestions.Text == "")
             {
                 MessageBox.Show("Amount Of Questions must be Bigger than 0", "INVALID AMOUNT OF QUESTIONS", MessageBoxButton.OK, MessageBoxImage.Error);

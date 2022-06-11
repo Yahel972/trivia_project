@@ -51,7 +51,7 @@
         <Label Content="Amount of Questions:" FontSize="30" Margin="125,74,195,45" FontStyle="Italic" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2"/>
         <TextBox x:Name="_numOfQuestions" Grid.Row="4" Grid.Column="1" Margin="168,0,143,55" FontSize="22" FontStyle="Italic" Background="Beige" Grid.ColumnSpan="2" PreviewTextInput="NumberValidationTextBox"/>
 
-        <Label Content="Time per Questions:" FontSize="30" Margin="125,74,209,45" FontStyle="Italic" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2"/>
+        <Label Content="Time per Question:" FontSize="30" Margin="125,74,209,45" FontStyle="Italic" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2"/>
         <TextBox x:Name="_timePerQuestion" Grid.Row="4" Grid.Column="1" Margin="168,88,143,55" FontSize="22" FontStyle="Italic" Background="Beige" Grid.ColumnSpan="2" Grid.RowSpan="2" PreviewTextInput="NumberValidationTextBox"/>
 
         <Button Content="Create" Grid.Column="1" Grid.Row="6" Margin="292,0,143,46" FontStyle="Italic" FontSize="22" Background="Beige" Grid.ColumnSpan="2" Click="Check_Validation_And_Create_Room"/>

@@ -7,6 +7,12 @@
 #include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
 #include "RoomUserHandler.h"	
+#include "GameRequestHandler.h"
+#include "GameManager.h"
+
+
+
+class GameRequestHandler;
 
 class RoomMemberRequestHandler;
 
@@ -27,9 +33,13 @@ public:
 	RoomManager& getRoomManager();
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(std::string username);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(std::string username);
+	GameManager& getGameManager();
+	GameRequestHandler* createGameRequestHandler(LoggedUser user);
+	GameRequestHandler* createJoinGameRequestHandler(LoggedUser user);
 private:
 	IDatabase* m_database;
 	LoginManager m_loginManager;
 	RoomManager m_roomManager;
 	StatisticsManager m_StatisticsManager;
+	GameManager m_gameManager;
 };

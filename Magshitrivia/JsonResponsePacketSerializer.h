@@ -21,6 +21,10 @@
 #define START_GAME 11
 #define GET_ROOM_STATE 12
 #define LEAVE_ROOM 13
+#define LEAVE_GAME 14
+#define GET_QUESTION 15
+#define SUBMIT_ANSWER 16
+#define GET_GAME_RESULTS 17
 
 typedef struct LoginResponse
 {
@@ -100,6 +104,38 @@ typedef struct LeaveRoomResponse
 	unsigned int status;
 } LeaveRoomResponse;
 
+typedef struct LeaveGameResponse
+{
+	unsigned int status;
+} LeaveGameResponse;
+
+typedef struct GetQuestionResponse
+{
+	unsigned int status;
+	std::string question;
+	std::vector<std::string> answers;
+} GetQuestionResponse;
+
+typedef struct SubmitAnswerResponse
+{
+	unsigned int status;
+	std::string rightAnswer;
+} SubmitAnswerResponse;
+
+typedef struct PlayerResults
+{
+	std::string username;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	unsigned int averageAnswerTime;
+} PlayerResults;
+
+typedef struct GetGameResultsResponse
+{
+	unsigned int status;
+	std::vector<PlayerResults> results;
+} GetGameResultsResponse;
+
 
 class JsonResponsePacketSerializer
 {
@@ -118,7 +154,12 @@ public:
 	static std::vector<unsigned char> serializeResponse(StartGameResponse response);
 	static std::vector<unsigned char> serializeResponse(GetRoomStateResponse response);
 	static std::vector<unsigned char> serializeResponse(LeaveRoomResponse response);
+	static std::vector<unsigned char> serializeResponse(LeaveGameResponse response);
+	static std::vector<unsigned char> serializeResponse(GetQuestionResponse response);
+	static std::vector<unsigned char> serializeResponse(SubmitAnswerResponse response);
+	static std::vector<unsigned char> serializeResponse(GetGameResultsResponse response);
 private:
 	static std::vector<unsigned char> generalSerialize(std::vector<unsigned char> jsonAsBytes, int code);
 	static void to_json(nlohmann::json& j, const RoomData& r);
+	static void to_json(nlohmann::json& j, const PlayerResults& r);
 };

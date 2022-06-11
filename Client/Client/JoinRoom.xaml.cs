@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,17 +20,22 @@ namespace Client
     /// </summary>
     public partial class JoinRoom : Window
     {
-        
 
+        public bool inJoinRoomScreen;
         public JoinRoom()
         {
             InitializeComponent();
-            this.Refresh_Page(null, null);
+            Thread t = new Thread(new ThreadStart(Refresh_Page));
+
+            //this.Refresh_Page(null, null);
             this.LoggedInUser.Content = Global.LoggedInName;
+            this.inJoinRoomScreen = true;
+            t.Start();
         }
 
         private void Back_To_Menu(object sender, RoutedEventArgs e)
         {
+            this.inJoinRoomScreen = false;
             Menu m = new Menu();
             m.Show();
             this.Close();
@@ -73,6 +79,7 @@ namespace Client
 
         private void Join_Room(object sender, RoutedEventArgs e)
         {
+            this.inJoinRoomScreen = false;
             uint roomId = Convert.ToUInt32(this.RoomsList.SelectedItem.ToString().Substring(this.RoomsList.SelectedItem.ToString().LastIndexOf(" - ") + 3));
             
             byte[] fullMessage = Global.Communicator.getJoinRoomMessage(roomId);
@@ -84,18 +91,28 @@ namespace Client
             this.Close();
         }
 
-        private void Refresh_Page(object sender, RoutedEventArgs e)
+        private void Refresh_Page()
         {
-            this.RoomsList.Items.Clear();
-
-            byte[] fullMessage = Global.Communicator.getNoDataMessage(6);
-            Global.Communicator.sendMessage(fullMessage);
-            byte[] rooms = Global.Communicator.reciveResponse();
-            GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
-            for(int i = 0; i < response.Rooms.Count(); i++)
+            while(this.inJoinRoomScreen)
             {
-                this.RoomsList.Items.Add(response.Rooms[i].name + " - " + response.Rooms[i].id);
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.RoomsList.Items.Clear();
+                });
+                byte[] fullMessage = Global.Communicator.getNoDataMessage(6);
+                Global.Communicator.sendMessage(fullMessage);
+                byte[] rooms = Global.Communicator.reciveResponse();
+                GetRoomsResponse response = Global.Communicator.getRoomsResponse(rooms);
+                for (int i = 0; i < response.Rooms.Count(); i++)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.RoomsList.Items.Add(response.Rooms[i].name + " - " + response.Rooms[i].id);
+                    });
+                }
+                Thread.Sleep(3000);
             }
+
         }
 
         private void Check_Choosing_Room(object sender, SelectionChangedEventArgs e)

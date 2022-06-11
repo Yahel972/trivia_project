@@ -34,6 +34,12 @@ typedef struct JoinRoomRequest
 	unsigned int roomId;
 } JoinRoomRequest;
 
+typedef struct SubmitAnswerRequest
+{
+	std::string answer;
+	unsigned int timeToAnswer;
+} SubmitAnswerRequest;
+
 
 
 class JsonRequestPacketDeserializer
@@ -44,4 +50,5 @@ public:
 	static GetPlayersInRoomRequest deserializeGetPlayersRequest(std::vector<unsigned char> Buffer);
 	static JoinRoomRequest deserializeJoinRoomRequest(std::vector<unsigned char> Buffer);
 	static CreateRoomRequest deserializeCreateRoomRequest(std::vector<unsigned char> Buffer);
+	static SubmitAnswerRequest deserializeSubmitAnswerRequest(std::vector<unsigned char> Buffer);
 };

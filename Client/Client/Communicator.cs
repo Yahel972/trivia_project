@@ -43,7 +43,11 @@ namespace Client
         public uint roomId { get; set; }
     }
 
-
+    public class GetSubmitAnswerMessage
+    {
+        public string answer { get; set; }
+        public uint timeToAnswer { get; set; }
+    }
 
     public class OnlyStatusResponse
     {
@@ -85,6 +89,33 @@ namespace Client
         public uint status { get; set; }
         public List<string> players { get; set; }
     }
+
+    public class GetQuestionResponse
+    {
+        public uint status { get; set; }
+        public String question { get; set; }
+        public List<string> answers { get; set; }
+    }
+
+    public class GetSubmitAnswerResponse
+    {
+        public uint status { get; set; }
+        public string rightAnswer { get; set; }
+    }
+    public class PlayerResults
+    {
+        public string username { get; set; }
+        public uint correctAnswerCount { get; set; }
+        public uint wrongAnswerCount { get; set; }
+        public uint averageAnswerTime { get; set; }
+    }
+
+    public class GetGameResultsResponse
+    {
+        public uint status { get; set; }
+        public List<PlayerResults> results { get; set; }
+    }
+
 
     class Communicator
     {
@@ -200,6 +231,25 @@ namespace Client
             byte[] buffer = firstPart.Concat(data).ToArray();
             return buffer;
         }
+        public byte[] getSubmitAnswerMessage(string answer, uint timeToAnswer)
+        {
+            var submitAnswer = new GetSubmitAnswerMessage
+            {
+                answer = answer,
+                timeToAnswer = timeToAnswer
+            };
+            MemoryStream ms = new MemoryStream();
+            using (BsonWriter writer = new BsonWriter(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(writer, submitAnswer);
+            }
+            byte[] data = ms.ToArray();
+            byte[] firstPart = this.getFirstMessagePart(16, data.Length);
+            byte[] buffer = firstPart.Concat(data).ToArray();
+            return buffer;
+        }
+
         public byte[] getNoDataMessage(int code) // logout, getRooms, getHighScores, getUserStatistics
         {
             byte[] data = new byte[] { };
@@ -279,6 +329,42 @@ namespace Client
             {
                 JsonSerializer serializer = new JsonSerializer();
                 response = serializer.Deserialize<GetPlayersInRoomResponse>(reader);
+            }
+            return response;
+        }
+
+        public GetQuestionResponse getQuestionResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            GetQuestionResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                response = serializer.Deserialize<GetQuestionResponse>(reader);
+            }
+            return response;
+        }
+
+        public GetSubmitAnswerResponse getSubmitAnswerResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            GetSubmitAnswerResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                response = serializer.Deserialize<GetSubmitAnswerResponse>(reader);
+            }
+            return response;
+        }
+
+        public GetGameResultsResponse getGameResultsResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            GetGameResultsResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                response = serializer.Deserialize<GetGameResultsResponse>(reader);
             }
             return response;
         }
