@@ -47,7 +47,6 @@
         <Button x:Name="Answer2B" Grid.Row="3" Grid.ColumnSpan="2" Margin="275,0,50,0" Grid.Column="1" Background="Beige" FontStyle="Italic" FontSize="25" Click="Answer2B_Click"/>
         <Button x:Name="Answer3B" Grid.Row="5" Grid.ColumnSpan="2" Margin="50,0,275,0" Background="Beige" FontStyle="Italic" FontSize="25" Click="Answer3B_Click"/>
         <Button x:Name="Answer4B" Grid.Row="5" Grid.ColumnSpan="2" Margin="275,0,50,0" Grid.Column="1" Background="Beige" FontStyle="Italic" FontSize="25" Click="Answer4B_Click"/>
-
-        <Label x:Name="Timer" Grid.Column="2" FontSize="50" FontStyle="Italic" Margin="0,21,0,0" Grid.RowSpan="2"/>
+        <Label x:Name="Timer" Grid.Column="1" HorizontalAlignment="Center" Height="89" Grid.Row="4" VerticalAlignment="Center" Width="109" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="50"/>
     </Grid>
 </Window>

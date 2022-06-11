@@ -40,6 +40,8 @@ namespace Client
             stopwatch = new Stopwatch();
 
             InitializeComponent();
+            Timer.Content = TimePerQuestion;
+
             Answers = new[] { this.Answer1B, this.Answer2B, this.Answer3B, this.Answer4B };
 
             t = new Thread(new ThreadStart(Game));
@@ -76,7 +78,26 @@ namespace Client
                 // create a timer thread (changes timer) - CreateTimer() 
                 // submit answer
                 stopwatch.Start();  // starting to measure time 
-                Thread.Sleep(Convert.ToInt32(this.TimePerQuestion) * 1000);
+                this.Dispatcher.Invoke(() =>
+                {
+                    Timer.Foreground = Brushes.Black;
+                });
+                for(int seconds = (int)this.TimePerQuestion; seconds >= 0; seconds--)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Timer.Content = seconds;
+                        if(seconds != 0)
+                        {
+                            if (TimePerQuestion / seconds > 1)
+                            {
+                                Timer.Foreground = Brushes.Red;
+                            }
+                        }
+                    });
+                    Thread.Sleep(1000);
+                }
+                //Thread.Sleep(Convert.ToInt32(this.TimePerQuestion) * 1000);
                 //t.Abort();
                 this.Dispatcher.Invoke(() =>
                 {

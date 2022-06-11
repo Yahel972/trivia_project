@@ -388,8 +388,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="Parameter" Grid.Column="0" Text="{Binding Path=User}" Background="{Binding Path=background}" Opacity="0.8"/>
-                <TextBlock x:Name="Value" Grid.Column="1" Text="{Binding Path=Score}" Background="{Binding Path=background}" HorizontalAlignment="Left" Opacity="0.8"/>
+                <TextBlock x:Name="Parameter" Grid.Column="0" Text="{Binding Path=User}" Background="{Binding Path=Background}" Opacity="0.8"/>
+                <TextBlock x:Name="Value" Grid.Column="1" Text="{Binding Path=Score}" Background="{Binding Path=Background}" HorizontalAlignment="Left" Opacity="0.8"/>
             </Grid>
         </DataTemplate>
 

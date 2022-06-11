@@ -96,16 +96,16 @@ namespace Client
                 if(Global.LoggedInName.Equals(result[i].username))
                 {
                     this.yourScore = score;
-                    temp.Add(new Result() { User = result[i].username, Score = score, Background = "White" });
+                    temp.Add(new Result() { User = (i + 1) + ". " + result[i].username, Score = score, Background = "Aqua" });
                 }
                 else
                 {
-                    temp.Add(new Result() { User = result[i].username, Score = score, Background = "Beige" });
+                    temp.Add(new Result() { User = (i + 1) + ". " + result[i].username, Score = score, Background = "Beige" });
                 }
             }
             temp.Sort((p, q) => p.Score.CompareTo(q.Score));
             temp.Reverse();
-            this.winningUser = temp[0].User;
+            this.winningUser = temp[0].User.Substring(temp[0].User.IndexOf(".") + 2);
             this.SortedResults = temp;
         }
     }
