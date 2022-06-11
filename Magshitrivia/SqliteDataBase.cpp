@@ -170,7 +170,7 @@ std::vector<Question> SqliteDataBase::getQuestions(int numOfQuestions)
 		{
 			possibleAnswers.push_back(values[j]);
 		}
-		questions.push_back(Question(id, question, possibleAnswers));
+		questions.push_back(Question(id, question, possibleAnswers[0], possibleAnswers));
 	}
 	std::random_shuffle(questions.begin(), questions.end());
 	return questions;
@@ -189,14 +189,15 @@ int SqliteDataBase::addRoom()
 
 void SqliteDataBase::insertNewStatistic(int gameId, int questionId, std::string username, int isCorrect, int timeToAnswer, int timeForQuestion)
 {
-	char** errMessage = nullptr;
+	char* errMessage = 0;
 	std::string sqlStatement = "INSERT INTO STATISTICS (GAME_ID, QUESTION_ID, USERNAME, IS_CORRECT, TIME_TO_ANSWER, TIME_FOR_QUESTION) VALUES (" + std::to_string(gameId) + ", " +
 		std::to_string(questionId) + ", " +
 		"'" + username + "', " +
 		std::to_string(isCorrect) + ", " +
 		std::to_string(timeToAnswer) + ", " +
 		std::to_string(timeForQuestion) + ");";
-	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
+	std::cout << sqlStatement << std::endl;
+	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 }
 
 int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, char** azColName)

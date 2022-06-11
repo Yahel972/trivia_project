@@ -52,6 +52,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo request)
 	this->m_game.submitAnswer(this->m_user, submitAnswerRequest.answer, submitAnswerRequest.timeToAnswer);
 	response.status = OK;
 	response.rightAnswer = correctAnswer;
+	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return requestResult;
 }
 

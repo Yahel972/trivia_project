@@ -97,6 +97,12 @@ namespace Client
         public List<string> answers { get; set; }
     }
 
+    public class GetSubmitAnswerResponse
+    {
+        public uint status { get; set; }
+        public string rightAnswer { get; set; }
+    }
+
     class Communicator
     {
         public TcpClient client;
@@ -321,6 +327,18 @@ namespace Client
             {
                 JsonSerializer serializer = new JsonSerializer();
                 response = serializer.Deserialize<GetQuestionResponse>(reader);
+            }
+            return response;
+        }
+
+        public GetSubmitAnswerResponse getSubmitAnswerResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            GetSubmitAnswerResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                response = serializer.Deserialize<GetSubmitAnswerResponse>(reader);
             }
             return response;
         }
