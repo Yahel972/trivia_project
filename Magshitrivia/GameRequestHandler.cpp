@@ -1,5 +1,24 @@
 #include "GameRequestHandler.h"
 
+GameRequestHandler::GameRequestHandler(LoggedUser user, GameManager& gameManager, RequestHandlerFactory& handlerFactory) :m_gameManager(gameManager), m_handlerFactory(handlerFactory)
+{
+	this->m_user = user;
+	std::vector<Game> games = this->m_gameManager.getGames();
+	for (int i = 0; i < games.size(); i++)
+	{
+		std::map<std::string, GameData>* players = games[i].getPlayers();
+		for (auto it = (*players).begin(); it != (*players).end(); it++)
+		{
+			if (it->first == user.getUsername())
+			{
+				this->m_game = games[i];
+				this->m_game.setPlayers(players);
+			}
+		}
+	}
+}
+
+
 GameRequestHandler::GameRequestHandler(Room room, LoggedUser user, GameManager& gameManager, RequestHandlerFactory& handlerFactory) :m_gameManager(gameManager), m_handlerFactory(handlerFactory)
 {
 	this->m_game = this->m_gameManager.createGame(room);
@@ -27,6 +46,22 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo request)
 		return this->getGameResults(request);
 		break;
 	}
+}
+
+std::vector<PlayerResults> GameRequestHandler::getPlayerResult()
+{
+	std::vector<PlayerResults> playerResults;
+	std::map<std::string, GameData>* players = this->m_game.getPlayers();
+	for (auto it = players->begin(); it != players->end(); it++)
+	{
+		PlayerResults result;
+		result.username = it->first;
+		result.averageAnswerTime = it->second.getAverageAnswerTime() / (it->second.getWrongAnswerCount() + it->second.getCorrectAnswerCount());
+		result.correctAnswerCount = it->second.getCorrectAnswerCount();
+		result.wrongAnswerCount = it->second.getWrongAnswerCount();
+		playerResults.push_back(result);
+	}
+	return playerResults;
 }
 
 RequestResult GameRequestHandler::getQuestion(RequestInfo request)
@@ -58,7 +93,13 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo request)
 
 RequestResult GameRequestHandler::getGameResults(RequestInfo request)
 {
-	return RequestResult();
+	RequestResult requestResult;
+	requestResult.newHandler = nullptr;
+	GetGameResultsResponse response;
+	response.status = OK;
+	response.results = this->getPlayerResult();
+	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
+	return requestResult;
 }
 
 RequestResult GameRequestHandler::leaveGame(RequestInfo request)

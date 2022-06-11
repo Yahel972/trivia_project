@@ -8,7 +8,7 @@ RoomMemberRequestHandler::RoomMemberRequestHandler(Room* room, LoggedUser user, 
 
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo request)
 {
-	return (request.id == LEAVE_ROOM || request.id == GET_ROOM_STATE);
+	return (request.id == LEAVE_ROOM || request.id == GET_ROOM_STATE || request.id == START_GAME);
 }
 
 RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo request)
@@ -20,6 +20,8 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo request)
 		break;
 	case GET_ROOM_STATE:
 		return this->getRoomState(request);
+	case START_GAME:
+		return this->joinStartedGame(request);
 		break;
 	}
 }
@@ -44,6 +46,15 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo request)
 	response.players = this->m_room->getAllUsers();
 	response.questionCount = this->m_room->getData().numOfQuestions;
 	response.status = OK;
+	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
+	return requestResult;
+}
+
+RequestResult RoomMemberRequestHandler::joinStartedGame(RequestInfo request)
+{
+	RequestResult requestResult;
+	requestResult.newHandler = this->m_handlerFactory.createJoinGameRequestHandler(this->m_user); // IMPORTANT: the handler should be to "GameRequestHandler"
+	StartGameResponse response = { OK };
 	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return requestResult;
 }

@@ -35,6 +35,7 @@ public:
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(std::string username);
 	GameManager& getGameManager();
 	GameRequestHandler* createGameRequestHandler(LoggedUser user);
+	GameRequestHandler* createJoinGameRequestHandler(LoggedUser user);
 private:
 	IDatabase* m_database;
 	LoginManager m_loginManager;

@@ -25,8 +25,9 @@ namespace Client
         public Button[] Answers;
         public int CorrectAnswer;
         public int ClickedButton;
-        public 
+        public bool InGame;
 
+        public Thread t;
         Stopwatch stopwatch;
 
         public Question(uint time_per_question, uint num_of_questions, uint current_question = 1)
@@ -35,18 +36,19 @@ namespace Client
             NumOfQuestions = num_of_questions;
             CurrentQuestion = current_question;
             this.ClickedButton = 0;  // no button clicked yet
+            this.InGame = true;
             stopwatch = new Stopwatch();
 
             InitializeComponent();
             Answers = new[] { this.Answer1B, this.Answer2B, this.Answer3B, this.Answer4B };
 
-            Thread t = new Thread(new ThreadStart(Game));
+            t = new Thread(new ThreadStart(Game));
             t.Start();
         }
 
         private void Game()
         {
-            for (int i = 0; i < NumOfQuestions; i++)
+            for (int i = 0; i < NumOfQuestions && InGame; i++)
             {
                 byte[] fullMessage = Global.Communicator.getNoDataMessage(15);
                 Global.Communicator.sendMessage(fullMessage);
@@ -76,7 +78,6 @@ namespace Client
                 stopwatch.Start();  // starting to measure time 
                 Thread.Sleep(Convert.ToInt32(this.TimePerQuestion) * 1000);
                 //t.Abort();
-
                 this.Dispatcher.Invoke(() =>
                 {
                     Lock_All_Buttons(true);
@@ -84,7 +85,6 @@ namespace Client
                 });
 
                 Thread.Sleep(2000);
-
                 // reseting Window for next question
                 this.Dispatcher.Invoke(() =>
                 {
@@ -96,21 +96,36 @@ namespace Client
                 // create a timer thread (changes timer) - CreateTimer()
                 // thread will call an ending function that will show correct answer & calculate points - Change_Buttons_Colors_TimesUp()
             }
-            this.Dispatcher.Invoke(() =>
+            if(this.InGame)
             {
-                // TODO: show result as a MessageBox
-                // then after clicking OK return to the menu
+                this.Dispatcher.Invoke(() =>
+                {
+                    // TODO: show result as a MessageBox
+                    // then after clicking OK return to the menu
+                    byte[] fullMessage = Global.Communicator.getNoDataMessage(17);
+                    Global.Communicator.sendMessage(fullMessage);
+                    GetGameResultsResponse response = Global.Communicator.getGameResultsResponse(Global.Communicator.reciveResponse());
 
-                Menu m = new Menu();
-                m.Show();
-                this.Close();
-            });
+                    EndGame e = new EndGame(response.results, (int)TimePerQuestion);
+                    e.Show();
+                    this.Close();
+                });
+            }
+
         }
 
         private void Quit(object sender, RoutedEventArgs e)
         {
             // TODO: remove user from the game
             // special case if he is the only player
+            InGame = false;
+            byte[] fullMessage = Global.Communicator.getNoDataMessage(14);
+            Global.Communicator.sendMessage(fullMessage);
+            Global.Communicator.reciveResponse();
+            
+            Menu m = new Menu();
+            m.Show();
+            this.Close();
         }
 
         /*
@@ -135,13 +150,10 @@ namespace Client
                 this.Answer1B.BorderThickness = new Thickness(1, 1, 1, 3);
                 this.Answer1B.BorderBrush = Brushes.Black;
                 Lock_All_Buttons(false);
-                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer1B.Content.ToString(), 5);
+                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer1B.Content.ToString(), (uint)stopwatch.Elapsed.Seconds);
                 Global.Communicator.sendMessage(fullMessage);
                 GetSubmitAnswerResponse response = Global.Communicator.getSubmitAnswerResponse(Global.Communicator.reciveResponse());
-                if(this.Answer1B.Content.ToString().Equals(response.rightAnswer))
-                {
-                    this.CorrectAnswer = 1;
-                }
+                FindRightAnswer(response.rightAnswer);
             }
         }
 
@@ -154,13 +166,10 @@ namespace Client
                 this.Answer2B.BorderThickness = new Thickness(1, 1, 1, 3);
                 this.Answer2B.BorderBrush = Brushes.Black;
                 Lock_All_Buttons(false);
-                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer2B.Content.ToString(), 5);
+                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer2B.Content.ToString(), (uint)stopwatch.Elapsed.Seconds);
                 Global.Communicator.sendMessage(fullMessage);
                 GetSubmitAnswerResponse response = Global.Communicator.getSubmitAnswerResponse(Global.Communicator.reciveResponse());
-                if (this.Answer2B.Content.ToString().Equals(response.rightAnswer))
-                {
-                    this.CorrectAnswer = 2;
-                }
+                FindRightAnswer(response.rightAnswer);
             }
         }
 
@@ -173,13 +182,10 @@ namespace Client
                 this.Answer3B.BorderThickness = new Thickness(1, 1, 1, 3);
                 this.Answer3B.BorderBrush = Brushes.Black;
                 Lock_All_Buttons(false);
-                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer3B.Content.ToString(), 5);
+                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer3B.Content.ToString(), (uint)stopwatch.Elapsed.Seconds);
                 Global.Communicator.sendMessage(fullMessage);
                 GetSubmitAnswerResponse response = Global.Communicator.getSubmitAnswerResponse(Global.Communicator.reciveResponse());
-                if (this.Answer3B.Content.ToString().Equals(response.rightAnswer))
-                {
-                    this.CorrectAnswer = 3;
-                }
+                FindRightAnswer(response.rightAnswer);
             }
         }
 
@@ -192,13 +198,29 @@ namespace Client
                 this.Answer4B.BorderThickness = new Thickness(1, 1, 1, 3);
                 this.Answer4B.BorderBrush = Brushes.Black;
                 Lock_All_Buttons(false);
-                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer4B.Content.ToString(), 5);
+                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer4B.Content.ToString(), (uint)stopwatch.Elapsed.Seconds);
                 Global.Communicator.sendMessage(fullMessage);
                 GetSubmitAnswerResponse response = Global.Communicator.getSubmitAnswerResponse(Global.Communicator.reciveResponse());
-                if (this.Answer4B.Content.ToString().Equals(response.rightAnswer))
-                {
-                    this.CorrectAnswer = 4;
-                }
+                FindRightAnswer(response.rightAnswer);
+            }
+        }
+        private void FindRightAnswer(string rightAnswer)
+        {
+            if (this.Answer1B.Content.ToString().Equals(rightAnswer))
+            {
+                this.CorrectAnswer = 1;
+            }
+            if (this.Answer2B.Content.ToString().Equals(rightAnswer))
+            {
+                this.CorrectAnswer = 2;
+            }
+            if (this.Answer3B.Content.ToString().Equals(rightAnswer))
+            {
+                this.CorrectAnswer = 3;
+            }
+            if (this.Answer4B.Content.ToString().Equals(rightAnswer))
+            {
+                this.CorrectAnswer = 4;
             }
         }
 
@@ -215,10 +237,37 @@ namespace Client
             return (this.Answer1B.Background == Brushes.Beige && this.Answer2B.Background == Brushes.Beige && this.Answer3B.Background == Brushes.Beige && this.Answer4B.Background == Brushes.Beige);
         }
 
+        private void Choose_Random_Answer()
+        {
+            Random rnd = new Random();
+            int answer = rnd.Next(1,5);
+            this.ClickedButton = answer;
+            byte[] fullMessage = { };
+            switch (answer)
+            {
+                case 1:
+                    fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer1B.Content.ToString(), this.TimePerQuestion);
+                    break;
+                case 2:
+                    fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer2B.Content.ToString(), this.TimePerQuestion);
+                    break;
+                case 3:
+                    fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer3B.Content.ToString(), this.TimePerQuestion);
+                    break;
+                case 4:
+                    fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer4B.Content.ToString(), this.TimePerQuestion);
+                    break;
+            }
+            Global.Communicator.sendMessage(fullMessage);
+            GetSubmitAnswerResponse response = Global.Communicator.getSubmitAnswerResponse(Global.Communicator.reciveResponse());
+            FindRightAnswer(response.rightAnswer);
+        }
+
         private void Check_Answer(int button)
         {
             if (button == 0)  // times up
             {
+                Choose_Random_Answer();
                 Change_Buttons_Colors_TimesUp();
             }
             else if (button == this.CorrectAnswer)  // correct answer

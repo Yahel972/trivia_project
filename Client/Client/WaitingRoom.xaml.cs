@@ -117,7 +117,7 @@ namespace Client
                         this.connectedUsers.Items.Add(players[i]);
                     }
                 });
-                Thread.Sleep(3000);
+                Thread.Sleep(500);
             }
             this.Dispatcher.Invoke(() =>
             {

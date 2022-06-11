@@ -41,10 +41,24 @@ namespace Client
             Global.Communicator.sendMessage(fullMessage);
             byte[] statistics = Global.Communicator.reciveResponse();
             getStatisticsResponse response = Global.Communicator.getStatisticsResponse(statistics);
-            this.first.Content = response.statistics[0].Substring(0, response.statistics[0].IndexOf(':')) + "-" + response.statistics[0].Substring(response.statistics[0].IndexOf(':') + 1);
-            this.second.Content = response.statistics[1].Substring(0, response.statistics[1].IndexOf(':')) + "-" + response.statistics[1].Substring(response.statistics[1].IndexOf(':') + 1);
-            this.third.Content = response.statistics[2].Substring(0, response.statistics[2].IndexOf(':')) + "-" + response.statistics[2].Substring(response.statistics[2].IndexOf(':') + 1);
-
+            if (response.statistics.Count == 1)
+            {
+                this.first.Content = response.statistics[0].Substring(0, response.statistics[0].IndexOf(':')) + "-" + response.statistics[0].Substring(response.statistics[0].IndexOf(':') + 1);
+                this.second.Content = "0";
+                this.third.Content = "0";
+            }
+            else if (response.statistics.Count == 2)
+            {
+                this.first.Content = response.statistics[0].Substring(0, response.statistics[0].IndexOf(':')) + "-" + response.statistics[0].Substring(response.statistics[0].IndexOf(':') + 1);
+                this.second.Content = response.statistics[1].Substring(0, response.statistics[1].IndexOf(':')) + "-" + response.statistics[1].Substring(response.statistics[1].IndexOf(':') + 1);
+                this.third.Content = "0";
+            }
+            else
+            {
+                this.first.Content = response.statistics[0].Substring(0, response.statistics[0].IndexOf(':')) + "-" + response.statistics[0].Substring(response.statistics[0].IndexOf(':') + 1);
+                this.second.Content = response.statistics[1].Substring(0, response.statistics[1].IndexOf(':')) + "-" + response.statistics[1].Substring(response.statistics[1].IndexOf(':') + 1);
+                this.third.Content = response.statistics[2].Substring(0, response.statistics[2].IndexOf(':')) + "-" + response.statistics[2].Substring(response.statistics[2].IndexOf(':') + 1);
+            }
         }
     }
 }

@@ -196,7 +196,6 @@ void SqliteDataBase::insertNewStatistic(int gameId, int questionId, std::string 
 		std::to_string(isCorrect) + ", " +
 		std::to_string(timeToAnswer) + ", " +
 		std::to_string(timeForQuestion) + ");";
-	std::cout << sqlStatement << std::endl;
 	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 }
 
@@ -237,7 +236,7 @@ void SqliteDataBase::insertQuestions()
 {
 	char** errMessage = nullptr;
 	sqlite3_exec(this->db, getQuestion("What term is best associated with Sigmund Freud?", "Psychoanalysis", "Cognitive-Behavioral Therapy", "Theory of Gravity", "Dialectical Behavior Therapy").c_str(), nullptr, nullptr, errMessage);
-	sqlite3_exec(this->db, getQuestion("Which American civilization is the source of the belief that the world would end or drastically change on December 21st, 2012?", "The Mayans", "The Incas", "The Aztecs", "The Navajos").c_str(), nullptr, nullptr, errMessage);
+	sqlite3_exec(this->db, getQuestion("Who is the best teacher?", "Tal Brodkin", "Every other person", "Me", "No one").c_str(), nullptr, nullptr, errMessage);
 	sqlite3_exec(this->db, getQuestion("What is the exact length of one non - curved part in Lane 1 of an Olympic Track?", "84.39m", "100m", "100yd", "109.36yd").c_str(), nullptr, nullptr, errMessage);
 	sqlite3_exec(this->db, getQuestion("Which of the following tabletop games is the oldest?", "Go", "Chess", "Mahjong", "Shogi").c_str(), nullptr, nullptr, errMessage);
 	sqlite3_exec(this->db, getQuestion("What colour hair does the main character of the Yu-Gi-Oh! original anime series have?", "Red, black and yellow", "Red, yellow and green", "Red, black and green", "Red, purple and blue").c_str(), nullptr, nullptr, errMessage);

@@ -17,3 +17,8 @@ Game GameManager::createGame(Room room)
     this->m_games.push_back(game);
     return game;
 }
+
+std::vector<Game> GameManager::getGames()
+{
+    return this->m_games;
+}

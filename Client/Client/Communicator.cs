@@ -102,6 +102,20 @@ namespace Client
         public uint status { get; set; }
         public string rightAnswer { get; set; }
     }
+    public class PlayerResults
+    {
+        public string username { get; set; }
+        public uint correctAnswerCount { get; set; }
+        public uint wrongAnswerCount { get; set; }
+        public uint averageAnswerTime { get; set; }
+    }
+
+    public class GetGameResultsResponse
+    {
+        public uint status { get; set; }
+        public List<PlayerResults> results { get; set; }
+    }
+
 
     class Communicator
     {
@@ -339,6 +353,18 @@ namespace Client
             {
                 JsonSerializer serializer = new JsonSerializer();
                 response = serializer.Deserialize<GetSubmitAnswerResponse>(reader);
+            }
+            return response;
+        }
+
+        public GetGameResultsResponse getGameResultsResponse(byte[] buffer)
+        {
+            MemoryStream ms = new MemoryStream(buffer);
+            GetGameResultsResponse response;
+            using (BsonReader reader = new BsonReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                response = serializer.Deserialize<GetGameResultsResponse>(reader);
             }
             return response;
         }

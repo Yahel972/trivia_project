@@ -101,3 +101,9 @@ GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser u
 	return gameRequestHandler;
 }
 
+GameRequestHandler* RequestHandlerFactory::createJoinGameRequestHandler(LoggedUser user)
+{
+	this->m_gameManager.getGames();
+	GameRequestHandler* gameRequestHandler = new GameRequestHandler(user, this->getGameManager(), *this);
+	return gameRequestHandler;
+}
