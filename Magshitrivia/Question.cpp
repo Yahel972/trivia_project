@@ -1,7 +1,8 @@
 #include "Question.h"
 
-Question::Question(std::string question, std::vector<std::string> possibleAnswers)
+Question::Question(int id, std::string question, std::vector<std::string> possibleAnswers)
 {
+	this->id = id;
 	this->m_question = question;
 	this->m_possibleAnswers = possibleAnswers;
 }
@@ -19,4 +20,9 @@ std::vector<std::string> Question::getPossibleAnswers()
 std::string Question::getCorrectAnswer()
 {
 	return this->m_possibleAnswers[0];
+}
+
+int Question::getId()
+{
+	return this->id;
 }

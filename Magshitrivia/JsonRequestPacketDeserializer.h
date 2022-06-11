@@ -36,7 +36,8 @@ typedef struct JoinRoomRequest
 
 typedef struct SubmitAnswerRequest
 {
-	unsigned int answerId;
+	std::string answer;
+	unsigned int timeToAnswer;
 } SubmitAnswerRequest;
 
 

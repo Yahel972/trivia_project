@@ -157,21 +157,46 @@ std::vector<Question> SqliteDataBase::getQuestions(int numOfQuestions)
 {
 	std::vector<std::string> values;
 	char** errMessage = nullptr;
-	std::string sqlStatement = "SELECT QUESTION,CORRECT_ANSWER,INCORRECT_ANSWER_1,INCORRECT_ANSWER_2,INCORRECT_ANSWER_3 FROM QUESTIONS LIMIT " + std::to_string(numOfQuestions) + ";";
+	std::string sqlStatement = "SELECT * FROM QUESTIONS LIMIT " + std::to_string(numOfQuestions) + ";";
 	sqlite3_exec(this->db, sqlStatement.c_str(), callback_users, &values, errMessage);
 	std::vector<Question> questions;
-	for (int i = 0; i < values.size(); i +=5)
+	for (int i = 0; i < values.size(); i +=6)
 	{
 		std::vector<std::string> possibleAnswers;
-		std::string question = values[i];
-		for (int j = i + 1; j < i + 5; j++)
+		int id = stoi(values[i]);
+		int questionIndex = i + 1;
+		std::string question = values[questionIndex];
+		for (int j = i + 2; j < i + 6; j++)
 		{
 			possibleAnswers.push_back(values[j]);
 		}
-		questions.push_back(Question(question, possibleAnswers));
+		questions.push_back(Question(id, question, possibleAnswers));
 	}
 	std::random_shuffle(questions.begin(), questions.end());
 	return questions;
+}
+
+int SqliteDataBase::addRoom()
+{
+	int id = 0;
+	char** errMessage = nullptr;
+	std::string sqlStatement = "INSERT INTO GAMES VALUES(NULL);";
+	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
+	sqlStatement = "SELECT * FROM GAMES ORDER BY GAME_ID DESC LIMIT 1;";
+	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_int, &id, errMessage);
+	return id;
+}
+
+void SqliteDataBase::insertNewStatistic(int gameId, int questionId, std::string username, int isCorrect, int timeToAnswer, int timeForQuestion)
+{
+	char** errMessage = nullptr;
+	std::string sqlStatement = "INSERT INTO STATISTICS (GAME_ID, QUESTION_ID, USERNAME, IS_CORRECT, TIME_TO_ANSWER, TIME_FOR_QUESTION) VALUES (" + std::to_string(gameId) + ", " +
+		std::to_string(questionId) + ", " +
+		"'" + username + "', " +
+		std::to_string(isCorrect) + ", " +
+		std::to_string(timeToAnswer) + ", " +
+		std::to_string(timeForQuestion) + ");";
+	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
 }
 
 int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, char** azColName)

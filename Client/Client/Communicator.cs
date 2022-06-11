@@ -43,6 +43,12 @@ namespace Client
         public uint roomId { get; set; }
     }
 
+    public class GetSubmitAnswerMessage
+    {
+        public string answer { get; set; }
+        public uint timeToAnswer { get; set; }
+    }
+
     public class OnlyStatusResponse
     {
         public uint status { get; set; }
@@ -205,6 +211,25 @@ namespace Client
             byte[] buffer = firstPart.Concat(data).ToArray();
             return buffer;
         }
+        public byte[] getSubmitAnswerMessage(string answer, uint timeToAnswer)
+        {
+            var submitAnswer = new GetSubmitAnswerMessage
+            {
+                answer = answer,
+                timeToAnswer = timeToAnswer
+            };
+            MemoryStream ms = new MemoryStream();
+            using (BsonWriter writer = new BsonWriter(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(writer, submitAnswer);
+            }
+            byte[] data = ms.ToArray();
+            byte[] firstPart = this.getFirstMessagePart(16, data.Length);
+            byte[] buffer = firstPart.Concat(data).ToArray();
+            return buffer;
+        }
+
         public byte[] getNoDataMessage(int code) // logout, getRooms, getHighScores, getUserStatistics
         {
             byte[] data = new byte[] { };

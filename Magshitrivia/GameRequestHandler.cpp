@@ -44,7 +44,15 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo request)
 
 RequestResult GameRequestHandler::submitAnswer(RequestInfo request)
 {
-	return RequestResult();
+	RequestResult requestResult;
+	requestResult.newHandler = nullptr;
+	SubmitAnswerRequest submitAnswerRequest = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(request.buffer);
+	SubmitAnswerResponse response;
+	std::string correctAnswer = this->m_game.getRightAnswer(this->m_user.getUsername());
+	this->m_game.submitAnswer(this->m_user, submitAnswerRequest.answer, submitAnswerRequest.timeToAnswer);
+	response.status = OK;
+	response.rightAnswer = correctAnswer;
+	return requestResult;
 }
 
 RequestResult GameRequestHandler::getGameResults(RequestInfo request)

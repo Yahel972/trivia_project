@@ -138,7 +138,7 @@ std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQu
 std::vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse response)
 {
 	std::vector<unsigned char> serializedResponse;
-	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"correctAnswerId",response.correctAnswerId} };
+	nlohmann::json j = nlohmann::json{ {"status",response.status}, {"rightAnswer",response.rightAnswer} };
 	std::vector<unsigned char> jsonAsBytes = nlohmann::json::to_bson(j);
 	return (JsonResponsePacketSerializer::generalSerialize(jsonAsBytes, SUBMIT_ANSWER));
 }

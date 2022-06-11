@@ -69,7 +69,6 @@ namespace Client
 
                 // create a timer thread (changes timer) - CreateTimer() 
                 // submit answer
-
                 stopwatch.Start();  // starting to measure time 
                 Thread.Sleep(Convert.ToInt32(this.TimePerQuestion) * 1000);
                 //t.Abort();
@@ -132,6 +131,10 @@ namespace Client
                 this.Answer1B.BorderThickness = new Thickness(1, 1, 1, 3);
                 this.Answer1B.BorderBrush = Brushes.Black;
                 Lock_All_Buttons(false);
+                byte[] fullMessage = Global.Communicator.getSubmitAnswerMessage(this.Answer1B.Content.ToString(), 5);
+                Global.Communicator.sendMessage(fullMessage);
+                GetQuestionResponse response = Global.Communicator.getQuestionResponse(Global.Communicator.reciveResponse());
+
             }
         }
 

@@ -119,7 +119,7 @@ typedef struct GetQuestionResponse
 typedef struct SubmitAnswerResponse
 {
 	unsigned int status;
-	unsigned int correctAnswerId;
+	std::string rightAnswer;
 } SubmitAnswerResponse;
 
 typedef struct PlayerResults

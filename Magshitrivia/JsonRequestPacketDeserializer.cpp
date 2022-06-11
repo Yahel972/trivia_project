@@ -46,6 +46,6 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 {
 	std::vector<unsigned char> jsonAsBytes;
 	nlohmann::json j = nlohmann::json::from_bson(Buffer);
-	SubmitAnswerRequest request = { j["answerId"].get<unsigned int>() };
+	SubmitAnswerRequest request = { j["answer"].get<std::string>(), j["timeToAnswer"].get<unsigned int>() };
 	return request;
 }

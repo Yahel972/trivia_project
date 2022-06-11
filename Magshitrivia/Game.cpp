@@ -1,7 +1,10 @@
 #include "Game.h"
 
-Game::Game(std::vector<Question> questions)
+Game::Game(IDatabase* datebase, int id, std::vector<Question> questions, int timeToAnswer)
 {
+	this->m_timeToAnswer = timeToAnswer;
+	this->m_datebase = datebase;
+	this->m_id = id;
 	this->m_questions = questions;
 }
 
@@ -13,9 +16,28 @@ Question Game::getQuestionForUser(LoggedUser user)
 	return question;
 }
 
-void Game::submitAnswer(LoggedUser user, std::string answer)
+void Game::submitAnswer(LoggedUser user, std::string answer, int answerdTime)
 {
-	
+	int isCorrect = 0;
+	if (answer == this->m_players[user.getUsername()].getCurrentQuestion().getCorrectAnswer())
+	{
+		isCorrect = 1;
+	}
+	this->m_datebase->insertNewStatistic(this->m_id, 
+		this->m_players[user.getUsername()].getCurrentQuestion().getId(),
+		user.getUsername(),
+		isCorrect,
+		answerdTime,
+		this->m_timeToAnswer);
+	if (isCorrect)
+	{
+		this->m_players[user.getUsername()].setCorrectAnswerCount(this->m_players[user.getUsername()].getCorrectAnswerCount() + 1);
+	}
+	else
+	{
+		this->m_players[user.getUsername()].setWrongAnswerCount(this->m_players[user.getUsername()].getWrongAnswerCount() + 1);
+	}
+
 }
 
 void Game::removePlayer(LoggedUser user)
@@ -27,4 +49,9 @@ void Game::removePlayer(LoggedUser user)
 void Game::addNewPlayer(LoggedUser user)
 {
 
+}
+
+std::string Game::getRightAnswer(std::string username)
+{
+	return this->m_players[username].getCurrentQuestion().getCorrectAnswer();
 }
