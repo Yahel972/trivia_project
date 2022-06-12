@@ -1,8 +1,13 @@
 #include "Communicator.h"
 
+/*
+	Function accepts communication from user
+	Input: none
+	Output: none
+*/
 void Communicator::startHandleRequest()
 {
-	this->m_handlerFactory = RequestHandlerFactory();
+	this->m_handlerFactory = RequestHandlerFactory(); // creating the handlerFactory
 	while (true)
 	{
 		// the main thread is only accepting clients 
@@ -20,10 +25,15 @@ void Communicator::startHandleRequest()
 	}
 }
 
+/*
+	Function binds server socket and start listening for incoming requests of clients
+	Input: none
+	Output: none
+*/
 void Communicator::bindAndListen()
 {
 	std::cout << "Starting..." << std::endl;
-	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); // new Socket
 
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
@@ -45,38 +55,45 @@ void Communicator::bindAndListen()
 	startHandleRequest();
 }
 
-
+/*
+	Function handles new connecting client
+	Input: the socket of the new client
+	Output: none
+*/
 void Communicator::handleNewClient(SOCKET socket)
 {
-	// reciving message and parsing into the struct "RequsetInfo"
 	// checking if the new RequestInfo is relevent 
 	// if the RequestInfo IS relevent, handle it
 	// receving data 
-	while (true)
+	while (true) // keeping communication alive
 	{
+		// reciving message
 		char recivedData[MAX_SIZE] = { 0 };
 		recv(socket, recivedData, MAX_SIZE, 0);
 
+		// parsing into the struct "RequsetInfo"
 		RequestInfo requestInfo;
 		requestInfo.id = (int)(recivedData[0]);
 		int dataLength = recivedData[1] << 24 | recivedData[2] << 16 | recivedData[3] << 8 | recivedData[4];
 		requestInfo.receivalTime = time(NULL);
-
-		// pushing data to vector
-		for (int i = DATA_STARTING_BYTE; i < dataLength + DATA_STARTING_BYTE; i++)
+		for (int i = DATA_STARTING_BYTE; i < dataLength + DATA_STARTING_BYTE; i++) // pushing the data part to speical field
 		{
 			requestInfo.buffer.push_back(((unsigned char)recivedData[i]));
 		}
 
-		// checking if the request given is valid
-		if (this->m_clients[socket]->isRequestRelevant(requestInfo))
+		// handeling the request
+		if (this->m_clients[socket]->isRequestRelevant(requestInfo)) // checking if the given request is valid based on the current state of the user 
 		{
-			RequestResult result = this->m_clients[socket]->handleRequest(requestInfo);
+			RequestResult result = this->m_clients[socket]->handleRequest(requestInfo); // handleing requset
+			
+			// switching (or, not switching) the current state of the user
 			if (result.newHandler != nullptr)
 			{
 				delete this->m_clients[socket];
 				this->m_clients[socket] = result.newHandler;
 			}
+			
+			// sending the response back to the client
 			std::stringstream responseStream;
 			for (int i = 0; i < result.response.size(); i++)
 			{
@@ -84,8 +101,9 @@ void Communicator::handleNewClient(SOCKET socket)
 			}
 			send(socket, responseStream.str().c_str(), responseStream.str().size(), 0);
 		}
-		else  // invalid request given
+		else  // invalid request for the current state 
 		{
+			// building and sending error message
 			ErrorResponse errorResponse;
 			errorResponse.message = "ERROR wrong code (" + std::to_string(requestInfo.id) + ") for current state";
 			std::vector<unsigned char> serializedResponse = JsonResponsePacketSerializer::serializeResponse(errorResponse);

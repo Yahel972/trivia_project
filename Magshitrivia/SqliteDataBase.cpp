@@ -4,9 +4,14 @@
 #include <vector>
 
 
+/*
+	Function opens (or creates) databse
+	Input: none
+	Output: true if it was opend sucesfully, false if not
+*/
 bool SqliteDataBase::open()
 {
-	std::string dbFileName = "triviaDB.sqlite";
+	std::string dbFileName = "triviaDB.sqlite"; // the database file path
 	char** errorMessage = 0;
 	int file_exist = _access(dbFileName.c_str(), 0);
 	int res = sqlite3_open(dbFileName.c_str(), &(this->db));
@@ -54,16 +59,17 @@ bool SqliteDataBase::open()
 			return false;
 		}
 		this->insertQuestions();
-			sqlStatement = "CREATE TABLE STATISTICS ( \
-			GAME_ID INTEGER NOT NULL, \
-			QUESTION_ID INTEGER NOT NULL, \
-			USERNAME TEXT NOT NULL, \
-			IS_CORRECT INTEGER NOT NULL, \
-			TIME_TO_ANSWER INTEGER NOT NULL, \
-			TIME_FOR_QUESTION INTEGER NOT NULL, \
-			FOREIGN KEY(GAME_ID) REFERENCES GAMES(GAME_ID), \
-			FOREIGN KEY(QUESTION_ID) REFERENCES QUESTIONS(QUESTION_ID), \
-			FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME));";
+		// creating the statistics table
+		sqlStatement = "CREATE TABLE STATISTICS ( \
+		GAME_ID INTEGER NOT NULL, \
+		QUESTION_ID INTEGER NOT NULL, \
+		USERNAME TEXT NOT NULL, \
+		IS_CORRECT INTEGER NOT NULL, \
+		TIME_TO_ANSWER INTEGER NOT NULL, \
+		TIME_FOR_QUESTION INTEGER NOT NULL, \
+		FOREIGN KEY(GAME_ID) REFERENCES GAMES(GAME_ID), \
+		FOREIGN KEY(QUESTION_ID) REFERENCES QUESTIONS(QUESTION_ID), \
+		FOREIGN KEY(USERNAME) REFERENCES USERS(USERNAME));";
 		res = sqlite3_exec(this->db, sqlStatement, nullptr, nullptr, errorMessage);
 		if (res != SQLITE_OK)
 		{
@@ -74,6 +80,11 @@ bool SqliteDataBase::open()
 	return true;
 }
 
+/*
+	Function checks if user exists
+	Input: the username of the user
+	Output: true if it exists
+*/
 bool SqliteDataBase::doesUserExist(std::string user)
 {
 	char** errMessage = nullptr;
@@ -83,6 +94,11 @@ bool SqliteDataBase::doesUserExist(std::string user)
 	return (user == existingUser);
 }
 
+/*
+	Function checks if passwords match
+	Input: the username, the password to match
+	Output: true if they match false if not
+*/
 bool SqliteDataBase::doesPasswordMatch(std::string username, std::string passwordToMatch)
 {
 	char** errMessage = nullptr;
@@ -92,6 +108,12 @@ bool SqliteDataBase::doesPasswordMatch(std::string username, std::string passwor
 	return (existingPassword == passwordToMatch);
 }
 
+
+/*
+	Function adds a new user
+	Input: the username, the password, the email
+	Output: none
+*/
 void SqliteDataBase::addNewUser(std::string name, std::string password, std::string email)
 {
 	char** errMessage = nullptr;
@@ -99,6 +121,11 @@ void SqliteDataBase::addNewUser(std::string name, std::string password, std::str
 	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
 }
 
+/*
+	Function gets the times that took players to answer every question 
+	Input: the username
+	Output: the times
+*/
 std::vector<int> SqliteDataBase::getPlayerTimesToAnswer(std::string username)
 {
 	std::vector<int> times;
@@ -108,6 +135,11 @@ std::vector<int> SqliteDataBase::getPlayerTimesToAnswer(std::string username)
 	return times;
 }
 
+/*
+	Function gets the question timer of every question of a user
+	Input: the username
+	Output: the times
+*/
 std::vector<int> SqliteDataBase::getPlayerTimesForQuestions(std::string username)
 {
 	std::vector<int> times;
@@ -117,6 +149,11 @@ std::vector<int> SqliteDataBase::getPlayerTimesForQuestions(std::string username
 	return times;
 }
 
+/*
+	Function gets number of correct answers of a user
+	Input: the username of the user
+	Output: the number of correct answers 
+*/
 int SqliteDataBase::getNumOfCorrectAnswers(std::string username)
 {
 	int numOfCorrectAnswers = 0;
@@ -126,6 +163,11 @@ int SqliteDataBase::getNumOfCorrectAnswers(std::string username)
 	return numOfCorrectAnswers;
 }
 
+/*
+	Function gets number of total answers of a user
+	Input: the username of the user
+	Output: the number of total answers
+*/
 int SqliteDataBase::getNumOfTotalAnswers(std::string username)
 {
 	int numOfCorrectAnswers = 0;
@@ -135,6 +177,11 @@ int SqliteDataBase::getNumOfTotalAnswers(std::string username)
 	return numOfCorrectAnswers;
 }
 
+/*
+	Function gets number of total answers of a user
+	Input: the username of the user
+	Output: the number of total answers
+*/
 int SqliteDataBase::getNumOfPlayerGames(std::string username)
 {
 	int numOfGames = 0;
@@ -143,7 +190,8 @@ int SqliteDataBase::getNumOfPlayerGames(std::string username)
 	sqlite3_exec(this->db, sqlStatement.c_str(), callback_single_int, &numOfGames, errMessage);
 	return numOfGames;
 }
-	
+
+// function gets every user
 std::vector<std::string> SqliteDataBase::getUsers()
 {
 	std::vector<std::string> users;

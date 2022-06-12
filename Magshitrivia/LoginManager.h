@@ -17,6 +17,6 @@ public:
 	void logout(std::string username);
 	IDatabase* getDataBase();
 private:
-	IDatabase* m_database;
-	std::vector<LoggedUser> m_loggedUsers;
+	IDatabase* m_database; // the address of the main database file of the program
+	std::vector<LoggedUser> m_loggedUsers; // vector of every user currently logged 
 };

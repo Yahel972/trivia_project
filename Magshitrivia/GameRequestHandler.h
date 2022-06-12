@@ -15,10 +15,10 @@ public:
 	std::vector<PlayerResults> getPlayerResult();
 
 private:
-	Game m_game;
-	LoggedUser m_user;
-	GameManager& m_gameManager;
-	RequestHandlerFactory& m_handlerFactory;
+	Game m_game; // the current game (the one that the logged user is in)
+	LoggedUser m_user; // the logged user
+	GameManager& m_gameManager; // game manager (for accessing database)
+	RequestHandlerFactory& m_handlerFactory; // the address of the main handler factory
 	RequestResult getGameResults(RequestInfo request);
 	RequestResult getQuestion(RequestInfo request);
 	RequestResult submitAnswer(RequestInfo request);

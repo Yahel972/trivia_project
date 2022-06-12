@@ -1,15 +1,18 @@
 #include "MenuRequestHandler.h"
 
+// constructor
 MenuRequestHandler::MenuRequestHandler(LoggedUser user, RoomManager& roomManager, StatisticsManager& statisticsManager, RequestHandlerFactory& handlerFactory):m_roomManager(roomManager), m_statisticsManager(statisticsManager), m_handlerFactory(handlerFactory) 
 {
 	this->m_user = user;
 }
 
+// function checks if a given request is relevant (in this state- only create room or get rooms or get players in room or join room or get high scores or get user statistics or logout)
 bool MenuRequestHandler::isRequestRelevant(RequestInfo request)
 {
 	return (request.id == CREATE_ROOM || request.id == GET_ROOMS || request.id == GET_PLAYERS_IN_ROOM || request.id == JOIN_ROOM || request.id == GET_HIGH_SCORES || request.id == GET_USER_STATISTICS || request.id == LOGOUT_CODE);
 }
 
+// function handles a request by its given code
 RequestResult MenuRequestHandler::handleRequest(RequestInfo request)
 {
 	switch (request.id)
@@ -35,7 +38,8 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo request)
 	}
 }
 
-RequestResult MenuRequestHandler::signout(RequestInfo request) // done	
+// function signs out user 
+RequestResult MenuRequestHandler::signout(RequestInfo request) 	
 {
 	RequestResult result;
 	this->m_handlerFactory.getLoginManager().logout(this->m_user.getUsername());
@@ -45,7 +49,8 @@ RequestResult MenuRequestHandler::signout(RequestInfo request) // done
 	return result;
 }
 
-RequestResult MenuRequestHandler::getRooms(RequestInfo request) // done
+// function gets rooms
+RequestResult MenuRequestHandler::getRooms(RequestInfo request)
 {
 	RequestResult result;
 	std::vector<RoomData> rooms = this->m_roomManager.getRoomsData();
@@ -57,7 +62,8 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo request) // done
 	return result;
 }
 
-RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo request) // done
+// function gets players in room
+RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo request) 
 {
 
 	GetPlayersInRoomRequest getPlayersRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(request.buffer);
@@ -71,7 +77,8 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo request) // done
 	return result;
 }
 
-RequestResult MenuRequestHandler::getPersonalStats(RequestInfo request) // done
+// function gets personal stats
+RequestResult MenuRequestHandler::getPersonalStats(RequestInfo request) 
 {
 	RequestResult result;
 	std::vector<std::string> stats = this->m_statisticsManager.getUserStatistics(this->m_user.getUsername());
@@ -83,7 +90,8 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo request) // done
 	return result;
 }
 
-RequestResult MenuRequestHandler::getHighScore(RequestInfo request) // done
+// function gets high scores
+RequestResult MenuRequestHandler::getHighScore(RequestInfo request) 
 {
 	RequestResult result;
 	std::vector<std::string> stats = this->m_statisticsManager.getHighScore();
@@ -95,7 +103,8 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo request) // done
 	return result;
 }
 
-RequestResult MenuRequestHandler::joinRoom(RequestInfo request) // done
+// function enters a user into an existing room
+RequestResult MenuRequestHandler::joinRoom(RequestInfo request) 
 {
 	JoinRoomRequest joinRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(request.buffer);
 	this->m_roomManager.addPlayer(joinRequest.roomId, this->m_user);
@@ -106,7 +115,8 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo request) // done
 	return result;
 }
 
-RequestResult MenuRequestHandler::createRoom(RequestInfo request) // done
+// function creates a new room
+RequestResult MenuRequestHandler::createRoom(RequestInfo request) 
 {
 	CreateRoomRequest createRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(request.buffer);
 	RoomData data;

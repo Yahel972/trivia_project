@@ -11,7 +11,6 @@
 #include "GameManager.h"
 
 
-
 class GameRequestHandler;
 
 class RoomMemberRequestHandler;
@@ -37,7 +36,7 @@ public:
 	GameRequestHandler* createGameRequestHandler(LoggedUser user);
 	GameRequestHandler* createJoinGameRequestHandler(LoggedUser user);
 private:
-	IDatabase* m_database;
+	IDatabase* m_database; // the address of the main database file of the program
 	LoginManager m_loginManager;
 	RoomManager m_roomManager;
 	StatisticsManager m_StatisticsManager;

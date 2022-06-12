@@ -5,7 +5,7 @@
 
 typedef struct LoginRequest
 {
-	std::string username;
+	std::string username; 
 	std::string password;
 } LoginRequest;
 

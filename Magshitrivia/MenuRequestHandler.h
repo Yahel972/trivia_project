@@ -23,7 +23,7 @@ private:
 	RequestResult getHighScore(RequestInfo request);
 	RequestResult joinRoom(RequestInfo request);
 	RequestResult createRoom(RequestInfo request);
-	LoggedUser m_user;
+	LoggedUser m_user; // the connected user
 	RoomManager& m_roomManager;
 	StatisticsManager& m_statisticsManager;
 	RequestHandlerFactory& m_handlerFactory;

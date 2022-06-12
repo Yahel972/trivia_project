@@ -1,9 +1,16 @@
 #include "GameManager.h"
 
+// constructor 
 GameManager::GameManager(IDatabase* datebase)
 {
     this->m_datebase = datebase;
 }
+
+/*
+    Function creates a game based on room settings
+    Input: the room
+    Output: the game
+*/
 Game GameManager::createGame(Room room)
 {
     int numOfQuestion = room.getData().numOfQuestions;
@@ -18,6 +25,7 @@ Game GameManager::createGame(Room room)
     return game;
 }
 
+// games getter
 std::vector<Game> GameManager::getGames()
 {
     return this->m_games;

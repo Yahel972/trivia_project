@@ -1,17 +1,20 @@
 #include "Room.h"
 #include <string>
 
+// constructor
 Room::Room(LoggedUser creator, RoomData data)
 {
 	this->m_metadata = data;
 	this->m_users.push_back(creator);
 }
 
+// function add user to room
 void Room::addUser(LoggedUser userToAdd)
 {
 	this->m_users.push_back(userToAdd);
 }
 
+// function removes user from room
 void Room::removeUser(LoggedUser userToRemove)
 {
 	for (int i = 0; i < this->m_users.size(); i++)
@@ -24,21 +27,23 @@ void Room::removeUser(LoggedUser userToRemove)
 	}
 }
 
+// getter for the usernames of the in the room (LoggedPlayer vector to string vector)
 std::vector<std::string> Room::getAllUsers()
 {
 	std::vector<std::string> usernamesInRoom;
-	std::vector<LoggedUser> usersInRoom = this->m_users;
 	for (auto user: this->m_users) {
 		usernamesInRoom.push_back(user.getUsername());
 	}
 	return usernamesInRoom;
 }
 
+// room data getter
 RoomData Room::getData()
 {
 	return this->m_metadata;
 }
 
+// function changes the active status of the room to "true"
 void Room::start()
 {
 	RoomData oldData = this->m_metadata;
@@ -46,6 +51,7 @@ void Room::start()
 	this->m_metadata = newData;
 }
 
+// users setter
 void Room::setUsers(std::vector<LoggedUser> newUsers)
 {
 	this->m_users = newUsers;

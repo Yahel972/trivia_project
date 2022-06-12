@@ -1,9 +1,12 @@
 #include "GameRequestHandler.h"
 
+// constructor- for existing game
 GameRequestHandler::GameRequestHandler(LoggedUser user, GameManager& gameManager, RequestHandlerFactory& handlerFactory) :m_gameManager(gameManager), m_handlerFactory(handlerFactory)
 {
 	this->m_user = user;
 	std::vector<Game> games = this->m_gameManager.getGames();
+
+	// finding existing game
 	for (int i = 0; i < games.size(); i++)
 	{
 		std::map<std::string, GameData>* players = games[i].getPlayers();
@@ -18,18 +21,20 @@ GameRequestHandler::GameRequestHandler(LoggedUser user, GameManager& gameManager
 	}
 }
 
-
+// constructor- for a new game
 GameRequestHandler::GameRequestHandler(Room room, LoggedUser user, GameManager& gameManager, RequestHandlerFactory& handlerFactory) :m_gameManager(gameManager), m_handlerFactory(handlerFactory)
 {
 	this->m_game = this->m_gameManager.createGame(room);
 	this->m_user = user;
 }
 
+// function checks if a given request is relevant (in this state- only leave game or get question or sumbtin answer or get game results)
 bool GameRequestHandler::isRequestRelevant(RequestInfo request)
 {
 	return (request.id == LEAVE_GAME || request.id == GET_QUESTION || request.id == SUBMIT_ANSWER || request.id == GET_GAME_RESULTS);
 }
 
+// function handles a request by its given code
 RequestResult GameRequestHandler::handleRequest(RequestInfo request)
 {
 	switch (request.id)
@@ -48,6 +53,11 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo request)
 	}
 }
 
+/*
+	Function gets the result of every player in a game
+	Input: none
+	Output: vector with every result
+*/
 std::vector<PlayerResults> GameRequestHandler::getPlayerResult()
 {
 	std::vector<PlayerResults> playerResults;
@@ -64,10 +74,15 @@ std::vector<PlayerResults> GameRequestHandler::getPlayerResult()
 	return playerResults;
 }
 
+/*
+	Function gets the next question for a user and returns response to the client
+	Input: the request to "getQuestion"
+	Output: the response to the client
+*/
 RequestResult GameRequestHandler::getQuestion(RequestInfo request)
 {	
 	RequestResult requestResult;
-	requestResult.newHandler = nullptr;
+	requestResult.newHandler = nullptr; // state is the same
 	GetQuestionResponse response;
 	response.status = OK;
 	Question question = this->m_game.getQuestionForUser(this->m_user);
@@ -77,10 +92,15 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo request)
 	return requestResult;
 }
 
+/*
+	Function gets the next question for a user and returns response to the client
+	Input: the request to "submitAnswer"
+	Output: the response to the client
+*/
 RequestResult GameRequestHandler::submitAnswer(RequestInfo request)
 {
 	RequestResult requestResult;
-	requestResult.newHandler = nullptr;
+	requestResult.newHandler = nullptr; // state is the same
 	SubmitAnswerRequest submitAnswerRequest = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(request.buffer);
 	SubmitAnswerResponse response;
 	std::string correctAnswer = this->m_game.getRightAnswer(this->m_user.getUsername());
@@ -90,7 +110,11 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo request)
 	requestResult.response = JsonResponsePacketSerializer::serializeResponse(response);
 	return requestResult;
 }
-
+/*
+	Function gets game results and returns responseclient
+	Input: the request to "getGameResults"
+	Output: the response to the client
+*/
 RequestResult GameRequestHandler::getGameResults(RequestInfo request)
 {
 	RequestResult requestResult;
@@ -102,6 +126,11 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo request)
 	return requestResult;
 }
 
+/*
+	Function removes player from a game and returns response to the client
+	Input: the request to "leaveGame"
+	Output: the response to the client
+*/
 RequestResult GameRequestHandler::leaveGame(RequestInfo request)
 {
 	RequestResult requestResult;

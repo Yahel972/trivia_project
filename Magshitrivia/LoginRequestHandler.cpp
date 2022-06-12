@@ -1,11 +1,12 @@
 #include "LoginRequestHandler.h"
 
+// constructor
 LoginRequestHandler::LoginRequestHandler(LoginManager& loginManager, RequestHandlerFactory& handlerFactory):m_loginManager(loginManager), m_handlerFactory(handlerFactory)
 {
 	
 }
 
-// function checks if a given request is relevant
+// function checks if a given request is relevant (in this state- only login or signup)
 bool LoginRequestHandler::isRequestRelevant(RequestInfo request)
 {
 	return (request.id == SIGNUP_CODE || request.id == LOGIN_CODE);
@@ -24,6 +25,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 	}
 }
 
+// function logs in user and returns response to the client
 RequestResult LoginRequestHandler::login(RequestInfo request)
 {
 	LoginRequest loginRequest = JsonRequestPacketDeserializer::deserializeLoginRequest(request.buffer); // the request
@@ -44,6 +46,7 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 	return result;
 }
 
+// function signs up user and returns response to the client
 RequestResult LoginRequestHandler::signup(RequestInfo request)
 {
 	SignupRequest signupRequest = JsonRequestPacketDeserializer::deserializeSignUpRequest(request.buffer); // the request

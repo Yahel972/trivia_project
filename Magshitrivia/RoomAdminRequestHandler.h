@@ -16,8 +16,8 @@ private:
 	RequestResult startGame(RequestInfo request);
 	RequestResult getRoomState(RequestInfo request);
 	RequestResult getRooms(RequestInfo request);
-	Room* m_room;
-	LoggedUser m_user;
+	Room* m_room; // the address of the room the user is in (the admin)
+	LoggedUser m_user; // the logged user (the admin of the room)
 	RoomManager& m_roomManager;
 	RequestHandlerFactory& m_handlerFactory;
 };

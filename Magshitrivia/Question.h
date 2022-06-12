@@ -13,8 +13,8 @@ public:
 	std::string getCorrectAnswer();
 	int getId();
 private:
-	int id;
-	std::string m_question;
-	std::string correctAnswer;
-	std::vector<std::string> m_possibleAnswers;
+	int id; // question id
+	std::string m_question; // the question
+	std::string correctAnswer; // the correct answer 
+	std::vector<std::string> m_possibleAnswers; // all 4 possible answers 
 };

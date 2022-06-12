@@ -27,6 +27,6 @@ public:
 	void start();
 	void setUsers(std::vector<LoggedUser> newUsers);
 private:
-	RoomData m_metadata;
-	std::vector<LoggedUser> m_users;
+	RoomData m_metadata; // the room data
+	std::vector<LoggedUser> m_users; // the users connected to the room
 };

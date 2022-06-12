@@ -2,10 +2,15 @@
 
 LoginManager::LoginManager()
 {
-	this->m_database = new SqliteDataBase();
-	this->m_database->open();
+	this->m_database = new SqliteDataBase(); // allocatin the memory for the main database of the program
+	this->m_database->open(); // opening the main database of the program
 }
 
+/*
+	Function signs up user to the server
+	Input: the name of the user to signup, his password, his mail
+	Output: true if the user signed up sucecfully, false if not
+*/
 bool LoginManager::signup(std::string username, std::string password, std::string email)
 {
 	if (this->m_database->doesUserExist(username))
@@ -17,6 +22,11 @@ bool LoginManager::signup(std::string username, std::string password, std::strin
 	return (this->login(username, password));
 }
 
+/*
+	Function logs in a user to the server
+	Input: the name of the user, the password of the user
+	Output: 1 if the user logged succesfully, 2 if the user doesn't exist, 3 if the enterd password doesn't match the password in the database, 4 if the user is already connected
+*/
 int LoginManager::login(std::string username, std::string password)
 {
 	for (auto connectedUser: this->m_loggedUsers) {
@@ -47,17 +57,23 @@ int LoginManager::login(std::string username, std::string password)
 	}
 }
 
+/*
+	Function logs out a user from the server
+	Input: the name of the user to log out
+	Output: none
+*/
 void LoginManager::logout(std::string username)
 {
-	for (int i = 0; i < this->m_loggedUsers.size(); i++)
+	for (int i = 0; i < this->m_loggedUsers.size(); i++) // going through every connected user
 	{
-		if (this->m_loggedUsers[i].getUsername() == username)
+		if (this->m_loggedUsers[i].getUsername() == username) // if user was found
 		{
 			this->m_loggedUsers.erase(this->m_loggedUsers.begin() + i);
 		}
 	}
 }
 
+// database getter
 IDatabase* LoginManager::getDataBase()
 {
 	return this->m_database;
