@@ -21,6 +21,7 @@ namespace Client
             byte[] fullMessage = Global.Communicator.getNoDataMessage(3);
             Global.Communicator.sendMessage(fullMessage);
             Global.Communicator.reciveResponse();
+            Global.audioWindow.Close();
 
             // Prevent default unhandled exception processing
             e.Handled = true;
@@ -33,7 +34,7 @@ namespace Client
             byte[] fullMessage = Global.Communicator.getNoDataMessage(3);
             Global.Communicator.sendMessage(fullMessage);
             Global.Communicator.reciveResponse();
-
+            Global.audioWindow.Close();
         }
     }
 }

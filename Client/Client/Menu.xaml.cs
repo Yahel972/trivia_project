@@ -45,6 +45,7 @@ namespace Client
                 Global.Communicator.reciveResponse();
             }
             this.Close();
+            Global.audioWindow.Close();
         }
 
         private void Open_Login_Page(object sender, RoutedEventArgs e)
