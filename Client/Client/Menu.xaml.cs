@@ -22,6 +22,7 @@ namespace Client
         public static bool IsLoggedIn = false;
         public static string LoggedInName = "";
         public static Communicator Communicator = new Communicator();
+        public static AudioManager audioWindow = new AudioManager();
     }
 
     public partial class Menu : Window
@@ -86,6 +87,11 @@ namespace Client
             var jr = new JoinRoom();
             jr.Show();
             this.Close();
+        }
+
+        private void Open_Audio_Manager_Page(object sender, RoutedEventArgs e)
+        {
+            Global.audioWindow.Show();
         }
 
         /** function updates the buttons state by the user's state (loggen in / not) */

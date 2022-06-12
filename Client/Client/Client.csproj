@@ -10,8 +10,12 @@
 
   <ItemGroup>
     <None Remove="Images\first1.png" />
+    <None Remove="Images\folder.png" />
     <None Remove="Images\logo.png" />
+    <None Remove="Images\pause.png" />
+    <None Remove="Images\play.png" />
     <None Remove="Images\second2.png" />
+    <None Remove="Images\stop.png" />
     <None Remove="Images\third3.png" />
   </ItemGroup>
 
@@ -23,10 +27,22 @@
     <Resource Include="Images\first1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\folder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\pause.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\play.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\second2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\stop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\third3.png">

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="Menu" Height="725" Width="880"
+        Title="Menu" Height="800" Width="880"
         WindowStartupLocation="Manual" 
         Left="900" Top="100">
     <Grid>
@@ -20,6 +20,7 @@
         </Grid.Background>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -42,7 +43,8 @@
         <Button x:Name="CreateRoomB" Content="Create Room" Grid.Column="1" Grid.Row="4" Margin="40,25,40,25" Click="Open_Create_Room_Page" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="MyStatusB" Content="My Status" Grid.Column="1" Grid.Row="5" Margin="40,25,40,25" Click="Open_My_Status_Page" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="BestScoresB" Content="Best Scores" Grid.Column="1" Grid.Row="6" Margin="40,25,40,25" Click="Open_Best_Scores_Page" Background="Beige" FontStyle="Italic"/>
-        <Button Content="Quit" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="AudioManagerB" Content="Audio Manager" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Open_Audio_Manager_Page" Background="Beige" FontStyle="Italic"/>
+        <Button Content="Quit" Grid.Column="1" Grid.Row="8" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
         <Button x:Name="LogOutB" Content="Log Out" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Log_Out" Background="Beige" FontStyle="Italic" Visibility="Hidden"/>
 
         <Label Content="MagshiTrivia" Grid.Column="1" Margin="72,-10,103,47" FontSize="30" FontStyle="Italic"/>
