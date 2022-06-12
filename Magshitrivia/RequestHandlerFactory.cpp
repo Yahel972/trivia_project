@@ -98,6 +98,7 @@ GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser u
 		}
 	}
 	GameRequestHandler* gameRequestHandler = new GameRequestHandler(*room, user, this->getGameManager(), *this);
+	this->m_roomManager.deleteRoom(room->getData().id);
 	return gameRequestHandler;
 }
 

@@ -21,6 +21,7 @@ void RoomManager::deleteRoom(int id)
 	{
 		this->m_rooms[id]->removeUser(LoggedUser(users[i]));
 	}
+	this->m_rooms.erase(id);
 }
 
 unsigned int RoomManager::getRoomState(int id)
@@ -53,7 +54,10 @@ std::map<int, Room*> RoomManager::getAllRooms()
 
 void RoomManager::deletePlayer(int id, LoggedUser user)
 {
-	this->m_rooms[id]->removeUser(user);
+	if (this->m_rooms.find(id) != this->m_rooms.end())
+	{
+		this->m_rooms[id]->removeUser(user);
+	}
 }
 
 void RoomManager::addPlayer(int id, LoggedUser user)
