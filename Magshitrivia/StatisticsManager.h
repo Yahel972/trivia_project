@@ -16,4 +16,6 @@ private:
 	int getUserScore(std::string username);
 	int getUserPoints(std::string username);
 	IDatabase* m_database;
+	static bool sortbysec(const std::pair<std::string, int>& a, const std::pair<std::string, int>& b);
+
 };

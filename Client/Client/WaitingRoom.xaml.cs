@@ -132,7 +132,7 @@ namespace Client
                     q.Show();
                     this.Close();
                 }
-                if(this.userExitedRoom)
+                else if(this.userExitedRoom)
                 {
                     byte[] fullMessage = Global.Communicator.getNoDataMessage(13);
                     Global.Communicator.sendMessage(fullMessage);

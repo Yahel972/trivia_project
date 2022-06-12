@@ -37,7 +37,8 @@ std::vector<std::string> StatisticsManager::getHighScore()
 
 			return l.first < r.first;
 		});
-	std::sort(allScores.begin(), allScores.end());
+	std::sort(allScores.begin(), allScores.end(), sortbysec);
+
 	std::vector<std::string> bestScores;
 	for (int i = 0; i < 3 && i < allScores.size(); i++)
 	{
@@ -84,4 +85,9 @@ int StatisticsManager::getUserPoints(std::string username)
 		sum += (1 - (((float)answerTimes[i] / timeForQuestion[i]) / 2)) * 1000;
 	}
 	return sum;
+}
+
+bool StatisticsManager::sortbysec(const std::pair<std::string, int>& a, const std::pair<std::string, int>& b)
+{
+	return (a.second > b.second);
 }
