@@ -40,7 +40,7 @@ namespace Client
 		private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			OpenFileDialog openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Media files (*.mp3;*.mpg;*.mpeg)|*.mp3;*.mpg;*.mpeg|All files (*.*)|*.*";
+			openFileDialog.Filter = "Media/Video files (*.mp3;*.mpg;*.mpeg;*.mp4)|*.mp3;*.mpg;*.mpeg;*.mp4;";
 			if (openFileDialog.ShowDialog() == true)
 				mePlayer.Source = new Uri(openFileDialog.FileName);
 		}
