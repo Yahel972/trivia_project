@@ -40,6 +40,7 @@ namespace Client
             stopwatch = new Stopwatch();
 
             InitializeComponent();
+            this.LoggedInUser.Content = Global.LoggedInName;
             Timer.Content = TimePerQuestion;
 
             Answers = new[] { this.Answer1B, this.Answer2B, this.Answer3B, this.Answer4B };

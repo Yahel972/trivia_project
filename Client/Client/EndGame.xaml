@@ -468,5 +468,7 @@
         <Button Content="Back" Margin="215,600,215,0" Click="Back_To_Menu" Background="Beige" FontStyle="Italic"
                 Height="60" VerticalAlignment="Top" />
 
+        <Label Content="MagshiTrivia" Margin="316,-6,332,638" FontSize="30" FontStyle="Italic"/>
+        <Label Content="Yahel Bareket &amp; Dean Einer" Margin="300,56,267,598" FontSize="20" FontStyle="Italic"/>
     </Grid>
 </Window>
