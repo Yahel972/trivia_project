@@ -247,6 +247,7 @@ void SqliteDataBase::insertNewStatistic(int gameId, int questionId, std::string 
 	sqlite3_exec(this->db, sqlStatement.c_str(), nullptr, nullptr, &errMessage);
 }
 
+
 int SqliteDataBase::callback_single_string(void* data, int argc, char** argv, char** azColName)
 {
 	std::string* user = static_cast<std::string*>(data);
@@ -300,3 +301,4 @@ std::string SqliteDataBase::getQuestion(std::string question, std::string correc
 	std::string completeQuestion = "INSERT INTO QUESTIONS(QUESTION,CORRECT_ANSWER,INCORRECT_ANSWER_1,INCORRECT_ANSWER_2,INCORRECT_ANSWER_3) VALUES('" + question + "','" + correctAnswer + "','" + incorrectAnswer1 + "','" + incorrectAnswer2 + "','" + incorrectAnswer3 + "');";
 	return completeQuestion;
 }
+
