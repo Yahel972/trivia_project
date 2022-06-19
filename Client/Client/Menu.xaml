@@ -1,0 +1,55 @@
+﻿<Window x:Class="Client.Menu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        Title="Menu" Height="800" Width="880"
+        WindowStartupLocation="Manual" 
+        Left="900" Top="100">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Blue" Offset="0.1" />
+                <GradientStop Color="Orange" Offset="0.25" />
+                <GradientStop Color="Green" Offset="0.75" />
+                <GradientStop Color="Red" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250*" />
+            <ColumnDefinition Width="335*" />
+            <ColumnDefinition Width="250*" />
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="LogInB" Content="Log In" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Open_Login_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="SignUpB" Content="Sign Up" Grid.Column="1" Grid.Row="2" Margin="40,25,40,25" Click="Open_Sign_Up_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="JoinRoomB" Content="Join Room" Grid.Column="1" Grid.Row="3" Margin="40,25,40,25" Click="Open_Join_Room_page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="CreateRoomB" Content="Create Room" Grid.Column="1" Grid.Row="4" Margin="40,25,40,25" Click="Open_Create_Room_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="MyStatusB" Content="My Status" Grid.Column="1" Grid.Row="5" Margin="40,25,40,25" Click="Open_My_Status_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="BestScoresB" Content="Best Scores" Grid.Column="1" Grid.Row="6" Margin="40,25,40,25" Click="Open_Best_Scores_Page" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="AudioManagerB" Content="Audio Manager" Grid.Column="1" Grid.Row="7" Margin="40,25,40,25" Click="Open_Audio_Manager_Page" Background="Beige" FontStyle="Italic"/>
+        <Button Content="Quit" Grid.Column="1" Grid.Row="8" Margin="40,25,40,25" Click="Quit" Background="Beige" FontStyle="Italic"/>
+        <Button x:Name="LogOutB" Content="Log Out" Grid.Column="1" Grid.Row="1" Margin="40,25,40,25" Click="Log_Out" Background="Beige" FontStyle="Italic" Visibility="Hidden"/>
+
+        <Label Content="MagshiTrivia" Grid.Column="1" Margin="72,-10,103,47" FontSize="30" FontStyle="Italic"/>
+        <Label x:Name="LoggedInUser" Grid.Column="2" Margin="10,0,10,35" FontSize="30" FontStyle="Italic" HorizontalContentAlignment="Right"/>
+        <Label Content="Yahel Bareket &amp; Dean Einer" Grid.Column="1" Margin="40,48,40,5" FontSize="20" FontStyle="Italic"/>
+        <Image Source="Images/logo.png" Margin="-62,5,62,57" Grid.RowSpan="2"/>
+    </Grid>
+</Window>
